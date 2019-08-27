@@ -1,16 +1,31 @@
 package InterfaceGrafica;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.List;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JMenu;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 
 public class InterfaceJogo {
 
@@ -19,7 +34,18 @@ public class InterfaceJogo {
 	private final Action action_1 = new SwingAction_1();
 	private final Action action_2 = new SwingAction_2();
 	private AtorJogador atorJogador;
+	
+	private final int btnWidth = 80;
+	private final int btnHeight = 80;	
+	
+	private static final int N = 8;
+    private final List<JButton> list = new ArrayList<JButton>();
 
+    private JMenuBar jcomp2;
+    private JTextArea jcomp3;
+    
+    
+    
 	/**
 	 * Launch the application.
 	 */
@@ -28,7 +54,7 @@ public class InterfaceJogo {
 			public void run() {
 				try {
 					InterfaceJogo window = new InterfaceJogo();
-					window.frame.setVisible(true);
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,14 +75,49 @@ public class InterfaceJogo {
 	private void initialize() {
 		atorJogador = new AtorJogador();
 		
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		
+		JFrame frame = new JFrame ("Splash Fill!");
+        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(criaPainel());
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+		        
+		/* Perguntando que tipo de jogo
+		JOptionPane opcoesJogo = new JOptionPane("Escolha seu tipo de jogo:");
+		opcoesJogo.setBounds(200, 100, 300, 40);
+		
+		opcoesJogo.createDialog(".");
+        */
+		
+	}
+	
+	public JPanel criaPainel() {
+		JPanel panel = new JPanel();
+		
+
+        //construct components
+        JPanel matriz = criaMatriz();
+        jcomp2 = criaMenu();
+        
+        jcomp3 = new JTextArea (10, 10);
+
+        //adjust size and set layout
+        panel.setPreferredSize (new Dimension (950, 580));
+        BorderLayout layout = new BorderLayout(0, 0);
+        panel.setLayout (layout);
+
+        //add components
+        panel.add(matriz, BorderLayout.CENTER);
+        panel.add(jcomp2, BorderLayout.NORTH);
+        panel.add(jcomp3, BorderLayout.EAST);
+        
+        return panel;
+    }
+	
+	
+	private JMenuBar criaMenu() {
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 434, 21);
-		frame.getContentPane().add(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("Jogo");
 		menuBar.add(mnNewMenu);
@@ -72,7 +133,73 @@ public class InterfaceJogo {
 		JMenuItem mntmIniciarPartida = new JMenuItem("iniciar partida");
 		mntmIniciarPartida.setAction(action_2);
 		mnNewMenu.add(mntmIniciarPartida);
+		
+		return menuBar;
+		
 	}
+	
+	
+	
+	/**/
+
+
+    private JButton getBotaoClicado(int r, int c) {
+        int index = r * N + c;
+        return list.get(index);
+        
+        /*
+         a comparacao de botoes pode ser feita com 
+         (b == gb)
+         ou com
+         (b.equals(gb))
+         */
+    }
+
+    private JButton createButton(int linha, int coluna) {
+        final JButton b = new JButton("");
+        b.setPreferredSize(new Dimension(btnHeight, btnWidth));
+        
+        /* APENAS PARA TESTE DE BOTAO*/
+        b.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton gb = getBotaoClicado(linha, coluna);
+                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
+                panel.createDialog("clicado!");
+                System.out.println("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
+                jcomp3.setText("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
+            }
+        });
+        return b;
+    }
+
+    private JPanel criaMatriz() {
+        JPanel p = new JPanel(new GridLayout(N, N, 2, 2));
+        for (int i = 0; i < N * N; i++) {
+            int row = i / N;
+            int col = i % N;
+            JButton gb = createButton(row, col);
+            list.add(gb);
+            p.add(gb);
+        }
+        return p;
+    }
+
+    /*
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                new GridButtonPanel().display();
+            }
+        });
+    } */
+	
+	/**/
+	
+	
 	private class SwingAction extends AbstractAction {
 		/**
 		 * 
