@@ -16,15 +16,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JMenu;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class InterfaceJogo {
@@ -41,8 +45,8 @@ public class InterfaceJogo {
 	private static final int N = 8;
     private final List<JButton> list = new ArrayList<JButton>();
 
-    private JMenuBar jcomp2;
-    private JTextArea jcomp3;
+    private JMenuBar menuBar;
+    private JTextArea leftTextArea;
     
     
     
@@ -71,6 +75,7 @@ public class InterfaceJogo {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws IOException 
 	 */
 	private void initialize() {
 		atorJogador = new AtorJogador();
@@ -78,6 +83,9 @@ public class InterfaceJogo {
 		
 		JFrame frame = new JFrame ("Splash Fill!");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        
+        
+        
         frame.getContentPane().add(criaPainel());
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -98,9 +106,9 @@ public class InterfaceJogo {
 
         //construct components
         JPanel matriz = criaMatriz();
-        jcomp2 = criaMenu();
+        menuBar = criaMenu();
         
-        jcomp3 = new JTextArea (10, 10);
+        leftTextArea = new JTextArea (25, 25);
 
         //adjust size and set layout
         panel.setPreferredSize (new Dimension (950, 580));
@@ -109,8 +117,8 @@ public class InterfaceJogo {
 
         //add components
         panel.add(matriz, BorderLayout.CENTER);
-        panel.add(jcomp2, BorderLayout.NORTH);
-        panel.add(jcomp3, BorderLayout.EAST);
+        panel.add(menuBar, BorderLayout.NORTH);
+        panel.add(leftTextArea, BorderLayout.EAST);
         
         return panel;
     }
@@ -168,7 +176,7 @@ public class InterfaceJogo {
                 JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
                 panel.createDialog("clicado!");
                 System.out.println("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
-                jcomp3.setText("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
+                leftTextArea.setText("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
             }
         });
         return b;
