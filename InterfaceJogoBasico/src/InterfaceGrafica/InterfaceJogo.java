@@ -42,7 +42,7 @@ public class InterfaceJogo {
 	private final int btnWidth = 80;
 	private final int btnHeight = 80;	
 	
-	private static final int N = 8;
+	private static final int N = 6;
     private final List<JButton> list = new ArrayList<JButton>();
 
     private JMenuBar menuBar;
