@@ -46,7 +46,7 @@ public class InterfaceJogo {
     private final List<JButton> list = new ArrayList<JButton>();
 
     private JMenuBar menuBar;
-    private JTextArea leftTextArea;
+    private JTextArea rightTextArea;
     
     
     
@@ -81,7 +81,7 @@ public class InterfaceJogo {
 		atorJogador = new AtorJogador();
 		
 		
-		JFrame frame = new JFrame ("Splash Fill!");
+		JFrame frame = new JFrame("P O O L P Y   H A Z A R D !");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         
         
@@ -108,7 +108,7 @@ public class InterfaceJogo {
         JPanel matriz = criaMatriz();
         menuBar = criaMenu();
         
-        leftTextArea = new JTextArea (25, 25);
+        rightTextArea = new JTextArea (25, 25);
 
         //adjust size and set layout
         panel.setPreferredSize (new Dimension (950, 580));
@@ -118,7 +118,7 @@ public class InterfaceJogo {
         //add components
         panel.add(matriz, BorderLayout.CENTER);
         panel.add(menuBar, BorderLayout.NORTH);
-        panel.add(leftTextArea, BorderLayout.EAST);
+        panel.add(rightTextArea, BorderLayout.EAST);
         
         return panel;
     }
@@ -176,7 +176,7 @@ public class InterfaceJogo {
                 JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
                 panel.createDialog("clicado!");
                 System.out.println("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
-                leftTextArea.setText("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
+                rightTextArea.setText("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
             }
         });
         return b;
