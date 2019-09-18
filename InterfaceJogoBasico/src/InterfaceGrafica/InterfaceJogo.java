@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.List;
 import java.awt.Toolkit;
 
@@ -31,6 +32,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import ElementosInterface.*;
+
 public class InterfaceJogo {
 
 	private JFrame frame;
@@ -44,6 +47,8 @@ public class InterfaceJogo {
 	
 	private static final int N = 6;
     private final List<JButton> list = new ArrayList<JButton>();
+    
+    private final List<Botao> listab = new ArrayList<Botao>();
 
     private JMenuBar menuBar;
     private JTextArea rightTextArea;
@@ -155,6 +160,8 @@ public class InterfaceJogo {
         int index = r * N + c;
         return list.get(index);
         
+        //return listab.get(index)
+        
         /*
          a comparacao de botoes pode ser feita com 
          (b == gb)
@@ -165,9 +172,13 @@ public class InterfaceJogo {
 
     private JButton createButton(int linha, int coluna) {
         final JButton b = new JButton("");
+        //final Botao bot = new Botao("");
+        
         b.setPreferredSize(new Dimension(btnHeight, btnWidth));
+        //bot.getBotao().setPreferredSize(new Dimension(btnHeight, btnWidth));
         
         /* APENAS PARA TESTE DE BOTAO*/
+        //bot.getBotao().addActionListener(new ActionListener() {
         b.addActionListener(new ActionListener() {
 
             @Override
@@ -177,10 +188,81 @@ public class InterfaceJogo {
                 panel.createDialog("clicado!");
                 System.out.println("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
                 rightTextArea.setText("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
+                
+                
+                //TODO fazer pegar a cor atual do botao
+                changeImage("color");
+                
+                String clicks = ((JButton)e.getSource()).getText();
+                System.out.println(clicks);
+                
+                String nextclikcount = "";
+                switch(clicks) {
+                case "1":
+                	nextclikcount = "2";
+                	break;
+                	
+                case "2":
+                	nextclikcount = "3";
+                	break;
+                	
+                case "3":
+                	nextclikcount = "";
+                	splashFill(linha, coluna);
+                	break;
+                
+                default: // no clicks
+                	nextclikcount = "1";
+                	break;
+                }
+                ((JButton)e.getSource()).setText(nextclikcount);
             }
         });
         return b;
     }
+    
+    private void changeImage(String color) {
+    	//checa quantos "pontos" tem no botao
+    	String image_path = ""; 
+    	/**
+    	 * switch(pontos){
+    	 * case 0:
+    	 * 	image_path+="1";
+    	 * 	break;
+    	 * 	
+    	 * case 1:
+    	 * 	image_path+="2";
+    	 * 	break;
+    	 * 
+    	 * case 2:
+    	 * 	image_path+="3";
+    	 * 	break;
+    	 * 
+    	 * case 3:
+    	 *	removeImage();
+    	 *	splashFill();
+    	 * break;
+    	 */
+    }
+    
+    private void splashFill(int linha, int coluna) {
+    	if(linha > 1) {
+    		JButton cima = getBotaoClicado(linha-1, coluna);
+    	}
+    	
+    	if(linha < N) {
+    		JButton baixo = getBotaoClicado(linha+1, coluna);
+    	}
+    	
+    	if(coluna > 1) {
+    		JButton esquerda = getBotaoClicado(linha, coluna-1);
+    	}
+    	
+    	if(coluna < N) {
+    		JButton direita = getBotaoClicado(linha, coluna+1);
+    	}
+    }
+    
 
     private JPanel criaMatriz() {
         JPanel p = new JPanel(new GridLayout(N, N, 2, 2));
@@ -204,8 +286,6 @@ public class InterfaceJogo {
             }
         });
     } */
-	
-	/**/
 	
 	
 	private class SwingAction extends AbstractAction {
