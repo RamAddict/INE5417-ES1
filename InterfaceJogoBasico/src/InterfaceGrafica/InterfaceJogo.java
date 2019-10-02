@@ -158,6 +158,7 @@ public class InterfaceJogo {
 
     private JButton getBotaoClicado(int r, int c) {
         int index = r * N + c;
+        System.out.println("r: "+r+" / c: "+c+" / index: "+index);
         return list.get(index);
         
         //return listab.get(index)
@@ -172,53 +173,87 @@ public class InterfaceJogo {
 
     private JButton createButton(int linha, int coluna) {
         final JButton b = new JButton("");
-        //final Botao bot = new Botao("");
         
         b.setPreferredSize(new Dimension(btnHeight, btnWidth));
-        //bot.getBotao().setPreferredSize(new Dimension(btnHeight, btnWidth));
         
-        /* APENAS PARA TESTE DE BOTAO*/
-        //bot.getBotao().addActionListener(new ActionListener() {
         b.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 JButton gb = getBotaoClicado(linha, coluna);
-                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
+            	
+                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
                 panel.createDialog("clicado!");
-                System.out.println("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
-                rightTextArea.setText("Voce clicou no botao " + (linha+1) + "x" + (coluna+1));
+                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+                rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
                 
-                
-                //TODO fazer pegar a cor atual do botao
-                changeImage("color");
-                
-                String clicks = ((JButton)e.getSource()).getText();
-                System.out.println(clicks);
-                
-                String nextclikcount = "";
-                switch(clicks) {
+                changeCounter(gb, e, linha, coluna);        
+            }
+        });
+        return b;
+    }
+    
+    private void changeCounter(JButton gb, ActionEvent e, int linha, int coluna) {
+    	//TODO fazer pegar a cor atual do botao
+        changeImage("color");
+        
+        String clicks = ((JButton)e.getSource()).getText();
+        System.out.println(clicks);
+        
+        String nextclikcount = "";
+        
+        if(linha == 0 || linha == N-1) {
+        	if(coluna == 0 || coluna == N-1) {
+        		switch(clicks) {
                 case "1":
-                	nextclikcount = "2";
-                	break;
-                	
-                case "2":
-                	nextclikcount = "3";
-                	break;
-                	
-                case "3":
                 	nextclikcount = "";
                 	splashFill(linha, coluna);
                 	break;
+
                 
                 default: // no clicks
                 	nextclikcount = "1";
                 	break;
                 }
                 ((JButton)e.getSource()).setText(nextclikcount);
+        	} else {
+        		switch(clicks) {
+                case "1":
+                	nextclikcount = "2";
+                	break;
+                
+                case "2":
+                	nextclikcount = "";
+                	splashFill(linha, coluna);
+                	break;
+                	
+                default: // no clicks
+                	nextclikcount = "1";
+                	break;
+                }
+        		((JButton)e.getSource()).setText(nextclikcount);
+        	}
+        } else {
+            switch(clicks) {
+            case "1":
+            	nextclikcount = "2";
+            	break;
+            	
+            case "2":
+            	nextclikcount = "3";
+            	break;
+            	
+            case "3":
+            	nextclikcount = "";
+            	splashFill(linha, coluna);
+            	break;
+            
+            default: // no clicks
+            	nextclikcount = "1";
+            	break;
             }
-        });
-        return b;
+            ((JButton)e.getSource()).setText(nextclikcount);
+        }
     }
     
     private void changeImage(String color) {
@@ -248,18 +283,75 @@ public class InterfaceJogo {
     private void splashFill(int linha, int coluna) {
     	if(linha > 1) {
     		JButton cima = getBotaoClicado(linha-1, coluna);
+    		cima.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JButton gb = getBotaoClicado(linha, coluna);
+                	
+                    JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    panel.createDialog("clicado!");
+                    System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    
+                    changeCounter(gb, e, linha, coluna);        
+                }
+            });
+    		
     	}
     	
-    	if(linha < N) {
+    	if(linha < N-1) {
     		JButton baixo = getBotaoClicado(linha+1, coluna);
+    		baixo.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JButton gb = getBotaoClicado(linha, coluna);
+                	
+                    JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    panel.createDialog("clicado!");
+                    System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    
+                    changeCounter(gb, e, linha, coluna);        
+                }
+            });
     	}
     	
     	if(coluna > 1) {
     		JButton esquerda = getBotaoClicado(linha, coluna-1);
+    		esquerda.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JButton gb = getBotaoClicado(linha, coluna);
+                	
+                    JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    panel.createDialog("clicado!");
+                    System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    
+                    changeCounter(gb, e, linha, coluna);        
+                }
+            });
     	}
     	
-    	if(coluna < N) {
+    	if(coluna < N-1) {
     		JButton direita = getBotaoClicado(linha, coluna+1);
+    		direita.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JButton gb = getBotaoClicado(linha, coluna);
+                	
+                    JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    panel.createDialog("clicado!");
+                    System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
+                    
+                    changeCounter(gb, e, linha, coluna);        
+                }
+            });
     	}
     }
     
@@ -274,19 +366,7 @@ public class InterfaceJogo {
             p.add(gb);
         }
         return p;
-    }
-
-    /*
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                new GridButtonPanel().display();
-            }
-        });
-    } */
-	
+    }	
 	
 	private class SwingAction extends AbstractAction {
 		/**
