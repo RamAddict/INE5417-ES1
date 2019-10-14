@@ -1,4 +1,4 @@
-package InterfaceGrafica;
+package splashFill;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,6 +16,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import Rede.AtorJogador;
+import Rede.Move;
+
 import javax.swing.JMenu;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -32,26 +36,25 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import ElementosInterface.*;
-
 public class InterfaceJogo {
 
 	private JFrame frame;
 	private final Action action = new SwingAction();
 	private final Action action_1 = new SwingAction_1();
 	private final Action action_2 = new SwingAction_2();
-	private AtorJogador atorJogador;
+	private AtorJogador player = new AtorJogador();
 	
 	private final int btnWidth = 80;
 	private final int btnHeight = 80;	
 	
 	private static final int N = 6;
-    private final List<JButton> list = new ArrayList<JButton>();
+    //private final List<JButton> list = new ArrayList<JButton>();
     
-    private final List<Botao> listab = new ArrayList<Botao>();
+    private List<Botao> listab = new ArrayList<Botao>();
 
     private JMenuBar menuBar;
     private JTextArea rightTextArea;
+    
     
     
     
@@ -82,9 +85,7 @@ public class InterfaceJogo {
 	 * Initialize the contents of the frame.
 	 * @throws IOException 
 	 */
-	private void initialize() {
-		atorJogador = new AtorJogador();
-		
+	private void initialize() {		
 		
 		JFrame frame = new JFrame("P O O L P Y   H A Z A R D !");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -155,13 +156,134 @@ public class InterfaceJogo {
 	
 	/**/
 
+    private Botao createButton(int linha, int coluna) {
+        //final JButton b = new JButton("");
+    	final Botao b = new Botao();
+        
+        b.setPreferredSize(new Dimension(btnHeight, btnWidth));
+        
+        b.addActionListener(new ActionListener() {
 
-    private JButton getBotaoClicado(int r, int c) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Botao gb = getBotaoClicado(linha, coluna);
+            	
+                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+                panel.createDialog("clicado!");
+                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+                rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
+                
+                /* Check if the move is valid */
+                if(player.checaJogada(gb)) {
+                	/* move */
+                	//changeCounter()
+                } else {
+                	rightTextArea.setText("Jogada Inválida!");
+                }
+                
+                
+                /*  */
+                changeCounter(gb, e, linha, coluna);        
+            }
+        });
+        return b;
+    }
+    
+    
+    public void changeCounter(Botao gb, ActionEvent e, int linha, int coluna) {
+        
+        String clicks = ((Botao)e.getSource()).getText();
+        System.out.println(clicks);
+        
+        String nextclickcount = "";
+        
+        if(linha == 0 || linha == N-1) {
+        	if(coluna == 0 || coluna == N-1) {
+        		switch(clicks) {
+                case "1":
+                	nextclickcount = "";
+                	splashFill(linha, coluna);
+                	break;
+
+                
+                default: // no clicks
+                	nextclickcount = "1";
+                	break;
+                }
+        		
+                //((JButton)e.getSource()).setText(nextclikcount);
+        	} else {
+        		switch(clicks) {
+                case "1":
+                	nextclickcount = "2";
+                	break;
+                
+                case "2":
+                	nextclickcount = "";
+                	splashFill(linha, coluna);
+                	break;
+                	
+                default: // no clicks
+                	nextclickcount = "1";
+                	break;
+                }
+        		//((JButton)e.getSource()).setText(nextclikcount);
+        	}
+        } else {
+            switch(clicks) {
+            case "1":
+            	nextclickcount = "2";
+            	break;
+            	
+            case "2":
+            	nextclickcount = "3";
+            	break;
+            	
+            case "3":
+            	nextclickcount = "";
+            	splashFill(linha, coluna);
+            	break;
+            
+            default: // no clicks
+            	nextclickcount = "1";
+            	break;
+            }
+            //((JButton)e.getSource()).setText(nextclikcount);
+        }
+        System.out.println("Mudando contagem");
+        ((Botao)e.getSource()).setText(nextclickcount);
+    }
+    
+    public void splashFill(int linha, int coluna) {
+    	// TODO URGENTE ARRUMAR LOOP!!!
+    	if(linha >= 1) {
+    		JButton cima = getBotaoClicado(linha-1, coluna);
+    		cima.doClick();    		
+    	}
+    	
+    	if(linha < N-1) {
+    		JButton baixo = getBotaoClicado(linha+1, coluna);
+    		baixo.doClick();
+    	}
+    	
+    	if(coluna >= 1) {
+    		JButton esquerda = getBotaoClicado(linha, coluna-1);
+    		esquerda.doClick();
+    	}
+    	
+    	if(coluna < N-1) {
+    		JButton direita = getBotaoClicado(linha, coluna+1);
+    		direita.doClick();
+    	}
+    }
+    
+    
+    public Botao getBotaoClicado(int r, int c) {
         int index = r * N + c;
         System.out.println("r: "+r+" / c: "+c+" / index: "+index);
-        return list.get(index);
+        //return list.get(index);
         
-        //return listab.get(index)
+        return listab.get(index);
         
         /*
          a comparacao de botoes pode ser feita com 
@@ -170,199 +292,19 @@ public class InterfaceJogo {
          (b.equals(gb))
          */
     }
-
-    private JButton createButton(int linha, int coluna) {
-        final JButton b = new JButton("");
-        
-        b.setPreferredSize(new Dimension(btnHeight, btnWidth));
-        
-        b.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton gb = getBotaoClicado(linha, coluna);
-            	
-                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-                panel.createDialog("clicado!");
-                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-                rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
-                
-                changeCounter(gb, e, linha, coluna);        
-            }
-        });
-        return b;
-    }
     
-    private void changeCounter(JButton gb, ActionEvent e, int linha, int coluna) {
-    	//TODO fazer pegar a cor atual do botao
-        changeImage("color");
-        
-        String clicks = ((JButton)e.getSource()).getText();
-        System.out.println(clicks);
-        
-        String nextclikcount = "";
-        
-        if(linha == 0 || linha == N-1) {
-        	if(coluna == 0 || coluna == N-1) {
-        		switch(clicks) {
-                case "1":
-                	nextclikcount = "";
-                	splashFill(linha, coluna);
-                	break;
-
-                
-                default: // no clicks
-                	nextclikcount = "1";
-                	break;
-                }
-                ((JButton)e.getSource()).setText(nextclikcount);
-        	} else {
-        		switch(clicks) {
-                case "1":
-                	nextclikcount = "2";
-                	break;
-                
-                case "2":
-                	nextclikcount = "";
-                	splashFill(linha, coluna);
-                	break;
-                	
-                default: // no clicks
-                	nextclikcount = "1";
-                	break;
-                }
-        		((JButton)e.getSource()).setText(nextclikcount);
-        	}
-        } else {
-            switch(clicks) {
-            case "1":
-            	nextclikcount = "2";
-            	break;
-            	
-            case "2":
-            	nextclikcount = "3";
-            	break;
-            	
-            case "3":
-            	nextclikcount = "";
-            	splashFill(linha, coluna);
-            	break;
-            
-            default: // no clicks
-            	nextclikcount = "1";
-            	break;
-            }
-            ((JButton)e.getSource()).setText(nextclikcount);
-        }
+    public void atualizarInterface(Move move) {
+    	this.listab = move.getBotoes();
+    	//atualizarpontos();
     }
-    
-    private void changeImage(String color) {
-    	//checa quantos "pontos" tem no botao
-    	String image_path = ""; 
-    	/**
-    	 * switch(pontos){
-    	 * case 0:
-    	 * 	image_path+="1";
-    	 * 	break;
-    	 * 	
-    	 * case 1:
-    	 * 	image_path+="2";
-    	 * 	break;
-    	 * 
-    	 * case 2:
-    	 * 	image_path+="3";
-    	 * 	break;
-    	 * 
-    	 * case 3:
-    	 *	removeImage();
-    	 *	splashFill();
-    	 * break;
-    	 */
-    }
-    
-    private void splashFill(int linha, int coluna) {
-    	if(linha > 1) {
-    		JButton cima = getBotaoClicado(linha-1, coluna);
-    		cima.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton gb = getBotaoClicado(linha, coluna);
-                	
-                    JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    panel.createDialog("clicado!");
-                    System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    
-                    changeCounter(gb, e, linha, coluna);        
-                }
-            });
-    		
-    	}
-    	
-    	if(linha < N-1) {
-    		JButton baixo = getBotaoClicado(linha+1, coluna);
-    		baixo.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton gb = getBotaoClicado(linha, coluna);
-                	
-                    JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    panel.createDialog("clicado!");
-                    System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    
-                    changeCounter(gb, e, linha, coluna);        
-                }
-            });
-    	}
-    	
-    	if(coluna > 1) {
-    		JButton esquerda = getBotaoClicado(linha, coluna-1);
-    		esquerda.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton gb = getBotaoClicado(linha, coluna);
-                	
-                    JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    panel.createDialog("clicado!");
-                    System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    
-                    changeCounter(gb, e, linha, coluna);        
-                }
-            });
-    	}
-    	
-    	if(coluna < N-1) {
-    		JButton direita = getBotaoClicado(linha, coluna+1);
-    		direita.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton gb = getBotaoClicado(linha, coluna);
-                	
-                    JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    panel.createDialog("clicado!");
-                    System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
-                    
-                    changeCounter(gb, e, linha, coluna);        
-                }
-            });
-    	}
-    }
-    
 
     private JPanel criaMatriz() {
         JPanel p = new JPanel(new GridLayout(N, N, 2, 2));
         for (int i = 0; i < N * N; i++) {
             int row = i / N;
             int col = i % N;
-            JButton gb = createButton(row, col);
-            list.add(gb);
+            Botao gb = createButton(row, col);
+            listab.add(gb);
             p.add(gb);
         }
         return p;
@@ -379,7 +321,7 @@ public class InterfaceJogo {
 		}
 		public void actionPerformed(ActionEvent e) {
 			// Necessário definir endereço do servidor e nome do jogador
-			String mensagem = atorJogador.conectar("localhost", "nomeJogador?");
+			String mensagem = player.conectar("localhost", "nomeJogador?");
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
 	}
@@ -393,7 +335,7 @@ public class InterfaceJogo {
 			putValue(SHORT_DESCRIPTION, "desconectar de Netgames Server");
 		}
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = atorJogador.desconectar();
+			String mensagem = player.desconectar();
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
 	}
@@ -407,7 +349,7 @@ public class InterfaceJogo {
 			putValue(SHORT_DESCRIPTION, "iniciar partida do seu jogo");
 		}
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = atorJogador.iniciarPartida();
+			String mensagem = player.iniciarPartida();
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
 	}

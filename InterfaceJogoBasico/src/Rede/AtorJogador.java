@@ -1,15 +1,19 @@
-package InterfaceGrafica;
+package Rede;
 
 import DominioDoProblema.ElementoDominioProblema;
-import Rede.AtorNetgames;
+import splashFill.Botao;
+import splashFill.InterfaceJogo;
+import splashFill.Jogador;
 
 public class AtorJogador {
 	
-	protected AtorNetgames ngServer;
+	protected AtorRede ngServer;
 	protected ElementoDominioProblema domProblema;
+	protected String idUser;
+	protected InterfaceJogo interfaceJogo;
 
 	public AtorJogador() {
-		ngServer = new AtorNetgames();
+		ngServer = new AtorRede(this);
 		domProblema = new ElementoDominioProblema();
 	}
 
@@ -44,6 +48,32 @@ public class AtorJogador {
 			mensagem = ngServer.iniciarPartida();
 		}
 		return mensagem;
+	}
+	
+	public boolean checaJogada(Botao botao) {
+    	/* Checks if the player still have moves to do */
+    	if (botao.getPlayer() == 0) { // botao nao tem dono ainda
+    		
+    	} else if (botao.getPlayer() == 1) { // botao pertence ao jogador 1
+    		
+    	} else { // botao pertence ao jogador 2
+    		
+    	}
+    	/*if(player.getMoves <= 0) {
+    		return false;
+    		END GAME
+    	}*/
+    	
+    	/* Checks if the button belongs to the player*/
+    	
+    	
+    	/*  */
+		
+		return true;
+	}
+	
+	public void receberJogada(Move move) {
+		interfaceJogo.atualizarInterface(move);
 	}
 
 }

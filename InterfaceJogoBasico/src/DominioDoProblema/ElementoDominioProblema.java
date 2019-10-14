@@ -1,5 +1,7 @@
 package DominioDoProblema;
 
+import javax.swing.JOptionPane;
+
 public class ElementoDominioProblema {
 	
 	protected boolean conectado = false;
@@ -26,18 +28,27 @@ public class ElementoDominioProblema {
 	}
 	
 	public boolean permitidoConectar() {
+		// não tem condiçoes para conectar
 		return !conectado;
-		// defina a lógica do seu jogo
 	}
 	
 	public boolean permitidoDesconectar() {
-		return conectado;
-		// defina a lógica do seu jogo
+		boolean permitido = false;
+		if(partidaAndamento) {
+			int opt = JOptionPane.showConfirmDialog(null, "A partida está em andamento, tem certeza que quer sair?");
+			//0 = yes ; 1 = no / 2 = cancel
+			if(opt == 0) {
+				permitido = conectado;
+			} else {
+				permitido = !conectado;
+			}
+		}
+		return permitido;
 	}
 
 	public boolean permitidoIniciarPartida() {
+		//só é permitido iniciar a partida se tiverem dois jogadores (tratado automaticamente pelo NetGames)
 		return !partidaAndamento;
-		// defina a lógica do seu jogo
 	}
 
 
