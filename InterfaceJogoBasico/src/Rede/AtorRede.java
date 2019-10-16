@@ -28,7 +28,7 @@ public class AtorRede implements OuvidorProxy {
 	
 	public String conectar(String servidor, String nome) {
 			try {
-				proxy.conectar(servidor, nome);
+				this.proxy.conectar(servidor, nome);
 			} catch (JahConectadoException e) {
 				//JOptionPane.showMessageDialog(atorJogador.getFrame(), e.getMessage());
 				e.printStackTrace();

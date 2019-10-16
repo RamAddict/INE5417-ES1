@@ -1,5 +1,7 @@
 package Rede;
 
+import javax.swing.JOptionPane;
+
 import DominioDoProblema.ElementoDominioProblema;
 import splashFill.Botao;
 import splashFill.InterfaceJogo;
@@ -7,13 +9,13 @@ import splashFill.Jogador;
 
 public class AtorJogador {
 	
-	protected AtorRede ngServer;
+	protected AtorRede atorRede;
 	protected ElementoDominioProblema domProblema;
-	protected String idUser;
+	protected int idUser;
 	protected InterfaceJogo interfaceJogo;
 
 	public AtorJogador() {
-		ngServer = new AtorRede(this);
+		atorRede = new AtorRede(this);
 		domProblema = new ElementoDominioProblema();
 	}
 
@@ -21,7 +23,7 @@ public class AtorJogador {
 		String mensagem = "Condicao para conexao nao atendida (defina qual)";
 		boolean permitido = domProblema.permitidoConectar();
 		if (permitido) {
-			mensagem = ngServer.conectar(string, string2);
+			mensagem = this.atorRede.conectar(string, string2);
 			if (mensagem.equals("Sucesso: conectado a Netgames Server")) {
 				domProblema.definirConectado(true);
 			}
@@ -33,7 +35,7 @@ public class AtorJogador {
 		String mensagem = "Condicao para desconexao nao atendida (defina qual)";
 		boolean permitido = domProblema.permitidoDesconectar();
 		if (permitido) {
-			mensagem = ngServer.desconectar();
+			mensagem = this.atorRede.desconectar();
 			if (mensagem.equals("Sucesso: desconectado de Netgames Server")) {
 				domProblema.definirConectado(false);
 			}
@@ -42,33 +44,33 @@ public class AtorJogador {
 	}
 	
 	public String iniciarPartida() {
-		String mensagem = "Condicao para iniciar partida nao atendida (defina qual)";
+		String mensagem = "Nao existem dois jogadores conectados no servidor";
 		boolean permitido = domProblema.permitidoIniciarPartida();
 		if (permitido) {
-			mensagem = ngServer.iniciarPartida();
+			mensagem = this.atorRede.iniciarPartida();
 		}
 		return mensagem;
 	}
 	
-	public boolean checaJogada(Botao botao) {
+	public boolean checaJogada(Botao botao, Jogador player) {
     	/* Checks if the player still have moves to do */
-    	if (botao.getPlayer() == 0) { // botao nao tem dono ainda
-    		
-    	} else if (botao.getPlayer() == 1) { // botao pertence ao jogador 1
-    		
-    	} else { // botao pertence ao jogador 2
-    		
-    	}
-    	/*if(player.getMoves <= 0) {
-    		return false;
-    		END GAME
-    	}*/
-    	
-    	/* Checks if the button belongs to the player*/
-    	
-    	
-    	/*  */
+		if(player.getPlays() > 0) {
+			player.setPlays(player.getPlays() - 1);
+		} else {
+			JOptionPane.showMessageDialog(null, "Voce nao tem mais movimentos!");
+			return false;
+		}
 		
+		/* If the player still have plays left, continue checking */
+    	if (botao.getPlayer() == 0) { // botao nao tem dono ainda
+    		botao.setPlayer(player.getId());
+    	} else if (botao.getPlayer() == player.getId()) { // botao pertence ao jogador que clicou
+    		return true;
+    	} else { // botao pertence ao outro jogador
+    		JOptionPane.showMessageDialog(null, "Esse botao não te pertence, escolha outro");
+    		return false;
+    	}
+
 		return true;
 	}
 	

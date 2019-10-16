@@ -42,7 +42,8 @@ public class InterfaceJogo {
 	private final Action action = new SwingAction();
 	private final Action action_1 = new SwingAction_1();
 	private final Action action_2 = new SwingAction_2();
-	private AtorJogador player = new AtorJogador();
+	private AtorJogador atorJogador = new AtorJogador();
+	private Jogador jogador = new Jogador();
 	
 	private final int btnWidth = 80;
 	private final int btnHeight = 80;	
@@ -161,29 +162,25 @@ public class InterfaceJogo {
     	final Botao b = new Botao();
         
         b.setPreferredSize(new Dimension(btnHeight, btnWidth));
-        
+        InterfaceJogo that = this;
         b.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 Botao gb = getBotaoClicado(linha, coluna);
-            	
-                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-                panel.createDialog("clicado!");
-                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-                rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna));
                 
                 /* Check if the move is valid */
-                if(player.checaJogada(gb)) {
+                if(atorJogador.checaJogada(gb, that.jogador)) {
                 	/* move */
-                	//changeCounter()
+                	changeCounter(gb, e, linha, coluna); 
                 } else {
                 	rightTextArea.setText("Jogada Inválida!");
                 }
                 
-                
-                /*  */
-                changeCounter(gb, e, linha, coluna);        
+                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+                panel.createDialog("clicado!");
+                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+                rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+that.jogador.getPlays()+" movimentos.");       
             }
         });
         return b;
@@ -281,16 +278,8 @@ public class InterfaceJogo {
     public Botao getBotaoClicado(int r, int c) {
         int index = r * N + c;
         System.out.println("r: "+r+" / c: "+c+" / index: "+index);
-        //return list.get(index);
         
         return listab.get(index);
-        
-        /*
-         a comparacao de botoes pode ser feita com 
-         (b == gb)
-         ou com
-         (b.equals(gb))
-         */
     }
     
     public void atualizarInterface(Move move) {
@@ -321,7 +310,7 @@ public class InterfaceJogo {
 		}
 		public void actionPerformed(ActionEvent e) {
 			// Necessário definir endereço do servidor e nome do jogador
-			String mensagem = player.conectar("localhost", "nomeJogador?");
+			String mensagem = atorJogador.conectar("localhost", "nomeJogador?");
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
 	}
@@ -335,7 +324,7 @@ public class InterfaceJogo {
 			putValue(SHORT_DESCRIPTION, "desconectar de Netgames Server");
 		}
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = player.desconectar();
+			String mensagem = atorJogador.desconectar();
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
 	}
@@ -349,7 +338,7 @@ public class InterfaceJogo {
 			putValue(SHORT_DESCRIPTION, "iniciar partida do seu jogo");
 		}
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = player.iniciarPartida();
+			String mensagem = atorJogador.iniciarPartida();
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
 	}
