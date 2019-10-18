@@ -73,12 +73,13 @@ public class AtorRede implements OuvidorProxy {
 	
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
-		atorJogador.iniciarPartida();
+		proxy.iniciarNovaPartida(posicao);
 	}
 
 	@Override
 	public void finalizarPartidaComErro(String message) {
 		// TODO Auto-generated method stub
+		proxy.finalizarPartidaComErro(message);
 		
 	}
 
@@ -112,7 +113,6 @@ public class AtorRede implements OuvidorProxy {
 		Move move = (Move) jogada;
 		
 		atorJogador.receberJogada(move);
-		
 	}
 
 	@Override

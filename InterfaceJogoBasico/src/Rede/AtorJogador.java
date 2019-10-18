@@ -20,7 +20,7 @@ public class AtorJogador {
 	}
 
 	public String conectar(String string, String string2) {
-		String mensagem = "Condicao para conexao nao atendida (defina qual)";
+		String mensagem = "Você já está conectado!";
 		boolean permitido = domProblema.permitidoConectar();
 		if (permitido) {
 			mensagem = this.atorRede.conectar(string, string2);
@@ -32,22 +32,55 @@ public class AtorJogador {
 	}
 	
 	public String desconectar() {
-		String mensagem = "Condicao para desconexao nao atendida (defina qual)";
-		boolean permitido = domProblema.permitidoDesconectar();
-		if (permitido) {
+		String mensagem = "Você não esta conectado ou a partida esta em andamento.";
+		int permitido = domProblema.permitidoDesconectar();
+		switch(permitido) {
+		case 0:
 			mensagem = this.atorRede.desconectar();
 			if (mensagem.equals("Sucesso: desconectado de Netgames Server")) {
 				domProblema.definirConectado(false);
+				domProblema.definirPartidaAndamento(false);
 			}
+			
+			break;
+		case 1:
+			mensagem="Voce optou por nao parar a partida.";
+			break;
+		case 2:
+			mensagem="Voce optou por nao parar a partida.";
+			break;
+		case 3:
+			mensagem="Você não está conectado.";
+			break;
+		default:
+			
 		}
+
 		return mensagem;
 	}
 	
 	public String iniciarPartida() {
 		String mensagem = "Nao existem dois jogadores conectados no servidor";
-		boolean permitido = domProblema.permitidoIniciarPartida();
-		if (permitido) {
+		int permitido = domProblema.permitidoIniciarPartida();
+		
+		switch(permitido) {
+		case 0:
 			mensagem = this.atorRede.iniciarPartida();
+			break;
+		
+		case 1:
+			mensagem = "Você não está conectado ao NetGames.";
+			break;
+			
+		case 2:
+			mensagem = "Uma partida já está em andamento.";
+			break;
+		
+		default:
+			mensagem = "Codigo não reconhecido, tente novamente.";
+			break;
+			
+		
 		}
 		return mensagem;
 	}
