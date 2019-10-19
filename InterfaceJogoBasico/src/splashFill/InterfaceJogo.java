@@ -77,6 +77,13 @@ public class InterfaceJogo {
 		String mensagem = atorJogador.desconectar();
 		notificarResultado(mensagem);
     }
+    /**
+     * Initiates game when button is clicked
+     */
+    public void iniciarPartida() {
+        String mensagem = atorJogador.iniciarPartida();
+        notificarResultado(mensagem);
+    }
 	/**
 	 * Launch the application.
 	 */
@@ -354,8 +361,7 @@ public class InterfaceJogo {
 			putValue(SHORT_DESCRIPTION, "iniciar partida do seu jogo");
 		}
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = atorJogador.iniciarPartida();
-			JOptionPane.showMessageDialog(null, mensagem);
+                    iniciarPartida();
 		}
 	}
 }
