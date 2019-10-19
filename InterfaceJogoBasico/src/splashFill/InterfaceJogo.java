@@ -70,6 +70,13 @@ public class InterfaceJogo {
     public void notificarResultado(String mensagem) {
     	JOptionPane.showMessageDialog(null, mensagem);
     }
+    /**
+     * Initiates disconnection process when button is clicked
+     */
+    public void desconectar() {
+		String mensagem = atorJogador.desconectar();
+		notificarResultado(mensagem);
+    }
 	/**
 	 * Launch the application.
 	 */
@@ -334,8 +341,7 @@ public class InterfaceJogo {
 			putValue(SHORT_DESCRIPTION, "desconectar de Netgames Server");
 		}
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = atorJogador.desconectar();
-			JOptionPane.showMessageDialog(null, mensagem);
+			desconectar();
 		}
 	}
 	private class SwingAction_2 extends AbstractAction {

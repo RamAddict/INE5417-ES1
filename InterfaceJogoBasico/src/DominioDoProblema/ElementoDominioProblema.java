@@ -28,7 +28,7 @@ public class ElementoDominioProblema {
 	}
 	
 	public boolean permitidoConectar() {
-		// não tem condiçoes para conectar
+		// nï¿½o tem condiï¿½oes para conectar
 		return !conectado;
 	}
 	
@@ -37,9 +37,9 @@ public class ElementoDominioProblema {
 		if(conectado) {
 			if(partidaAndamento) {
 //				Object[] options = { "OK", "CANCEL" };
-//				JOptionPane.showOptionDialog(null, "Click OK to continue", "A partida está em andamento, tem certeza que quer sair?",
+//				JOptionPane.showOptionDialog(null, "Click OK to continue", "A partida estï¿½ em andamento, tem certeza que quer sair?",
 //				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-				int opt = JOptionPane.showConfirmDialog(null, "A partida está em andamento, tem certeza que quer sair?");
+				int opt = questionarRealizaDesconexao();
 				//0 = yes ; 1 = no / 2 = cancel
 				permitido = opt;
 			}
@@ -49,9 +49,17 @@ public class ElementoDominioProblema {
 		
 		return permitido;
 	}
+	
+	/**
+	 * Pergunta se quer desconectar tendo em vista a partida em andamento
+	 * @return 0 = yes ; 1 = no ; 2 = cancel
+	 */
+	public int questionarRealizaDesconexao() {
+		return JOptionPane.showConfirmDialog(null, "A partida estï¿½ em andamento, tem certeza que quer sair?");
+	}
 
 	public int permitidoIniciarPartida() {
-		// só é permitido iniciar a partida se tiverem dois jogadores (tratado automaticamente pelo NetGames)
+		// sï¿½ ï¿½ permitido iniciar a partida se tiverem dois jogadores (tratado automaticamente pelo NetGames)
 		// alem de estar conectado e a partida nao tiver sido iniciada anteriormente
 		
 		int permitido = 1; // nao permitido
