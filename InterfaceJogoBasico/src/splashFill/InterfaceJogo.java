@@ -56,9 +56,20 @@ public class InterfaceJogo {
     private JMenuBar menuBar;
     private JTextArea rightTextArea;
     
-    
-    
-    
+    /**
+     * Initiates the connection when the connect button is clicked
+     */
+    public void conectar() {
+		String mensagem = atorJogador.conectar("localhost", "nomeJogador?");
+		notificarResultado(mensagem);
+    }
+    /**
+     * Tell user about the result of an action
+     * @param String mensagem
+     */
+    public void notificarResultado(String mensagem) {
+    	JOptionPane.showMessageDialog(null, mensagem);
+    }
 	/**
 	 * Launch the application.
 	 */
@@ -174,7 +185,7 @@ public class InterfaceJogo {
                 	/* move */
                 	changeCounter(gb, e, linha, coluna); 
                 } else {
-                	rightTextArea.setText("Jogada Inválida!");
+                	rightTextArea.setText("Jogada Invï¿½lida!");
                 }
                 
                 JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
@@ -309,9 +320,8 @@ public class InterfaceJogo {
 			putValue(SHORT_DESCRIPTION, "conectar a Netgames Server");
 		}
 		public void actionPerformed(ActionEvent e) {
-			// Necessário definir endereço do servidor e nome do jogador
-			String mensagem = atorJogador.conectar("localhost", "nomeJogador?");
-			JOptionPane.showMessageDialog(null, mensagem);
+			// Necessï¿½rio definir endereï¿½o do servidor e nome do jogador
+			conectar();
 		}
 	}
 	private class SwingAction_1 extends AbstractAction {
