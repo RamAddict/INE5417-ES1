@@ -163,6 +163,10 @@ public class Tabuleiro {
 		return adversario;
 	}
 	
+	public void notificarResultado(String mensagem) {
+		JOptionPane.showMessageDialog(null, mensagem);
+	}
+	
 	public boolean checaJogada(Casa botao, Jogador player) {
 		Jogador jogador = checaJogador(player);
 		Jogador adversario = checaAdversario(jogador);
@@ -170,7 +174,7 @@ public class Tabuleiro {
 		if(jogador.getPlays() > 0) {
 			jogador.setPlays(jogador.getPlays() - 1);
 		} else {
-			JOptionPane.showMessageDialog(null, "Voce nao tem mais movimentos!");
+			notificarResultado("Voce nao tem mais movimentos!");
 			return false;
 		}
 		
@@ -180,7 +184,7 @@ public class Tabuleiro {
     	} else if (botao.getPlayer() == jogador.getId()) { // botao pertence ao jogador que clicou
     		return true;
     	} else { // botao pertence ao outro jogador
-    		JOptionPane.showMessageDialog(null, "Esse botao n„o te pertence, escolha outro");
+		notificarResultado("Esse botao n√£o te pertence, escolha outro");
     		return false;
     	}
     	
