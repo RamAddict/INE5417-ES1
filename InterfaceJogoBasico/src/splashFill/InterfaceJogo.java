@@ -201,9 +201,6 @@ public class InterfaceJogo {
 		
 	}
 	
-	
-	
-	/**/
 
 //    private Casa createButton(int linha, int coluna) {
 //        //final JButton b = new JButton("");
@@ -233,6 +230,26 @@ public class InterfaceJogo {
 //        });
 //        return b;
 //    }
+	
+	
+	public void click(int linha, int coluna, ActionEvent e) {
+		
+		Casa gb = getBotaoClicado(linha, coluna);
+      
+      /* Check if the move is valid */
+      if(atorJogador.checaJogada(gb, this.jogador)) {
+      	/* move */
+      	changeCounter(gb, e, linha, coluna); 
+      } else {
+      	rightTextArea.setText("Jogada Inv�lida!");
+      }
+      
+      JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+      panel.createDialog("clicado!");
+      System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+      rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+this.jogador.getPlays()+" movimentos.");       
+		
+	}
     
     
     public void changeCounter(Casa gb, ActionEvent e, int linha, int coluna) {

@@ -70,21 +70,22 @@ public class Tabuleiro {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Casa gb = interJogo.getBotaoClicado(linha, coluna);
-                
-				/* Check if the move is valid */
-                if(atorJogador.checaJogada(gb, interJogo.getJogador())) {
-                	/* move */
-                	interJogo.changeCounter(gb, e, linha, coluna); 
-                } else {
-                	interJogo.getRightTextArea().setText("Jogada Inválida!");
-                	//interJogo.rightTextArea.setText("Jogada Inválida!");
-                }
-                
-                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-                panel.createDialog("clicado!");
-                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-                interJogo.getRightTextArea().setText("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+interJogo.getJogador().getPlays()+" movimentos.");       
+            	interJogo.click(linha, coluna, e);
+//                Casa gb = interJogo.getBotaoClicado(linha, coluna);
+//                
+//				/* Check if the move is valid */
+//                if(atorJogador.checaJogada(gb, interJogo.getJogador())) {
+//                	/* move */
+//                	interJogo.changeCounter(gb, e, linha, coluna); 
+//                } else {
+//                	interJogo.getRightTextArea().setText("Jogada Inválida!");
+//                	//interJogo.rightTextArea.setText("Jogada Inválida!");
+//                }
+//                
+//                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+//                panel.createDialog("clicado!");
+//                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+//                interJogo.getRightTextArea().setText("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+interJogo.getJogador().getPlays()+" movimentos.");       
             }
         });
         this.casas.add(b);
