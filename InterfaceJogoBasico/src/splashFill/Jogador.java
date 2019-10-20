@@ -23,6 +23,10 @@ public class Jogador implements Jogada{
 		this.color = color;
 	}
 	
+	public Jogador(String name) {
+		this.name = name;
+	}
+	
 	public void iniciarJogador() {
 		winner = false;
 		turn = false;

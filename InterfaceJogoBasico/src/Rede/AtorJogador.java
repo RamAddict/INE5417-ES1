@@ -66,6 +66,7 @@ public class AtorJogador {
 		switch(permitido) {
 		case 0:
 			mensagem = this.atorRede.iniciarPartida();
+			
 			break;
 		
 		case 1:
@@ -77,7 +78,7 @@ public class AtorJogador {
 			break;
 		
 		default:
-			mensagem = "Codigo não reconhecido, tente novamente.";
+			
 			break;
 			
 		
@@ -85,45 +86,25 @@ public class AtorJogador {
 		return mensagem;
 	}
 	
-	public boolean checaJogada(Casa botao, Jogador player) {
-    	/* Checks if the player still have moves to do */
-		if(player.getPlays() > 0) {
-			player.setPlays(player.getPlays() - 1);
-		} else {
-			JOptionPane.showMessageDialog(null, "Voce nao tem mais movimentos!");
-			return false;
-		}
-		
-		/* If the player still have plays left, continue checking */
-    	if (botao.getPlayer() == 0) { // botao nao tem dono ainda
-    		botao.setPlayer(player.getId());
-    	} else if (botao.getPlayer() == player.getId()) { // botao pertence ao jogador que clicou
-    		return true;
-    	} else { // botao pertence ao outro jogador
-    		JOptionPane.showMessageDialog(null, "Esse botao não te pertence, escolha outro");
-    		return false;
-    	}
-
-		return true;
-	}
 	
 	public void receberJogada(Move move) {
-		interfaceJogo.atualizarTabuleiro(move);
+		this.interfaceJogo.atualizarTabuleiro(move);
 	}
 	
 	public void tratarIniciarPartida(Integer posicao) {
+		this.interfaceJogo.getTabuleiro().criarJogador();
 		
 	}
 	
 	public void tratarConexaoPerdida() {
 		// mostra erro no console do jogo
-		interfaceJogo.atualizarConsole("Conexão perdida! :( ");
+		this.interfaceJogo.atualizarConsole("Conexão perdida! :( ");
 		System.exit(0);
 	}
 	
 	public void finalizarPartidaComErro() {
 		// mostra erro no console do jogo
-		interfaceJogo.atualizarConsole("Ocorreu um erro desconhecido :( ");
+		this.interfaceJogo.atualizarConsole("Ocorreu um erro desconhecido :( ");
 		System.exit(0);
 	}
 

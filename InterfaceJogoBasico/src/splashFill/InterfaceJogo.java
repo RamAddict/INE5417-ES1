@@ -59,7 +59,9 @@ public class InterfaceJogo {
      */
     public void conectar() {
 		String mensagem = atorJogador.conectar("localhost", "nomeJogador?");
+		tabuleiro.iniciar(this);
 		notificarResultado(mensagem);
+		this.atualizarConsole(mensagem);
     }
     
     /**
@@ -76,6 +78,7 @@ public class InterfaceJogo {
     public void desconectar() {
 		String mensagem = atorJogador.desconectar();
 		notificarResultado(mensagem);
+		this.atualizarConsole(mensagem);
     }
     
     /**
@@ -83,7 +86,12 @@ public class InterfaceJogo {
      */
     public void iniciarPartida() {
         String mensagem = atorJogador.iniciarPartida();
+        if(mensagem.equals("Sucesso: solicitacao de inicio enviada a Netgames Server")) {
+        	tabuleiro.iniciar(this);
+        	this.jogador.setTurn(true);
+        }
         notificarResultado(mensagem);
+        this.atualizarConsole(mensagem);
     }
     
 	/**
@@ -139,6 +147,7 @@ public class InterfaceJogo {
 		JFrame frame = new JFrame("P O O L P Y   H A Z A R D !");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         
+        tabuleiro.iniciar(this);
         
         
         frame.getContentPane().add(criaPainel());
@@ -235,20 +244,25 @@ public class InterfaceJogo {
 	public void click(int linha, int coluna, ActionEvent e) {
 		
 		Casa gb = getBotaoClicado(linha, coluna);
-      
-      /* Check if the move is valid */
-      if(atorJogador.checaJogada(gb, this.jogador)) {
-      	/* move */
-      	changeCounter(gb, e, linha, coluna); 
-      } else {
-      	rightTextArea.setText("Jogada Invï¿½lida!");
-      }
-      
-      JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-      panel.createDialog("clicado!");
-      System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-      rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+this.jogador.getPlays()+" movimentos.");       
 		
+		boolean turno = this.jogador.isTurn();
+		
+		if(turno) {
+			/* Check if move is valid */
+			boolean validMove = this.tabuleiro.checaJogada(gb, this.jogador);
+		      if(validMove) {
+		      	/* move */
+		      	changeCounter(gb, e, linha, coluna);
+		      	
+		      } else {
+		      	rightTextArea.setText("Jogada Inválida!");
+		      }
+		      
+		      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+this.jogador.getPlays()+" movimentos.");       
+		} else {
+			atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
+		}
+      
 	}
     
     
@@ -353,6 +367,7 @@ public class InterfaceJogo {
     }
     
     public void atualizarConsole(String message) {
+    	//this.rightTextArea.setText(message);
     	this.rightTextArea.setText(this.rightTextArea.getText() + "\n" + message);
     }
 

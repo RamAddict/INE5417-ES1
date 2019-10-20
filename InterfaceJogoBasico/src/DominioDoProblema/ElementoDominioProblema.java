@@ -36,9 +36,6 @@ public class ElementoDominioProblema {
 		int permitido = 3;
 		if(conectado) {
 			if(partidaAndamento) {
-//				Object[] options = { "OK", "CANCEL" };
-//				JOptionPane.showOptionDialog(null, "Click OK to continue", "A partida est� em andamento, tem certeza que quer sair?",
-//				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 				int opt = questionarRealizaDesconexao();
 				//0 = yes ; 1 = no / 2 = cancel
 				permitido = opt;
