@@ -3,7 +3,7 @@ package Rede;
 import javax.swing.JOptionPane;
 
 import DominioDoProblema.ElementoDominioProblema;
-import splashFill.Botao;
+import splashFill.Casa;
 import splashFill.InterfaceJogo;
 import splashFill.Jogador;
 
@@ -85,7 +85,7 @@ public class AtorJogador {
 		return mensagem;
 	}
 	
-	public boolean checaJogada(Botao botao, Jogador player) {
+	public boolean checaJogada(Casa botao, Jogador player) {
     	/* Checks if the player still have moves to do */
 		if(player.getPlays() > 0) {
 			player.setPlays(player.getPlays() - 1);
@@ -108,7 +108,23 @@ public class AtorJogador {
 	}
 	
 	public void receberJogada(Move move) {
-		interfaceJogo.atualizarInterface(move);
+		interfaceJogo.atualizarTabuleiro(move);
+	}
+	
+	public void tratarIniciarPartida(Integer posicao) {
+		
+	}
+	
+	public void tratarConexaoPerdida() {
+		// mostra erro no console do jogo
+		interfaceJogo.atualizarConsole("Conexão perdida! :( ");
+		System.exit(0);
+	}
+	
+	public void finalizarPartidaComErro() {
+		// mostra erro no console do jogo
+		interfaceJogo.atualizarConsole("Ocorreu um erro desconhecido :( ");
+		System.exit(0);
 	}
 
 }

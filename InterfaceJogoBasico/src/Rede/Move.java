@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
-import splashFill.Botao;
+import splashFill.Casa;
 
 public class Move implements Jogada {
 	
@@ -14,18 +14,18 @@ public class Move implements Jogada {
 	private static final long serialVersionUID = 8319270686294033589L;
 	
 	
-	List<Botao> botoes = new ArrayList<Botao>();
+	List<Casa> botoes = new ArrayList<Casa>();
 
-	public Move(List<Botao> botoes) {
+	public Move(List<Casa> botoes) {
 		super();
 		this.botoes = botoes;
 	}
 
-	public List<Botao> getBotoes() {
+	public List<Casa> getBotoes() {
 		return botoes;
 	}
 
-	public void setBotoes(List<Botao> botoes) {
+	public void setBotoes(List<Casa> botoes) {
 		this.botoes = botoes;
 	}
 	

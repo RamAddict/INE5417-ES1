@@ -45,16 +45,14 @@ public class InterfaceJogo {
 	private AtorJogador atorJogador = new AtorJogador();
 	private Jogador jogador = new Jogador();
 	
-	private final int btnWidth = 80;
-	private final int btnHeight = 80;	
-	
 	private static final int N = 6;
     //private final List<JButton> list = new ArrayList<JButton>();
     
-    private List<Botao> listab = new ArrayList<Botao>();
 
     private JMenuBar menuBar;
     private JTextArea rightTextArea;
+    
+    private Tabuleiro tabuleiro = new Tabuleiro();
     
     /**
      * Initiates the connection when the connect button is clicked
@@ -63,6 +61,7 @@ public class InterfaceJogo {
 		String mensagem = atorJogador.conectar("localhost", "nomeJogador?");
 		notificarResultado(mensagem);
     }
+    
     /**
      * Tell user about the result of an action
      * @param String mensagem
@@ -70,6 +69,7 @@ public class InterfaceJogo {
     public void notificarResultado(String mensagem) {
     	JOptionPane.showMessageDialog(null, mensagem);
     }
+    
     /**
      * Initiates disconnection process when button is clicked
      */
@@ -77,6 +77,7 @@ public class InterfaceJogo {
 		String mensagem = atorJogador.desconectar();
 		notificarResultado(mensagem);
     }
+    
     /**
      * Initiates game when button is clicked
      */
@@ -84,6 +85,7 @@ public class InterfaceJogo {
         String mensagem = atorJogador.iniciarPartida();
         notificarResultado(mensagem);
     }
+    
 	/**
 	 * Launch the application.
 	 */
@@ -99,7 +101,28 @@ public class InterfaceJogo {
 			}
 		});
 	}
+	
+	
 
+	public Jogador getJogador() {
+		return jogador;
+	}
+	public void setJogador(Jogador jogador) {
+		this.jogador = jogador;
+	}
+	public JTextArea getRightTextArea() {
+		return rightTextArea;
+	}
+	public void setRightTextArea(JTextArea rightTextArea) {
+		this.rightTextArea = rightTextArea;
+	}
+	public Tabuleiro getTabuleiro() {
+		return tabuleiro;
+	}
+	public void setTabuleiro(Tabuleiro tabuleiro) {
+		this.tabuleiro = tabuleiro;
+	}
+	
 	/**
 	 * Create the application.
 	 */
@@ -182,39 +205,39 @@ public class InterfaceJogo {
 	
 	/**/
 
-    private Botao createButton(int linha, int coluna) {
-        //final JButton b = new JButton("");
-    	final Botao b = new Botao();
-        
-        b.setPreferredSize(new Dimension(btnHeight, btnWidth));
-        InterfaceJogo that = this;
-        b.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Botao gb = getBotaoClicado(linha, coluna);
-                
-                /* Check if the move is valid */
-                if(atorJogador.checaJogada(gb, that.jogador)) {
-                	/* move */
-                	changeCounter(gb, e, linha, coluna); 
-                } else {
-                	rightTextArea.setText("Jogada Inv�lida!");
-                }
-                
-                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-                panel.createDialog("clicado!");
-                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-                rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+that.jogador.getPlays()+" movimentos.");       
-            }
-        });
-        return b;
-    }
+//    private Casa createButton(int linha, int coluna) {
+//        //final JButton b = new JButton("");
+//    	final Casa b = new Casa();
+//        
+//        b.setPreferredSize(new Dimension(btnHeight, btnWidth));
+//        InterfaceJogo that = this;
+//        b.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Casa gb = getBotaoClicado(linha, coluna);
+//                
+//                /* Check if the move is valid */
+//                if(atorJogador.checaJogada(gb, that.jogador)) {
+//                	/* move */
+//                	changeCounter(gb, e, linha, coluna); 
+//                } else {
+//                	rightTextArea.setText("Jogada Inv�lida!");
+//                }
+//                
+//                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
+//                panel.createDialog("clicado!");
+//                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
+//                rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+that.jogador.getPlays()+" movimentos.");       
+//            }
+//        });
+//        return b;
+//    }
     
     
-    public void changeCounter(Botao gb, ActionEvent e, int linha, int coluna) {
+    public void changeCounter(Casa gb, ActionEvent e, int linha, int coluna) {
         
-        String clicks = ((Botao)e.getSource()).getText();
+        String clicks = ((Casa)e.getSource()).getText();
         System.out.println(clicks);
         
         String nextclickcount = "";
@@ -273,7 +296,7 @@ public class InterfaceJogo {
             //((JButton)e.getSource()).setText(nextclikcount);
         }
         System.out.println("Mudando contagem");
-        ((Botao)e.getSource()).setText(nextclickcount);
+        ((Casa)e.getSource()).setText(nextclickcount);
     }
     
     public void splashFill(int linha, int coluna) {
@@ -300,25 +323,31 @@ public class InterfaceJogo {
     }
     
     
-    public Botao getBotaoClicado(int r, int c) {
+    public Casa getBotaoClicado(int r, int c) {
         int index = r * N + c;
         System.out.println("r: "+r+" / c: "+c+" / index: "+index);
         
-        return listab.get(index);
+        return this.tabuleiro.getCasas().get(index);
     }
     
-    public void atualizarInterface(Move move) {
-    	this.listab = move.getBotoes();
+    public void atualizarTabuleiro(Move move) {
+    	this.tabuleiro.setCasas(move.getBotoes());
     	//atualizarpontos();
+    }
+    
+    public void atualizarConsole(String message) {
+    	this.rightTextArea.setText(this.rightTextArea.getText() + "\n" + message);
     }
 
     private JPanel criaMatriz() {
+//    	JPanel p = this.tabuleiro.criaMatriz(N, this);
         JPanel p = new JPanel(new GridLayout(N, N, 2, 2));
         for (int i = 0; i < N * N; i++) {
             int row = i / N;
             int col = i % N;
-            Botao gb = createButton(row, col);
-            listab.add(gb);
+            //Casa gb = createButton(row, col);
+            Casa gb = this.tabuleiro.createButton(row, col, this);
+            //listab.add(gb);
             p.add(gb);
         }
         return p;

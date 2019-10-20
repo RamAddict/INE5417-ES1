@@ -42,6 +42,8 @@ public class ElementoDominioProblema {
 				int opt = questionarRealizaDesconexao();
 				//0 = yes ; 1 = no / 2 = cancel
 				permitido = opt;
+			} else { // conectado mas a partida nao esta em andamento
+				permitido = 0;
 			}
 		} else {
 			permitido = 3; // nao esta conectado

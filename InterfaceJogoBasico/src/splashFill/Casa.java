@@ -4,7 +4,7 @@ import javax.swing.JButton;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
 
-public class Botao extends JButton implements Jogada{
+public class Casa extends JButton implements Jogada{
 	/**
 	 * 
 	 */
@@ -16,11 +16,11 @@ public class Botao extends JButton implements Jogada{
 	private int linha, coluna;
 	private int player;
 	
-	public Botao() {
+	public Casa() {
 		super();
 	}
 	
-	public Botao(String nome, int linha, int coluna) {
+	public Casa(String nome, int linha, int coluna) {
 		super();
 		this.botao = new JButton("");
 		this.player = 0;
@@ -28,7 +28,7 @@ public class Botao extends JButton implements Jogada{
 		this.coluna = coluna;
 	}
 	
-	public Botao(int id, String color, JButton botao, int linha, int coluna) {
+	public Casa(int id, String color, JButton botao, int linha, int coluna) {
 		super();
 		this.id = id;
 		this.color = "/resources/"+color+"_1.png";
