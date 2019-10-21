@@ -73,7 +73,6 @@ public class AtorRede implements OuvidorProxy {
 	
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
-		//System.out.println("ISSO FOI CHAMADO PELO PROXY, MAGIC RIGHT??? btw sua posicao é "+posicao);
 		this.atorJogador.tratarIniciarPartida(posicao);
 		//proxy.iniciarNovaPartida(posicao);
 	}

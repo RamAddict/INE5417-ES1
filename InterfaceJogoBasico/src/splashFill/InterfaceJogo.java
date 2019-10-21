@@ -42,7 +42,7 @@ public class InterfaceJogo {
 	private final Action action = new SwingAction();
 	private final Action action_1 = new SwingAction_1();
 	private final Action action_2 = new SwingAction_2();
-	private AtorJogador atorJogador = new AtorJogador();
+	private AtorJogador atorJogador = new AtorJogador(this);
 	private Jogador jogador = new Jogador();
 	
 	private static final int N = 6;
@@ -249,7 +249,7 @@ public class InterfaceJogo {
 		
 		if(turno) {
 			/* Check if move is valid */
-			boolean validMove = this.tabuleiro.checaJogada(gb, this.jogador);
+			boolean validMove = true; //this.tabuleiro.checaJogada(gb, this.jogador);
 		      if(validMove) {
 		      	/* move */
 		      	changeCounter(gb, e, linha, coluna);
@@ -326,7 +326,7 @@ public class InterfaceJogo {
             }
             //((JButton)e.getSource()).setText(nextclikcount);
         }
-        System.out.println("Mudando contagem");
+        //System.out.println("Mudando contagem");
         ((Casa)e.getSource()).setText(nextclickcount);
     }
     
@@ -356,7 +356,7 @@ public class InterfaceJogo {
     
     public Casa getBotaoClicado(int r, int c) {
         int index = r * N + c;
-        System.out.println("r: "+r+" / c: "+c+" / index: "+index);
+        //System.out.println("r: "+r+" / c: "+c+" / index: "+index);
         
         return this.tabuleiro.getCasas().get(index);
     }

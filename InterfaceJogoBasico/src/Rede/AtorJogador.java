@@ -14,9 +14,10 @@ public class AtorJogador {
 	protected int idUser;
 	protected InterfaceJogo interfaceJogo;
 
-	public AtorJogador() {
+	public AtorJogador(InterfaceJogo interfaceJogo) {
 		atorRede = new AtorRede(this);
 		domProblema = new ElementoDominioProblema();
+		this.interfaceJogo = interfaceJogo;
 	}
 
 	public String conectar(String string, String string2) {
@@ -92,7 +93,8 @@ public class AtorJogador {
 	}
 	
 	public void tratarIniciarPartida(Integer posicao) {
-		this.interfaceJogo.getTabuleiro().criarJogador();
+		//this.interfaceJogo.getTabuleiro().criarJogador();
+		this.interfaceJogo.atualizarConsole("JOGO INICIADO");
 		
 	}
 	

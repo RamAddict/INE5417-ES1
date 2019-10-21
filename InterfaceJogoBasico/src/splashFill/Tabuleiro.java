@@ -16,8 +16,8 @@ public class Tabuleiro {
 	private List<Casa> casas = new ArrayList<Casa>();
 	private AtorJogador atorJogador;
 	
-	private Jogador jogador1;
-	private Jogador jogador2;
+	private Jogador jogador;
+	private Jogador adversario;
 	
 	private JPanel matriz = new JPanel(new GridLayout(6, 6, 2, 2));
 	
@@ -42,22 +42,22 @@ public class Tabuleiro {
 
 	
 	public void criarJogador(String name) {
-		if(jogador1 == null) {
-			jogador1 = new Jogador(name);
-			jogador1.iniciarJogador();
+		if(jogador == null) {
+			jogador = new Jogador(name);
+			jogador.iniciarJogador();
 		} else {
-			jogador2 = new Jogador(name);
-			jogador2.iniciarJogador();
+			adversario = new Jogador(name);
+			adversario.iniciarJogador();
 		}
 	}
 	
 	public void criarJogador() {
-		if(jogador1 == null) {
-			jogador1 = new Jogador("Jogador 1");
-			jogador1.iniciarJogador();
+		if(jogador == null) {
+			jogador = new Jogador("Jogador 1");
+			jogador.iniciarJogador();
 		} else {
-			jogador2 = new Jogador("Jogador 2");
-			jogador2.iniciarJogador();
+			adversario = new Jogador("Jogador 2");
+			adversario.iniciarJogador();
 		}
 	}
 	
@@ -87,19 +87,19 @@ public class Tabuleiro {
 	
 
 	public Jogador getJogador1() {
-		return jogador1;
+		return jogador;
 	}
 
 	public void setJogador1(Jogador jogador1) {
-		this.jogador1 = jogador1;
+		this.jogador = jogador1;
 	}
 
 	public Jogador getJogador2() {
-		return jogador2;
+		return adversario;
 	}
 
 	public void setJogador2(Jogador jogador2) {
-		this.jogador2 = jogador2;
+		this.adversario = jogador2;
 	}
 	
 
@@ -139,59 +139,59 @@ public class Tabuleiro {
         return b;
     }
 	
-	public Jogador checaJogador(Jogador player) {
-		Jogador jogador = null;
-		
-		if(player.getId() == this.jogador1.id) {
-			jogador = this.jogador1;
-		} else {
-			jogador = this.jogador2;
-		}
-		
-		return jogador;
-	}
+//	public Jogador checaJogador(Jogador player) {
+//		Jogador jogador = null;
+//		
+//		if(player.getId() == this.jogador.id) {
+//			jogador = this.jogador;
+//		} else {
+//			jogador = this.adversario;
+//		}
+//		
+//		return jogador;
+//	}
 	
-	public Jogador checaAdversario(Jogador jogador) {
-		Jogador adversario = null;
-		
-		if(jogador.getId() == this.jogador1.id) {
-			adversario = this.jogador2;
-		} else {
-			adversario = this.jogador1;
-		}
-		
-		return adversario;
-	}
+//	public Jogador checaAdversario(Jogador jogador) {
+//		Jogador adversario = null;
+//		
+//		if(jogador.getId() == this.jogador.id) {
+//			adversario = this.adversario;
+//		} else {
+//			adversario = this.jogador;
+//		}
+//		
+//		return adversario;
+//	}
 	
 	public void notificarResultado(String mensagem) {
 		JOptionPane.showMessageDialog(null, mensagem);
 	}
 	
-	public boolean checaJogada(Casa botao, Jogador player) {
-		Jogador jogador = checaJogador(player);
-		Jogador adversario = checaAdversario(jogador);
-    	/* Checks if the player still have moves to do */
-		if(jogador.getPlays() > 0) {
-			jogador.setPlays(jogador.getPlays() - 1);
-		} else {
-			notificarResultado("Voce nao tem mais movimentos!");
-			return false;
-		}
-		
-		/* If the player still have plays left, continue checking */
-    	if (botao.getPlayer() == 0) { // botao nao tem dono ainda
-    		botao.setPlayer(jogador.getId());
-    	} else if (botao.getPlayer() == jogador.getId()) { // botao pertence ao jogador que clicou
-    		return true;
-    	} else { // botao pertence ao outro jogador
-		notificarResultado("Esse botao não te pertence, escolha outro");
-    		return false;
-    	}
-    	
-    	// como o jogador ja fez a jogada, coloca como turno dele falso
-    	jogador.setTurn(false);
-    	adversario.setTurn(true);
-
-		return true;
-	}
+//	public boolean checaJogada(Casa botao, Jogador player) {
+//		Jogador jogador = checaJogador(player);
+//		Jogador adversario = checaAdversario(jogador);
+//    	/* Checks if the player still have moves to do */
+//		if(jogador.getPlays() > 0) {
+//			jogador.setPlays(jogador.getPlays() - 1);
+//		} else {
+//			notificarResultado("Voce nao tem mais movimentos!");
+//			return false;
+//		}
+//		
+//		/* If the player still have plays left, continue checking */
+//    	if (botao.getPlayer() == 0) { // botao nao tem dono ainda
+//    		botao.setPlayer(jogador.getId());
+//    	} else if (botao.getPlayer() == jogador.getId()) { // botao pertence ao jogador que clicou
+//    		return true;
+//    	} else { // botao pertence ao outro jogador
+//		notificarResultado("Esse botao não te pertence, escolha outro");
+//    		return false;
+//    	}
+//    	
+//    	// como o jogador ja fez a jogada, coloca como turno dele falso
+//    	jogador.setTurn(false);
+//    	adversario.setTurn(true);
+//
+//		return true;
+//	}
 }
