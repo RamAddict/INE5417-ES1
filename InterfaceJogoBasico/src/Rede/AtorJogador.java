@@ -94,6 +94,7 @@ public class AtorJogador {
 	
 	public void tratarIniciarPartida(Integer posicao) {
 		//this.interfaceJogo.getTabuleiro().criarJogador();
+		domProblema.definirPartidaAndamento(true);
 		this.interfaceJogo.atualizarConsole("JOGO INICIADO");
 		
 	}

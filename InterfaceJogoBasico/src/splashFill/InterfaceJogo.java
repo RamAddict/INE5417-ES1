@@ -59,7 +59,7 @@ public class InterfaceJogo {
      */
     public void conectar() {
 		String mensagem = atorJogador.conectar("localhost", "nomeJogador?");
-		tabuleiro.iniciar(this);
+		//tabuleiro.iniciar(this);
 		notificarResultado(mensagem);
 		this.atualizarConsole(mensagem);
     }
@@ -87,7 +87,7 @@ public class InterfaceJogo {
     public void iniciarPartida() {
         String mensagem = atorJogador.iniciarPartida();
         if(mensagem.equals("Sucesso: solicitacao de inicio enviada a Netgames Server")) {
-        	tabuleiro.iniciar(this);
+        	//tabuleiro.iniciar(this);
         	this.jogador.setTurn(true);
         }
         notificarResultado(mensagem);
@@ -144,10 +144,10 @@ public class InterfaceJogo {
 	 */
 	private void initialize() {		
 		
-		JFrame frame = new JFrame("P O O L P Y   H A Z A R D !");
+		JFrame frame = new JFrame("S P L A S H   F I L L !");
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         
-        tabuleiro.iniciar(this);
+        //tabuleiro.iniciar(this);
         
         
         frame.getContentPane().add(criaPainel());
@@ -249,7 +249,7 @@ public class InterfaceJogo {
 		
 		if(turno) {
 			/* Check if move is valid */
-			boolean validMove = true; //this.tabuleiro.checaJogada(gb, this.jogador);
+			boolean validMove = this.tabuleiro.checaJogada(gb, this.jogador);
 		      if(validMove) {
 		      	/* move */
 		      	changeCounter(gb, e, linha, coluna);

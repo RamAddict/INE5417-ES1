@@ -29,16 +29,16 @@ public class Tabuleiro {
 		this.casas = casas;
 	}
 	
-	public Tabuleiro iniciar(InterfaceJogo interJogo) {
-		Tabuleiro tabuleiro = new Tabuleiro();
-		
-		tabuleiro.criaMatriz(interJogo);
-		tabuleiro.setJogador1(null);
-		tabuleiro.setJogador2(null);
-		
-		
-		return tabuleiro;
-	}
+//	public Tabuleiro iniciar(InterfaceJogo interJogo) {
+//		Tabuleiro tabuleiro = new Tabuleiro();
+//		
+//		tabuleiro.criaMatriz(interJogo);
+//		tabuleiro.setJogador1(null);
+//		tabuleiro.setJogador2(null);
+//		
+//		
+//		return tabuleiro;
+//	}
 
 	
 	public void criarJogador(String name) {
@@ -167,7 +167,7 @@ public class Tabuleiro {
 		JOptionPane.showMessageDialog(null, mensagem);
 	}
 	
-//	public boolean checaJogada(Casa botao, Jogador player) {
+	public boolean checaJogada(Casa botao, Jogador player) {
 //		Jogador jogador = checaJogador(player);
 //		Jogador adversario = checaAdversario(jogador);
 //    	/* Checks if the player still have moves to do */
@@ -191,7 +191,7 @@ public class Tabuleiro {
 //    	// como o jogador ja fez a jogada, coloca como turno dele falso
 //    	jogador.setTurn(false);
 //    	adversario.setTurn(true);
-//
-//		return true;
-//	}
+
+		return true;
+	}
 }
