@@ -118,7 +118,7 @@ public class AtorRede implements OuvidorProxy {
 	@Override
 	public void tratarConexaoPerdida() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("TESTE");
 	}
 
 	@Override

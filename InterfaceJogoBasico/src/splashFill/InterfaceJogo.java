@@ -58,12 +58,22 @@ public class InterfaceJogo {
      * Initiates the connection when the connect button is clicked
      */
     public void conectar() {
-    	String servidor = JOptionPane.showInputDialog("Qual servidor deseja se conectar?");
-    	String jogador = JOptionPane.showInputDialog("Qual seu nome?");
+    	List<String> info = obterServidorEJogador();
+    	String servidor = info.get(0);
+    	String jogador = info.get(1);
 		String mensagem = atorJogador.conectar(servidor, jogador);
 		//tabuleiro.iniciar(this);
 		notificarResultado(mensagem);
 		this.atualizarConsole(mensagem);
+    }
+    
+    public List<String> obterServidorEJogador(){
+    	List<String> info = new ArrayList<String>();
+    	String servidor = JOptionPane.showInputDialog("Qual servidor deseja se conectar?");
+    	String jogador = JOptionPane.showInputDialog("Qual seu nome?");
+    	info.add(servidor);
+    	info.add(jogador);
+    	return info;
     }
     
     /**
