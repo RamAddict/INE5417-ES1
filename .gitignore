@@ -1,0 +1,9 @@
+~*
+*.swp
+*.swo
+*.lck
+.DS_Store
+.vscode/*
+*.class
+*.vpp.bak*
+*/bin
