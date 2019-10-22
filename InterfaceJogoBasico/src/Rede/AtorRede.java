@@ -80,6 +80,7 @@ public class AtorRede implements OuvidorProxy {
 	@Override
 	public void finalizarPartidaComErro(String message) {
 		// TODO Auto-generated method stub
+		this.atorJogador.finalizarPartidaComErro();
 		proxy.finalizarPartidaComErro(message);
 	}
 
@@ -118,7 +119,7 @@ public class AtorRede implements OuvidorProxy {
 	@Override
 	public void tratarConexaoPerdida() {
 		// TODO Auto-generated method stub
-		System.out.println("TESTE");
+		this.atorJogador.tratarConexaoPerdida();
 	}
 
 	@Override

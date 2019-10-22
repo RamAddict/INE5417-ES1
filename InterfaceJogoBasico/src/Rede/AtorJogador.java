@@ -94,21 +94,25 @@ public class AtorJogador {
 	
 	public void tratarIniciarPartida(Integer posicao) {
 		//this.interfaceJogo.getTabuleiro().criarJogador();
-		domProblema.definirPartidaAndamento(true);
+		this.domProblema.definirPartidaAndamento(true);
 		this.interfaceJogo.atualizarConsole("JOGO INICIADO");
 		
 	}
 	
 	public void tratarConexaoPerdida() {
 		// mostra erro no console do jogo
+		this.domProblema.definirConectado(false);
 		this.interfaceJogo.atualizarConsole("Conexão perdida! :( ");
-		System.exit(0);
+		//System.exit(0);
 	}
 	
 	public void finalizarPartidaComErro() {
 		// mostra erro no console do jogo
-		this.interfaceJogo.atualizarConsole("Ocorreu um erro desconhecido :( ");
-		System.exit(0);
+		this.domProblema.definirPartidaAndamento(false);
+		this.interfaceJogo.atualizarConsole("O adversário foi desconectado :( ");
+		
+		//System.exit(0);
+		
 	}
 
 }
