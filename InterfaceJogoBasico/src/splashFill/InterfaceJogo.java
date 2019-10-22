@@ -58,7 +58,9 @@ public class InterfaceJogo {
      * Initiates the connection when the connect button is clicked
      */
     public void conectar() {
-		String mensagem = atorJogador.conectar("localhost", "nomeJogador?");
+    	String servidor = JOptionPane.showInputDialog("Qual servidor deseja se conectar?");
+    	String jogador = JOptionPane.showInputDialog("Qual seu nome?");
+		String mensagem = atorJogador.conectar(servidor, jogador);
 		//tabuleiro.iniciar(this);
 		notificarResultado(mensagem);
 		this.atualizarConsole(mensagem);
