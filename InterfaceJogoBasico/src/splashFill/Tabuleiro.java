@@ -65,9 +65,6 @@ public class Tabuleiro {
 		this.criaMatriz(interJogo);
 	}
 	
-	
-	
-	
 	public List<Casa> getCasas() {
 		return casas;
 	}

@@ -3,6 +3,12 @@ package splashFill;
 import br.ufsc.inf.leobr.cliente.Jogada;
 
 public class Jogador implements Jogada{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3639029510344563679L;
+	
 	protected String name = "";
 	protected int plays = 30;
 	
