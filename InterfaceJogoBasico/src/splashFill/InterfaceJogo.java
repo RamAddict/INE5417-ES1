@@ -49,6 +49,8 @@ public class InterfaceJogo {
 
     private JMenuBar menuBar;
     private JTextArea rightTextArea;
+    private JPanel panel;
+    private JPanel panelMatriz;
     
     private Tabuleiro tabuleiro = new Tabuleiro();
     
@@ -97,8 +99,8 @@ public class InterfaceJogo {
     public void iniciarPartida() {
         String mensagem = atorJogador.iniciarPartida();
         if(mensagem.equals("Sucesso: solicitacao de inicio enviada a Netgames Server")) {
-        	//tabuleiro.iniciar(this);
         	this.jogador.setTurn(true);
+        	//this.tabuleiro.setTurno(this.jogador);
         }
         notificarResultado(mensagem);
         this.atualizarConsole(mensagem);
@@ -165,7 +167,7 @@ public class InterfaceJogo {
 	
 	
 	public JPanel criaPainel() {
-		JPanel panel = new JPanel();
+		this.panel = new JPanel();
 		
 
         //construct components
@@ -211,7 +213,7 @@ public class InterfaceJogo {
 	}
 	
 	
-	public void click(int linha, int coluna, ActionEvent e) {
+	public void click(int linha, int coluna/*, ActionEvent e*/) {
 		
 		Casa gb = getBotaoClicado(linha, coluna);
 		
@@ -219,13 +221,9 @@ public class InterfaceJogo {
 		
 		if(turno) {
 			/* Check if move is valid */
-			boolean validMove = this.tabuleiro.checaJogada(gb, this.jogador);
-		      if(validMove) {
-		      	/* move */
-		      	changeCounter(gb, e, linha, coluna);
-		      	Move move = new Move(this.tabuleiro.getCasas());
-		      	this.atorJogador.enviarJogada(move);
-		      	
+			boolean jogadaRealizada = this.tabuleiro.realizaJogada(gb, this.jogador, this.atorJogador);
+		      if(jogadaRealizada) {
+		      	changeCounter(gb, /*e,*/ linha, coluna);
 		      } else {
 		      	rightTextArea.setText("Jogada Inválida!");
 		      }
@@ -238,9 +236,9 @@ public class InterfaceJogo {
 	}
     
     
-    public void changeCounter(Casa gb, ActionEvent e, int linha, int coluna) {
+    public void changeCounter(Casa gb, /*ActionEvent e,*/ int linha, int coluna) {
         
-        String clicks = ((Casa)e.getSource()).getText();
+        String clicks = gb.getText();//((Casa)e.getSource()).getText();
         System.out.println(clicks);
         
         String nextclickcount = "";
@@ -299,29 +297,34 @@ public class InterfaceJogo {
             //((JButton)e.getSource()).setText(nextclikcount);
         }
         //System.out.println("Mudando contagem");
-        ((Casa)e.getSource()).setText(nextclickcount);
+        gb.setText(nextclickcount);
+        //((Casa)e.getSource()).setText(nextclickcount);
     }
     
     public void splashFill(int linha, int coluna) {
     	// TODO URGENTE ARRUMAR LOOP!!!
     	if(linha >= 1) {
     		JButton cima = getBotaoClicado(linha-1, coluna);
-    		cima.doClick();    		
+    		//cima.doClick(); 
+    		changeCounter((Casa)cima, linha, coluna);
     	}
     	
     	if(linha < N-1) {
     		JButton baixo = getBotaoClicado(linha+1, coluna);
-    		baixo.doClick();
+    		//baixo.doClick();
+    		changeCounter((Casa)baixo, linha, coluna);
     	}
     	
     	if(coluna >= 1) {
     		JButton esquerda = getBotaoClicado(linha, coluna-1);
-    		esquerda.doClick();
+    		//esquerda.doClick();
+    		changeCounter((Casa)esquerda, linha, coluna);
     	}
     	
     	if(coluna < N-1) {
     		JButton direita = getBotaoClicado(linha, coluna+1);
-    		direita.doClick();
+    		//direita.doClick();
+    		changeCounter((Casa)direita, linha, coluna);
     	}
     }
     
@@ -334,7 +337,12 @@ public class InterfaceJogo {
     }
     
     public void atualizarTabuleiro(Move move) {
-    	this.tabuleiro.setCasas(move.getBotoes());
+    	System.out.println("Atualizar tabuleiro");
+    	List<Casa> botoes = move.getBotoes();
+    	List<Casa> lista = getTabuleiro().getCasas();
+    	for(int i = 0; i < botoes.size(); i++) {
+    		lista.set(i, botoes.get(i));
+    	}
     	//atualizarpontos();
     }
     
@@ -344,16 +352,16 @@ public class InterfaceJogo {
     }
 
     private JPanel criaMatriz() {
-        JPanel p = new JPanel(new GridLayout(N, N, 2, 2));
+        this.panelMatriz = new JPanel(new GridLayout(N, N, 2, 2));
         for (int i = 0; i < N * N; i++) {
             int row = i / N;
             int col = i % N;
             //Casa gb = createButton(row, col);
             Casa gb = this.tabuleiro.createButton(row, col, this);
-            //listab.add(gb);
-            p.add(gb);
+            
+            this.panelMatriz.add(gb);
         }
-        return p;
+        return this.panelMatriz;
     }
     
     

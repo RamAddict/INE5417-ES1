@@ -84,7 +84,7 @@ public class AtorRede implements OuvidorProxy {
 	public void finalizarPartidaComErro(String message) {
 		// TODO Auto-generated method stub
 		this.atorJogador.finalizarPartidaComErro();
-		proxy.finalizarPartidaComErro(message);
+		//proxy.finalizarPartidaComErro(message);
 	}
 
 	@Override

@@ -16,9 +16,9 @@ public class Move implements Jogada {
 	
 	List<Casa> botoes = new ArrayList<Casa>();
 
-	public Move(List<Casa> botoes) {
+	public Move(List<Casa> casas) {
 		super();
-		this.botoes = botoes;
+		this.botoes = casas;
 	}
 
 	public List<Casa> getBotoes() {
@@ -28,6 +28,7 @@ public class Move implements Jogada {
 	public void setBotoes(List<Casa> botoes) {
 		this.botoes = botoes;
 	}
+	
 	
 	
 	

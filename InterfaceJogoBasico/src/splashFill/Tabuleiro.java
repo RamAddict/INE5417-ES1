@@ -11,8 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Rede.AtorJogador;
+import Rede.Move;
 
-public class Tabuleiro {
+public class Tabuleiro{
 	private List<Casa> casas = new ArrayList<Casa>();
 	private AtorJogador atorJogador;
 	
@@ -101,17 +102,6 @@ public class Tabuleiro {
 		return permitido;
 	}
 	
-//	public Tabuleiro iniciar(InterfaceJogo interJogo) {
-//		Tabuleiro tabuleiro = new Tabuleiro();
-//		
-//		tabuleiro.criaMatriz(interJogo);
-//		tabuleiro.setJogador1(null);
-//		tabuleiro.setJogador2(null);
-//		
-//		
-//		return tabuleiro;
-//	}
-
 	
 	public void criarJogador(String name) {
 		if(jogador == null) {
@@ -123,15 +113,13 @@ public class Tabuleiro {
 		}
 	}
 	
-	public void criarJogador() {
-		if(jogador == null) {
-			jogador = new Jogador("Jogador 1");
-			jogador.iniciarJogador();
-		} else {
-			adversario = new Jogador("Jogador 2");
-			adversario.iniciarJogador();
-		}
-	}
+//	public void setTurno(Jogador jogador) {
+//		if(jogador == this.jogador) {
+//			this.jogador.setTurn(true);
+//		} else {
+//			this.adversario.setTurn(true);
+//		}
+//	}
 	
 	public void limparTabuleiro(InterfaceJogo interJogo) {
 		this.criaMatriz(interJogo);
@@ -200,13 +188,14 @@ public class Tabuleiro {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	interJogo.click(linha, coluna, e);    
+            	interJogo.click(linha, coluna /*, e*/);    
             }
         });
         
         this.casas.add(b);
         return b;
     }
+	
 	
 //	public Jogador checaJogador(Jogador player) {
 //		Jogador jogador = null;
@@ -262,5 +251,24 @@ public class Tabuleiro {
 //    	adversario.setTurn(true);
 
 		return true;
+	}
+	
+	public boolean realizaJogada(Casa casa, Jogador jogador, AtorJogador atorJogador) {
+		boolean jogadaRealizada = false;
+		if(checaJogada(casa, jogador)) {
+			/* move */
+	      	//changeCounter(gb, e, linha, coluna);
+	    	
+			this.getCasas().set(casa.getLinha()*6 + casa.getColuna(), casa);
+	      	Move move = new Move(this.getCasas());
+			
+	      	atorJogador.enviarJogada(move);
+			
+			jogadaRealizada = true;
+		} else {
+			
+		}
+		
+		return jogadaRealizada;
 	}
 }
