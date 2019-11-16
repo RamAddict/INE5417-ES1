@@ -15,6 +15,9 @@ public class AtorRede implements OuvidorProxy {
 	static final long serialVersionUID = 1L;
 	protected Proxy proxy;
 	
+	protected OuvidorProxy ouvidor;
+	
+	
 	protected AtorJogador atorJogador;
 	protected boolean playersTurn;
 	
@@ -86,11 +89,14 @@ public class AtorRede implements OuvidorProxy {
 
 	@Override
 	public void receberMensagem(String msg) {
+		
 		// TODO Auto-generated method stub
+		//proxy.receberMensagem(msg);
 	}
 
 	
 	public void enviarJogada(Move move) {
+		System.out.println("enviar jogada");
 		try {
 			proxy.enviaJogada(move);
 		} catch (NaoJogandoException e) {
@@ -112,8 +118,9 @@ public class AtorRede implements OuvidorProxy {
 	@Override
 	public void receberJogada(Jogada jogada) {
 		Move move = (Move) jogada;
-		
 		atorJogador.receberJogada(move);
+		
+		
 	}
 
 	@Override

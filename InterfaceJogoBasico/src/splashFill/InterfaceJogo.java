@@ -45,9 +45,7 @@ public class InterfaceJogo {
 	private AtorJogador atorJogador = new AtorJogador(this);
 	private Jogador jogador = new Jogador();
 	
-	private static final int N = 6;
-    //private final List<JButton> list = new ArrayList<JButton>();
-    
+	private static final int N = 6;    
 
     private JMenuBar menuBar;
     private JTextArea rightTextArea;
@@ -62,7 +60,7 @@ public class InterfaceJogo {
     	String servidor = info.get(0);
     	String jogador = info.get(1);
 		String mensagem = atorJogador.conectar(servidor, jogador);
-		//tabuleiro.iniciar(this);
+		
 		notificarResultado(mensagem);
 		this.atualizarConsole(mensagem);
     }
@@ -90,7 +88,7 @@ public class InterfaceJogo {
     public void desconectar() {
 		String mensagem = atorJogador.desconectar();
 		notificarResultado(mensagem);
-		this.atualizarConsole(mensagem);
+		atualizarConsole(mensagem);
     }
     
     /**
@@ -157,24 +155,14 @@ public class InterfaceJogo {
 	private void initialize() {		
 		
 		JFrame frame = new JFrame("S P L A S H   F I L L !");
-        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        
-        //tabuleiro.iniciar(this);
-        
+        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);        
         
         frame.getContentPane().add(criaPainel());
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-		        
-		/* Perguntando que tipo de jogo
-		JOptionPane opcoesJogo = new JOptionPane("Escolha seu tipo de jogo:");
-		opcoesJogo.setBounds(200, 100, 300, 40);
-		
-		opcoesJogo.createDialog(".");
-        */
-		
+        frame.setVisible(true);		
 	}
+	
 	
 	public JPanel criaPainel() {
 		JPanel panel = new JPanel();
@@ -222,36 +210,6 @@ public class InterfaceJogo {
 		
 	}
 	
-
-//    private Casa createButton(int linha, int coluna) {
-//        //final JButton b = new JButton("");
-//    	final Casa b = new Casa();
-//        
-//        b.setPreferredSize(new Dimension(btnHeight, btnWidth));
-//        InterfaceJogo that = this;
-//        b.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Casa gb = getBotaoClicado(linha, coluna);
-//                
-//                /* Check if the move is valid */
-//                if(atorJogador.checaJogada(gb, that.jogador)) {
-//                	/* move */
-//                	changeCounter(gb, e, linha, coluna); 
-//                } else {
-//                	rightTextArea.setText("Jogada Invï¿½lida!");
-//                }
-//                
-//                JOptionPane panel = new JOptionPane("Voce clicou no botao " + (linha) + "x" + (coluna));
-//                panel.createDialog("clicado!");
-//                System.out.println("Voce clicou no botao " + (linha) + "x" + (coluna));
-//                rightTextArea.setText("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+that.jogador.getPlays()+" movimentos.");       
-//            }
-//        });
-//        return b;
-//    }
-	
 	
 	public void click(int linha, int coluna, ActionEvent e) {
 		
@@ -265,6 +223,8 @@ public class InterfaceJogo {
 		      if(validMove) {
 		      	/* move */
 		      	changeCounter(gb, e, linha, coluna);
+		      	Move move = new Move(this.tabuleiro.getCasas());
+		      	this.atorJogador.enviarJogada(move);
 		      	
 		      } else {
 		      	rightTextArea.setText("Jogada Inválida!");
@@ -379,12 +339,11 @@ public class InterfaceJogo {
     }
     
     public void atualizarConsole(String message) {
-    	//this.rightTextArea.setText(message);
     	this.rightTextArea.setText(this.rightTextArea.getText() + "\n" + message);
+    	return;
     }
 
     private JPanel criaMatriz() {
-//    	JPanel p = this.tabuleiro.criaMatriz(N, this);
         JPanel p = new JPanel(new GridLayout(N, N, 2, 2));
         for (int i = 0; i < N * N; i++) {
             int row = i / N;
@@ -395,7 +354,11 @@ public class InterfaceJogo {
             p.add(gb);
         }
         return p;
-    }	
+    }
+    
+    
+    
+    /**-------------------------*/
 	
 	private class SwingAction extends AbstractAction {
 		/**

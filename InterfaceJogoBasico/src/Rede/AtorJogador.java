@@ -2,31 +2,31 @@ package Rede;
 
 import javax.swing.JOptionPane;
 
-import DominioDoProblema.ElementoDominioProblema;
 import splashFill.Casa;
 import splashFill.InterfaceJogo;
 import splashFill.Jogador;
+import splashFill.Tabuleiro;
 
 public class AtorJogador {
 	
 	protected AtorRede atorRede;
-	protected ElementoDominioProblema domProblema;
+	protected Tabuleiro tabuleiro;
 	protected int idUser;
 	protected InterfaceJogo interfaceJogo;
 
 	public AtorJogador(InterfaceJogo interfaceJogo) {
 		atorRede = new AtorRede(this);
-		domProblema = new ElementoDominioProblema();
+		tabuleiro = new Tabuleiro();
 		this.interfaceJogo = interfaceJogo;
 	}
 
 	public String conectar(String string, String string2) {
 		String mensagem = "Você já está conectado!";
-		boolean permitido = domProblema.permitidoConectar();
+		boolean permitido = tabuleiro.permitidoConectar();
 		if (permitido) {
 			mensagem = this.atorRede.conectar(string, string2);
 			if (mensagem.equals("Sucesso: conectado a Netgames Server")) {
-				domProblema.definirConectado(true);
+				tabuleiro.definirConectado(true);
 			}
 		}
 		return mensagem;
@@ -34,13 +34,13 @@ public class AtorJogador {
 	
 	public String desconectar() {
 		String mensagem = "Você não esta conectado ou a partida esta em andamento.";
-		int permitido = domProblema.permitidoDesconectar();
+		int permitido = tabuleiro.permitidoDesconectar();
 		switch(permitido) {
 		case 0:
 			mensagem = this.atorRede.desconectar();
 			if (mensagem.equals("Sucesso: desconectado de Netgames Server")) {
-				domProblema.definirConectado(false);
-				domProblema.definirPartidaAndamento(false);
+				tabuleiro.definirConectado(false);
+				tabuleiro.definirPartidaAndamento(false);
 			}
 			
 			break;
@@ -62,7 +62,7 @@ public class AtorJogador {
 	
 	public String iniciarPartida() {
 		String mensagem = "Nao existem dois jogadores conectados no servidor";
-		int permitido = domProblema.permitidoIniciarPartida();
+		int permitido = tabuleiro.permitidoIniciarPartida();
 		
 		switch(permitido) {
 		case 0:
@@ -87,28 +87,35 @@ public class AtorJogador {
 		return mensagem;
 	}
 	
+	public void enviarJogada(Move move) {
+		System.out.println("AtorJogador enviando jogada");
+		this.atorRede.enviarJogada(move);
+	}
 	
 	public void receberJogada(Move move) {
+		//System.out.println("chegou em AtorJogador.receberJogada");
+		for(int i = 0; i < move.getBotoes().size(); i++) {
+			System.out.println("linha: "+move.getBotoes().get(i).getLinha() + " - coluna: "+move.getBotoes().get(i).getColuna());
+		}
 		this.interfaceJogo.atualizarTabuleiro(move);
 	}
 	
 	public void tratarIniciarPartida(Integer posicao) {
-		//this.interfaceJogo.getTabuleiro().criarJogador();
-		this.domProblema.definirPartidaAndamento(true);
+		this.tabuleiro.definirPartidaAndamento(true);
 		this.interfaceJogo.atualizarConsole("JOGO INICIADO");
 		
 	}
 	
 	public void tratarConexaoPerdida() {
 		// mostra erro no console do jogo
-		this.domProblema.definirConectado(false);
+		this.tabuleiro.definirConectado(false);
 		this.interfaceJogo.atualizarConsole("Conexão perdida! :( ");
 		//System.exit(0);
 	}
 	
 	public void finalizarPartidaComErro() {
 		// mostra erro no console do jogo
-		this.domProblema.definirPartidaAndamento(false);
+		this.tabuleiro.definirPartidaAndamento(false);
 		this.interfaceJogo.atualizarConsole("O adversário foi desconectado :( ");
 		
 		//System.exit(0);
