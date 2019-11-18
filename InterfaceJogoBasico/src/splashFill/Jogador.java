@@ -10,18 +10,19 @@ public class Jogador implements Jogada{
 	private static final long serialVersionUID = 3639029510344563679L;
 	
 	protected String name = "";
-	protected int plays = 30;
-	
+	protected int plays;
+	protected String color = "";
 	protected boolean turn;
 	protected boolean winner = false;
 	
 	public Jogador() {
-		
+		this.plays = 30;
 	}
 
 	
 	public Jogador(String name) {
 		this.name = name;
+		this.plays = 30;
 	}
 	
 	public void iniciarJogador() {
@@ -63,6 +64,18 @@ public class Jogador implements Jogada{
 	public void setWinner(boolean winner) {
 		this.winner = winner;
 	}
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
+	
 	
 	
 

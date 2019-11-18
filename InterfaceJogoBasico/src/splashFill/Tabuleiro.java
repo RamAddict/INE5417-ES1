@@ -225,9 +225,13 @@ public class Tabuleiro{
 		JOptionPane.showMessageDialog(null, mensagem);
 	}
 	
-	public boolean checaJogada(Casa botao, Jogador player) {
+	public boolean checaJogada(Casa botao, Jogador jogador) {
 //		Jogador jogador = checaJogador(player);
+//		
 //		Jogador adversario = checaAdversario(jogador);
+		
+		
+		
 //    	/* Checks if the player still have moves to do */
 //		if(jogador.getPlays() > 0) {
 //			jogador.setPlays(jogador.getPlays() - 1);
@@ -237,12 +241,12 @@ public class Tabuleiro{
 //		}
 //		
 //		/* If the player still have plays left, continue checking */
-//    	if (botao.getPlayer() == 0) { // botao nao tem dono ainda
-//    		botao.setPlayer(jogador.getId());
-//    	} else if (botao.getPlayer() == jogador.getId()) { // botao pertence ao jogador que clicou
+//    	if (botao.getPlayer() == "") { // botao nao tem dono ainda
+//    		botao.setPlayer(jogador.getName());
+//    	} else if (botao.getPlayer() == jogador.getName()) { // botao pertence ao jogador que clicou
 //    		return true;
 //    	} else { // botao pertence ao outro jogador
-//		notificarResultado("Esse botao n√£o te pertence, escolha outro");
+//		notificarResultado("Esse botao n„o te pertence, escolha outro");
 //    		return false;
 //    	}
 //    	
@@ -250,6 +254,9 @@ public class Tabuleiro{
 //    	jogador.setTurn(false);
 //    	adversario.setTurn(true);
 
+		/*PEGAR CASAS ADJACENTES E MUDAR CONTAGEM DELAS*/
+		
+		
 		return true;
 	}
 	

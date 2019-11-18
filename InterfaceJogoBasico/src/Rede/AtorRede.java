@@ -120,7 +120,6 @@ public class AtorRede implements OuvidorProxy {
 		Move move = (Move) jogada;
 		atorJogador.receberJogada(move);
 		
-		
 	}
 
 	@Override

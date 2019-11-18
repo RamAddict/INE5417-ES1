@@ -3,14 +3,14 @@ package splashFill;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Font;
+//import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.List;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+//import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -302,7 +302,6 @@ public class InterfaceJogo {
     }
     
     public void splashFill(int linha, int coluna) {
-    	// TODO URGENTE ARRUMAR LOOP!!!
     	if(linha >= 1) {
     		JButton cima = getBotaoClicado(linha-1, coluna);
     		//cima.doClick(); 
