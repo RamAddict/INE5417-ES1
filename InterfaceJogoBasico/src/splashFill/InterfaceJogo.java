@@ -69,8 +69,10 @@ public class InterfaceJogo {
     
     public List<String> obterServidorEJogador(){
     	List<String> info = new ArrayList<String>();
-    	String servidor = JOptionPane.showInputDialog("Qual servidor deseja se conectar?");
-    	String jogador = JOptionPane.showInputDialog("Qual seu nome?");
+    	//String servidor = JOptionPane.showInputDialog("Qual servidor deseja se conectar?");
+    	//String jogador = JOptionPane.showInputDialog("Qual seu nome?");
+    	String servidor = "localhost";
+    	String jogador = "suaMae";
     	info.add(servidor);
     	info.add(jogador);
     	return info;
@@ -221,9 +223,10 @@ public class InterfaceJogo {
 		
 		if(turno) {
 			/* Check if move is valid */
-			boolean jogadaRealizada = this.tabuleiro.realizaJogada(gb, this.jogador, this.atorJogador);
+			boolean jogadaRealizada = this.tabuleiro.checaJogada(gb, this.jogador);
 		      if(jogadaRealizada) {
 		      	changeCounter(gb, /*e,*/ linha, coluna);
+		      	this.tabuleiro.realizaJogada(gb, this.jogador, this.atorJogador);
 		      } else {
 		      	rightTextArea.setText("Jogada Inválida!");
 		      }
@@ -237,9 +240,9 @@ public class InterfaceJogo {
     
     
     public void changeCounter(Casa gb, /*ActionEvent e,*/ int linha, int coluna) {
-        
-        String clicks = gb.getText();//((Casa)e.getSource()).getText();
-        System.out.println(clicks);
+        boolean isSplash = false;
+        String clicks = gb.getText();
+        //System.out.println(clicks);
         
         String nextclickcount = "";
         
@@ -248,7 +251,8 @@ public class InterfaceJogo {
         		switch(clicks) {
                 case "1":
                 	nextclickcount = "";
-                	splashFill(linha, coluna);
+                	//splashFill(linha, coluna);
+                	isSplash = true;
                 	break;
 
                 
@@ -257,7 +261,6 @@ public class InterfaceJogo {
                 	break;
                 }
         		
-                //((JButton)e.getSource()).setText(nextclikcount);
         	} else {
         		switch(clicks) {
                 case "1":
@@ -266,15 +269,32 @@ public class InterfaceJogo {
                 
                 case "2":
                 	nextclickcount = "";
-                	splashFill(linha, coluna);
+                	//splashFill(linha, coluna);
+                	isSplash = true;
                 	break;
                 	
                 default: // no clicks
                 	nextclickcount = "1";
                 	break;
                 }
-        		//((JButton)e.getSource()).setText(nextclikcount);
+        		
         	}
+        } else if(coluna == 0 || coluna == N-1 &&(linha != 0 && linha != N-1)) {
+        	switch(clicks) {
+            case "1":
+            	nextclickcount = "2";
+            	break;
+            
+            case "2":
+            	nextclickcount = "";
+            	//splashFill(linha, coluna);
+            	isSplash = true;
+            	break;
+            	
+            default: // no clicks
+            	nextclickcount = "1";
+            	break;
+            }
         } else {
             switch(clicks) {
             case "1":
@@ -287,43 +307,47 @@ public class InterfaceJogo {
             	
             case "3":
             	nextclickcount = "";
-            	splashFill(linha, coluna);
+            	//splashFill(linha, coluna);
+            	isSplash = true;
             	break;
             
             default: // no clicks
             	nextclickcount = "1";
             	break;
             }
-            //((JButton)e.getSource()).setText(nextclikcount);
+            
         }
-        //System.out.println("Mudando contagem");
+        
         gb.setText(nextclickcount);
-        //((Casa)e.getSource()).setText(nextclickcount);
+        
+        if(isSplash) {
+        	splashFill(linha, coluna);
+        }
     }
     
     public void splashFill(int linha, int coluna) {
     	if(linha >= 1) {
     		JButton cima = getBotaoClicado(linha-1, coluna);
-    		//cima.doClick(); 
-    		changeCounter((Casa)cima, linha, coluna);
+    		cima.doClick(); 
+    		//changeCounter((Casa)cima, linha, coluna);
     	}
     	
     	if(linha < N-1) {
     		JButton baixo = getBotaoClicado(linha+1, coluna);
-    		//baixo.doClick();
-    		changeCounter((Casa)baixo, linha, coluna);
+    		baixo.doClick();
+    		//changeCounter((Casa)baixo, linha, coluna);
     	}
     	
     	if(coluna >= 1) {
     		JButton esquerda = getBotaoClicado(linha, coluna-1);
-    		//esquerda.doClick();
-    		changeCounter((Casa)esquerda, linha, coluna);
+    		esquerda.doClick();
+    		//changeCounter((Casa)esquerda, linha, coluna);
     	}
     	
     	if(coluna < N-1) {
     		JButton direita = getBotaoClicado(linha, coluna+1);
-    		//direita.doClick();
-    		changeCounter((Casa)direita, linha, coluna);
+    		direita.doClick();
+    		//changeCounter((Casa)direita, linha, coluna);
     	}
     }
     
@@ -340,7 +364,12 @@ public class InterfaceJogo {
     	List<Casa> botoes = move.getBotoes();
     	List<Casa> lista = getTabuleiro().getCasas();
     	for(int i = 0; i < botoes.size(); i++) {
-    		lista.set(i, botoes.get(i));
+    		if(!botoes.get(i).getText().equals(this.tabuleiro.getCasas().get(i).getText())) {
+    			System.out.println(" 1 ->"+this.tabuleiro.getCasas().get(i).getText());
+    			System.out.println(" 1 ->"+botoes.get(i).getText());
+    			
+    			this.tabuleiro.getCasas().get(i).setText(botoes.get(i).getText());
+    		}
     	}
     	//atualizarpontos();
     }

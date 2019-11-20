@@ -15,7 +15,7 @@ public class Casa extends JButton implements Jogada{
 	private JButton botao;
 	private int linha, coluna;
 	private String player;
-	private int pontos;
+	private int fichas;
 	
 	public Casa() {
 		super();
@@ -27,7 +27,7 @@ public class Casa extends JButton implements Jogada{
 		this.player = "";
 		this.linha = linha;
 		this.coluna = coluna;
-		this.pontos = 0;
+		this.fichas = 0;
 	}
 	
 	public Casa(int id, String color, JButton botao, int linha, int coluna) {
@@ -38,7 +38,7 @@ public class Casa extends JButton implements Jogada{
 		this.player = "";
 		this.linha = linha;
 		this.coluna = coluna;
-		this.pontos = 0;
+		this.fichas = 0;
 	}
 
 	
@@ -92,12 +92,12 @@ public class Casa extends JButton implements Jogada{
 		this.coluna = coluna;
 	}
 
-	public int getPontos() {
-		return pontos;
+	public int getFichas() {
+		return fichas;
 	}
 
-	public void setPontos(int pontos) {
-		this.pontos = pontos;
+	public void setFichas(int fichas) {
+		this.fichas = fichas;
 	}
 	
 	

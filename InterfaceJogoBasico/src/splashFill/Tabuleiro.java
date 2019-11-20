@@ -260,22 +260,36 @@ public class Tabuleiro{
 		return true;
 	}
 	
-	public boolean realizaJogada(Casa casa, Jogador jogador, AtorJogador atorJogador) {
-		boolean jogadaRealizada = false;
-		if(checaJogada(casa, jogador)) {
+	public void realizaJogada(Casa casa, Jogador jogador, AtorJogador atorJogador) {
+		//boolean jogadaRealizada = false;
+		//if(checaJogada(casa, jogador)) {
 			/* move */
 	      	//changeCounter(gb, e, linha, coluna);
 	    	
-			this.getCasas().set(casa.getLinha()*6 + casa.getColuna(), casa);
+			//this.getCasas().set(casa.getLinha()*6 + casa.getColuna(), casa);
 	      	Move move = new Move(this.getCasas());
 			
 	      	atorJogador.enviarJogada(move);
 			
-			jogadaRealizada = true;
-		} else {
+			//jogadaRealizada = true;
+		//} else {
 			
+		//}
+		
+		//return jogadaRealizada;
+	}
+	
+	public Casa getCasa(int coluna, int linha) {
+		Casa casa;
+		if(linha < 0 || linha > 5 || coluna < 0 || coluna > 5) {
+			casa = new Casa();
+			casa.setFichas(-1);
+		} else {
+			int indiceVetorCasas = linha*6 + coluna;
+			casa = this.casas.get(indiceVetorCasas);
 		}
 		
-		return jogadaRealizada;
+		return casa;
 	}
+	
 }
