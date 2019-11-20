@@ -26,6 +26,8 @@ public class Tabuleiro{
 	protected boolean conectado = false;
 	protected boolean partidaAndamento = false;
 	
+	private boolean decrementar = true;
+	
 	
 	
 	public Tabuleiro() {
@@ -185,10 +187,12 @@ public class Tabuleiro{
         b.setPreferredSize(new Dimension(80, 80));
 
         b.addActionListener(new ActionListener() {
+        	
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	interJogo.click(linha, coluna /*, e*/);    
+            	
+            	interJogo.click(linha, coluna);    
             }
         });
         
@@ -232,14 +236,18 @@ public class Tabuleiro{
 		
 		
 		
-//    	/* Checks if the player still have moves to do */
-//		if(jogador.getPlays() > 0) {
-//			jogador.setPlays(jogador.getPlays() - 1);
-//		} else {
-//			notificarResultado("Voce nao tem mais movimentos!");
-//			return false;
-//		}
-//		
+		if(decrementar) {
+			/* Checks if the player still have moves to do */
+			if(jogador.getPlays() > 0) {
+				jogador.setPlays(jogador.getPlays() - 1);
+				decrementar = false;
+			} else {
+				notificarResultado("Voce nao tem mais movimentos!");
+				return false;
+			}
+		}
+    	
+		
 //		/* If the player still have plays left, continue checking */
 //    	if (botao.getPlayer() == "") { // botao nao tem dono ainda
 //    		botao.setPlayer(jogador.getName());
@@ -250,7 +258,7 @@ public class Tabuleiro{
 //    		return false;
 //    	}
 //    	
-//    	// como o jogador ja fez a jogada, coloca como turno dele falso
+//    	/*TODO implementar função passaTurno*/
 //    	jogador.setTurn(false);
 //    	adversario.setTurn(true);
 

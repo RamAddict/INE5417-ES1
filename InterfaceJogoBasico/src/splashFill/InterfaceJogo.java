@@ -24,7 +24,6 @@ import javax.swing.JMenu;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -215,7 +214,7 @@ public class InterfaceJogo {
 	}
 	
 	
-	public void click(int linha, int coluna/*, ActionEvent e*/) {
+	public void click(int linha, int coluna) {
 		
 		Casa gb = getBotaoClicado(linha, coluna);
 		
@@ -328,7 +327,7 @@ public class InterfaceJogo {
     public void splashFill(int linha, int coluna) {
     	if(linha >= 1) {
     		JButton cima = getBotaoClicado(linha-1, coluna);
-    		cima.doClick(); 
+    		cima.doClick();
     		//changeCounter((Casa)cima, linha, coluna);
     	}
     	
