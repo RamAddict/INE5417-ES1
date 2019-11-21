@@ -237,7 +237,7 @@ public class InterfaceJogo {
 	}
     
     
-    public void changeCounter(Casa gb, /*ActionEvent e,*/ int linha, int coluna) {
+    public void changeCounter(Casa gb, int linha, int coluna) {
         boolean isSplash = false;
         String clicks = gb.getText();
         //System.out.println(clicks);
@@ -325,25 +325,25 @@ public class InterfaceJogo {
     
     public void splashFill(int linha, int coluna) {
     	if(linha >= 1) {
-    		JButton cima = getBotaoClicado(linha-1, coluna);
+    		JButton cima = this.tabuleiro.getCasa(coluna, linha-1);
     		cima.doClick();
     		//changeCounter((Casa)cima, linha, coluna);
     	}
     	
     	if(linha < N-1) {
-    		JButton baixo = getBotaoClicado(linha+1, coluna);
+    		JButton baixo = this.tabuleiro.getCasa(coluna, linha+1);
     		baixo.doClick();
     		//changeCounter((Casa)baixo, linha, coluna);
     	}
     	
     	if(coluna >= 1) {
-    		JButton esquerda = getBotaoClicado(linha, coluna-1);
+    		JButton esquerda = this.tabuleiro.getCasa(coluna-1, linha);
     		esquerda.doClick();
     		//changeCounter((Casa)esquerda, linha, coluna);
     	}
     	
     	if(coluna < N-1) {
-    		JButton direita = getBotaoClicado(linha, coluna+1);
+    		JButton direita = this.tabuleiro.getCasa(coluna+1, linha);
     		direita.doClick();
     		//changeCounter((Casa)direita, linha, coluna);
     	}
@@ -360,7 +360,7 @@ public class InterfaceJogo {
     public void atualizarTabuleiro(Move move) {
     	System.out.println("Atualizar tabuleiro");
     	List<Casa> botoes = move.getBotoes();
-    	List<Casa> lista = getTabuleiro().getCasas();
+    	List<Casa> lista = this.tabuleiro.getCasas();
     	for(int i = 0; i < botoes.size(); i++) {
     		if(!botoes.get(i).getText().equals(this.tabuleiro.getCasas().get(i).getText())) {
     			System.out.println(" 1 ->"+this.tabuleiro.getCasas().get(i).getText());

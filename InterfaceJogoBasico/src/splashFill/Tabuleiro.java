@@ -128,7 +128,7 @@ public class Tabuleiro{
 	}
 	
 	public List<Casa> getCasas() {
-		return casas;
+		return this.casas;
 	}
 
 	public void setCasas(List<Casa> casas) {
