@@ -241,6 +241,30 @@ public class InterfaceJogo {
 		}
       
 	}
+	
+	public void clickSplash(int linha, int coluna) {
+		if(!this.tabuleiro.conectado) { //TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
+			Casa casa = tabuleiro.getCasa(coluna, linha);
+			changeCounter(casa, linha, coluna);
+		} else {
+			Casa casa = tabuleiro.getCasa(coluna, linha);
+			if(tabuleiro.getJogador1().isTurn()) {
+				/* Check if move is valid */
+				boolean jogadaValida = this.tabuleiro.checaJogada(casa);
+			      if(jogadaValida) {
+			      	changeCounter(casa, linha, coluna);
+			      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
+			      } else {
+			      	rightTextArea.setText("Jogada Inválida!");
+			      }
+			      
+			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
+			} else {
+				atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
+			}
+		}
+      
+	}
     
     
     public void changeCounter(Casa gb, int linha, int coluna) {
@@ -333,28 +357,32 @@ public class InterfaceJogo {
     	if(linha >= 1) {
     		JButton cima = this.tabuleiro.getCasa(coluna, linha-1);
     		cima.setBackground(this.tabuleiro.getJogador1().getColor());
-    		cima.doClick();
+    		//cima.doClick();
+    		clickSplash(coluna, linha-1);
     		//changeCounter((Casa)cima, linha, coluna);
     	}
     	
     	if(linha < N-1) {
     		JButton baixo = this.tabuleiro.getCasa(coluna, linha+1);
     		baixo.setBackground(this.tabuleiro.getJogador1().getColor());
-    		baixo.doClick();
+    		//baixo.doClick();
+    		clickSplash(coluna, linha+1);
     		//changeCounter((Casa)baixo, linha, coluna);
     	}
     	
     	if(coluna >= 1) {
     		JButton esquerda = this.tabuleiro.getCasa(coluna-1, linha);
     		esquerda.setBackground(this.tabuleiro.getJogador1().getColor());
-    		esquerda.doClick();
+    		//esquerda.doClick();
+    		clickSplash(coluna-1, linha);
     		//changeCounter((Casa)esquerda, linha, coluna);
     	}
     	
     	if(coluna < N-1) {
     		JButton direita = this.tabuleiro.getCasa(coluna+1, linha);
     		direita.setBackground(this.tabuleiro.getJogador1().getColor());
-    		direita.doClick();
+    		//direita.doClick();
+    		clickSplash(coluna+1, linha);
     		//changeCounter((Casa)direita, linha, coluna);
     	}
     }
@@ -370,7 +398,7 @@ public class InterfaceJogo {
     public void atualizarTabuleiro(Move move) {
     	System.out.println("Atualizar tabuleiro");
     	List<Casa> botoes = move.getBotoes();
-    	List<Casa> lista = this.tabuleiro.getCasas();
+    	//List<Casa> lista = this.tabuleiro.getCasas();
     	for(int i = 0; i < botoes.size(); i++) {
     		if(!botoes.get(i).getText().equals(this.tabuleiro.getCasas().get(i).getText())) {
     			System.out.println(" 1 ->"+this.tabuleiro.getCasas().get(i).getText());

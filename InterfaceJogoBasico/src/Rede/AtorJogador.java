@@ -66,7 +66,6 @@ public class AtorJogador {
 		
 		switch(permitido) {
 		case 0:
-			
 			mensagem = this.atorRede.iniciarPartida();
 			break;
 		
@@ -93,11 +92,6 @@ public class AtorJogador {
 	}
 	
 	public void receberJogada(Move move) {
-		
-		System.out.println("chegou em AtorJogador.receberJogada");
-//		for(int i = 0; i < move.getBotoes().size(); i++) {
-//			System.out.println("linha: "+move.getBotoes().get(i).getLinha() + " - coluna: "+move.getBotoes().get(i).getColuna());
-//		}
 		this.interfaceJogo.getTabuleiro().getJogador1().setTurn(true);
 		this.interfaceJogo.getTabuleiro().getJogador2().setTurn(false);
 		this.interfaceJogo.atualizarTabuleiro(move);
