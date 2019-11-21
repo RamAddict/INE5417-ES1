@@ -10,23 +10,21 @@ import splashFill.Tabuleiro;
 public class AtorJogador {
 	
 	protected AtorRede atorRede;
-	protected Tabuleiro tabuleiro;
 	protected int idUser;
 	protected InterfaceJogo interfaceJogo;
 
 	public AtorJogador(InterfaceJogo interfaceJogo) {
 		atorRede = new AtorRede(this);
-		tabuleiro = new Tabuleiro();
 		this.interfaceJogo = interfaceJogo;
 	}
 
 	public String conectar(String string, String string2) {
 		String mensagem = "Você já está conectado!";
-		boolean permitido = tabuleiro.permitidoConectar();
+		boolean permitido = this.interfaceJogo.getTabuleiro().permitidoConectar();
 		if (permitido) {
 			mensagem = this.atorRede.conectar(string, string2);
 			if (mensagem.equals("Sucesso: conectado a Netgames Server")) {
-				tabuleiro.definirConectado(true);
+				this.interfaceJogo.getTabuleiro().definirConectado(true);
 			}
 		}
 		return mensagem;
@@ -34,13 +32,13 @@ public class AtorJogador {
 	
 	public String desconectar() {
 		String mensagem = "Você não esta conectado ou a partida esta em andamento.";
-		int permitido = tabuleiro.permitidoDesconectar();
+		int permitido = this.interfaceJogo.getTabuleiro().permitidoDesconectar();
 		switch(permitido) {
 		case 0:
 			mensagem = this.atorRede.desconectar();
 			if (mensagem.equals("Sucesso: desconectado de Netgames Server")) {
-				tabuleiro.definirConectado(false);
-				tabuleiro.definirPartidaAndamento(false);
+				this.interfaceJogo.getTabuleiro().definirConectado(false);
+				this.interfaceJogo.getTabuleiro().definirPartidaAndamento(false);
 			}
 			
 			break;
@@ -62,13 +60,12 @@ public class AtorJogador {
 	
 	public String iniciarPartida() {
 		String mensagem = "Nao existem dois jogadores conectados no servidor";
-		int permitido = tabuleiro.permitidoIniciarPartida();
+		int permitido = this.interfaceJogo.getTabuleiro().permitidoIniciarPartida();
 		
 		switch(permitido) {
 		case 0:
 			
 			mensagem = this.atorRede.iniciarPartida();
-			
 			break;
 		
 		case 1:
@@ -96,29 +93,30 @@ public class AtorJogador {
 	public void receberJogada(Move move) {
 		
 		System.out.println("chegou em AtorJogador.receberJogada");
-		for(int i = 0; i < move.getBotoes().size(); i++) {
-			System.out.println("linha: "+move.getBotoes().get(i).getLinha() + " - coluna: "+move.getBotoes().get(i).getColuna());
-		}
-		
+//		for(int i = 0; i < move.getBotoes().size(); i++) {
+//			System.out.println("linha: "+move.getBotoes().get(i).getLinha() + " - coluna: "+move.getBotoes().get(i).getColuna());
+//		}
+		this.interfaceJogo.getTabuleiro().getJogador1().setTurn(true);
+		this.interfaceJogo.getTabuleiro().getJogador2().setTurn(false);
 		this.interfaceJogo.atualizarTabuleiro(move);
 	}
 	
 	public void tratarIniciarPartida(Integer posicao) {
-		this.tabuleiro.definirPartidaAndamento(true);
+		this.interfaceJogo.getTabuleiro().definirPartidaAndamento(true);
 		this.interfaceJogo.atualizarConsole("JOGO INICIADO");
 		
 	}
 	
 	public void tratarConexaoPerdida() {
 		// mostra erro no console do jogo
-		this.tabuleiro.definirConectado(false);
+		this.interfaceJogo.getTabuleiro().definirConectado(false);
 		this.interfaceJogo.atualizarConsole("Conexão perdida! :( ");
 		//System.exit(0);
 	}
 	
 	public void finalizarPartidaComErro() {
 		// mostra erro no console do jogo
-		this.tabuleiro.definirPartidaAndamento(false);
+		this.interfaceJogo.getTabuleiro().definirPartidaAndamento(false);
 		this.interfaceJogo.atualizarConsole("O adversário foi desconectado :( ");
 		
 		//System.exit(0);

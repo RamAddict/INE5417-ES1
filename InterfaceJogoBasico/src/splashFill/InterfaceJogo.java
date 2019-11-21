@@ -42,7 +42,7 @@ public class InterfaceJogo {
 	private final Action action_1 = new SwingAction_1();
 	private final Action action_2 = new SwingAction_2();
 	private AtorJogador atorJogador = new AtorJogador(this);
-	private Jogador jogador = new Jogador();
+//	private Jogador jogador = new Jogador();
 	
 	private static final int N = 6;    
 
@@ -61,7 +61,6 @@ public class InterfaceJogo {
     	String servidor = info.get(0);
     	String jogador = info.get(1);
 		String mensagem = atorJogador.conectar(servidor, jogador);
-		
 		notificarResultado(mensagem);
 		this.atualizarConsole(mensagem);
     }
@@ -72,6 +71,8 @@ public class InterfaceJogo {
     	//String jogador = JOptionPane.showInputDialog("Qual seu nome?");
     	String servidor = "localhost";
     	String jogador = "suaMae";
+    	
+    	tabuleiro.criarJogador(jogador);
     	info.add(servidor);
     	info.add(jogador);
     	return info;
@@ -99,9 +100,10 @@ public class InterfaceJogo {
      */
     public void iniciarPartida() {
         String mensagem = atorJogador.iniciarPartida();
+        
         if(mensagem.equals("Sucesso: solicitacao de inicio enviada a Netgames Server")) {
-        	this.jogador.setTurn(true);
-        	//this.tabuleiro.setTurno(this.jogador);
+//        	this.jogador.setTurn(true);
+        	this.tabuleiro.getJogador1().setTurn(true);
         }
         notificarResultado(mensagem);
         this.atualizarConsole(mensagem);
@@ -125,12 +127,12 @@ public class InterfaceJogo {
 	
 	
 
-	public Jogador getJogador() {
-		return jogador;
-	}
-	public void setJogador(Jogador jogador) {
-		this.jogador = jogador;
-	}
+//	public Jogador getJogador() {
+//		return jogador;
+//	}
+//	public void setJogador(Jogador jogador) {
+//		this.jogador = jogador;
+//	}
 	public JTextArea getRightTextArea() {
 		return rightTextArea;
 	}
@@ -163,7 +165,7 @@ public class InterfaceJogo {
         frame.getContentPane().add(criaPainel());
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);		
+        frame.setVisible(true);
 	}
 	
 	
@@ -216,21 +218,18 @@ public class InterfaceJogo {
 	
 	public void click(int linha, int coluna) {
 		
-		Casa gb = getBotaoClicado(linha, coluna);
-		
-		boolean turno = this.jogador.isTurn();
-		
-		if(turno) {
+		Casa casa = tabuleiro.getCasa(coluna, linha);
+		if(tabuleiro.getJogador1().isTurn()) {
 			/* Check if move is valid */
-			boolean jogadaRealizada = this.tabuleiro.checaJogada(gb, this.jogador);
+			boolean jogadaRealizada = this.tabuleiro.checaJogada(casa);
 		      if(jogadaRealizada) {
-		      	changeCounter(gb, /*e,*/ linha, coluna);
-		      	this.tabuleiro.realizaJogada(gb, this.jogador, this.atorJogador);
+		      	changeCounter(casa, linha, coluna);
+		      	this.tabuleiro.realizaJogada(casa, this.atorJogador);
 		      } else {
 		      	rightTextArea.setText("Jogada Inválida!");
 		      }
 		      
-		      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+this.jogador.getPlays()+" movimentos.");       
+		      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
 		} else {
 			atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
 		}

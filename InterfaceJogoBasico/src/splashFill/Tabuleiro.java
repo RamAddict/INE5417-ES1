@@ -109,9 +109,9 @@ public class Tabuleiro{
 		if(jogador == null) {
 			jogador = new Jogador(name);
 			jogador.iniciarJogador();
-		} else {
-			adversario = new Jogador(name);
+			adversario = new Jogador("adversario");
 			adversario.iniciarJogador();
+			System.out.println("pnigus");
 		}
 	}
 	
@@ -229,23 +229,23 @@ public class Tabuleiro{
 		JOptionPane.showMessageDialog(null, mensagem);
 	}
 	
-	public boolean checaJogada(Casa botao, Jogador jogador) {
+	public boolean checaJogada(Casa botao) {
 //		Jogador jogador = checaJogador(player);
 //		
 //		Jogador adversario = checaAdversario(jogador);
 		
 		
 		
-		if(decrementar) {
+//		if(decrementar) {
 			/* Checks if the player still have moves to do */
-			if(jogador.getPlays() > 0) {
-				jogador.setPlays(jogador.getPlays() - 1);
-				decrementar = false;
-			} else {
-				notificarResultado("Voce nao tem mais movimentos!");
-				return false;
-			}
-		}
+//			if(jogador.getPlays() > 0) {
+//				jogador.setPlays(jogador.getPlays() - 1);
+//				decrementar = false;
+//			} else {
+//				notificarResultado("Voce nao tem mais movimentos!");
+//				return false;
+//			}
+//		}
     	
 		
 //		/* If the player still have plays left, continue checking */
@@ -259,16 +259,50 @@ public class Tabuleiro{
 //    	}
 //    	
 //    	/*TODO implementar função passaTurno*/
-//    	jogador.setTurn(false);
-//    	adversario.setTurn(true);
-
+		passaTurno();
+		System.out.println("visao especifica de interação J " + this.jogador.isTurn() + " Fichas " + this.jogador.getPlays());
+		System.out.println("visao especifica de interação A " + this.adversario.isTurn() + " Fichas " + this.adversario.getPlays());
 		/*PEGAR CASAS ADJACENTES E MUDAR CONTAGEM DELAS*/
 		
 		
 		return true;
 	}
 	
-	public void realizaJogada(Casa casa, Jogador jogador, AtorJogador atorJogador) {
+	/* Passa o turno
+	 * 
+	 */
+	public void passaTurno() {
+		int fichasJogador = jogador.getPlays();
+		System.out.println(adversario.getPlays());
+		int fichasAdversario = adversario.getPlays();
+		
+		if (fichasJogador == 0 && fichasAdversario == 0)
+		{
+			finalizarPartida(0);
+		}
+		
+		if (jogador.isTurn())
+		{
+			jogador.setTurn(false);
+			jogador.setPlays(fichasJogador-1);
+			
+			adversario.setTurn(true);
+		} else
+		{
+			jogador.setTurn(true);
+			
+			adversario.setTurn(false);
+			adversario.setPlays(fichasAdversario-1);
+		}
+	}
+	
+	public void finalizarPartida(int codigo) {
+		if (codigo == 0) {
+			JOptionPane.showInputDialog("fodeo");
+		}
+	}
+	
+	public void realizaJogada(Casa casa, AtorJogador atorJogador) {
 		//boolean jogadaRealizada = false;
 		//if(checaJogada(casa, jogador)) {
 			/* move */
