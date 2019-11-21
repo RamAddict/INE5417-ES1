@@ -1,6 +1,7 @@
 package splashFill;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 //import java.awt.Font;
@@ -104,6 +105,7 @@ public class InterfaceJogo {
         if(mensagem.equals("Sucesso: solicitacao de inicio enviada a Netgames Server")) {
 //        	this.jogador.setTurn(true);
         	this.tabuleiro.getJogador1().setTurn(true);
+        	this.tabuleiro.getJogador1().setColor(Color.RED);
         }
         notificarResultado(mensagem);
         this.atualizarConsole(mensagem);
@@ -217,21 +219,25 @@ public class InterfaceJogo {
 	
 	
 	public void click(int linha, int coluna) {
-		
-		Casa casa = tabuleiro.getCasa(coluna, linha);
-		if(tabuleiro.getJogador1().isTurn()) {
-			/* Check if move is valid */
-			boolean jogadaRealizada = this.tabuleiro.checaJogada(casa);
-		      if(jogadaRealizada) {
-		      	changeCounter(casa, linha, coluna);
-		      	this.tabuleiro.realizaJogada(casa, this.atorJogador);
-		      } else {
-		      	rightTextArea.setText("Jogada Inválida!");
-		      }
-		      
-		      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
+		if(!this.tabuleiro.conectado) { //TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
+			Casa casa = tabuleiro.getCasa(coluna, linha);
+			changeCounter(casa, linha, coluna);
 		} else {
-			atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
+			Casa casa = tabuleiro.getCasa(coluna, linha);
+			if(tabuleiro.getJogador1().isTurn()) {
+				/* Check if move is valid */
+				boolean jogadaValida = this.tabuleiro.checaJogada(casa);
+			      if(jogadaValida) {
+			      	changeCounter(casa, linha, coluna);
+			      	this.tabuleiro.realizaJogada(casa, this.atorJogador);
+			      } else {
+			      	rightTextArea.setText("Jogada Inválida!");
+			      }
+			      
+			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
+			} else {
+				atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
+			}
 		}
       
 	}
@@ -326,24 +332,28 @@ public class InterfaceJogo {
     public void splashFill(int linha, int coluna) {
     	if(linha >= 1) {
     		JButton cima = this.tabuleiro.getCasa(coluna, linha-1);
+    		cima.setBackground(this.tabuleiro.getJogador1().getColor());
     		cima.doClick();
     		//changeCounter((Casa)cima, linha, coluna);
     	}
     	
     	if(linha < N-1) {
     		JButton baixo = this.tabuleiro.getCasa(coluna, linha+1);
+    		baixo.setBackground(this.tabuleiro.getJogador1().getColor());
     		baixo.doClick();
     		//changeCounter((Casa)baixo, linha, coluna);
     	}
     	
     	if(coluna >= 1) {
     		JButton esquerda = this.tabuleiro.getCasa(coluna-1, linha);
+    		esquerda.setBackground(this.tabuleiro.getJogador1().getColor());
     		esquerda.doClick();
     		//changeCounter((Casa)esquerda, linha, coluna);
     	}
     	
     	if(coluna < N-1) {
     		JButton direita = this.tabuleiro.getCasa(coluna+1, linha);
+    		direita.setBackground(this.tabuleiro.getJogador1().getColor());
     		direita.doClick();
     		//changeCounter((Casa)direita, linha, coluna);
     	}
@@ -367,9 +377,10 @@ public class InterfaceJogo {
     			System.out.println(" 1 ->"+botoes.get(i).getText());
     			
     			this.tabuleiro.getCasas().get(i).setText(botoes.get(i).getText());
+    			this.tabuleiro.getCasas().get(i).setDono(botoes.get(i).getDono());
+    			this.tabuleiro.getCasas().get(i).setBackground(botoes.get(i).getDono().getColor());
     		}
     	}
-    	//atualizarpontos();
     }
     
     public void atualizarConsole(String message) {

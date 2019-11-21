@@ -1,5 +1,7 @@
 package splashFill;
 
+import java.awt.Color;
+
 import br.ufsc.inf.leobr.cliente.Jogada;
 
 public class Jogador implements Jogada{
@@ -11,7 +13,7 @@ public class Jogador implements Jogada{
 	
 	protected String name = "";
 	protected int plays;
-	protected String color = "";
+	protected Color color;
 	protected boolean turn;
 	protected boolean winner = false;
 	
@@ -23,6 +25,11 @@ public class Jogador implements Jogada{
 	public Jogador(String name) {
 		this.name = name;
 		this.plays = 30;
+	}
+	
+	public Jogador(Color color) {
+		this.plays = 30;
+		this.color = color;
 	}
 	
 	public void iniciarJogador() {
@@ -66,12 +73,12 @@ public class Jogador implements Jogada{
 	}
 
 
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
 
 
-	public void setColor(String color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 	

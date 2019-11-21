@@ -1,5 +1,7 @@
 package Rede;
 
+import java.awt.Color;
+
 import javax.swing.JOptionPane;
 
 import splashFill.Casa;
@@ -102,6 +104,7 @@ public class AtorJogador {
 	}
 	
 	public void tratarIniciarPartida(Integer posicao) {
+		//this.interfaceJogo.getTabuleiro().getJogador1().setColor(Color.BLUE);
 		this.interfaceJogo.getTabuleiro().definirPartidaAndamento(true);
 		this.interfaceJogo.atualizarConsole("JOGO INICIADO");
 		

@@ -1,5 +1,6 @@
 package splashFill;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,8 +18,8 @@ public class Tabuleiro{
 	private List<Casa> casas = new ArrayList<Casa>();
 	private AtorJogador atorJogador;
 	
-	private Jogador jogador;
-	private Jogador adversario;
+	private Jogador jogador; // = new Jogador(Color.RED);
+	private Jogador adversario; //  =new Jogador(Color.BLUE);
 	
 	private JPanel matriz = new JPanel(new GridLayout(6, 6, 2, 2));
 	
@@ -229,7 +230,8 @@ public class Tabuleiro{
 		JOptionPane.showMessageDialog(null, mensagem);
 	}
 	
-	public boolean checaJogada(Casa botao) {
+	public boolean checaJogada(Casa casa) {
+		boolean valida = false;
 //		Jogador jogador = checaJogador(player);
 //		
 //		Jogador adversario = checaAdversario(jogador);
@@ -258,14 +260,25 @@ public class Tabuleiro{
 //    		return false;
 //    	}
 //    	
-//    	/*TODO implementar função passaTurno*/
-		passaTurno();
+		if(casa.getDono() == null) {
+			casa.setDono(this.jogador);
+			//passaTurno();
+			casa.setBackground(this.jogador.getColor());
+			valida = true;
+		} else if(casa.getDono() == this.jogador) {
+			//passaTurno();
+			valida = true;
+		} else { //casa pertence ao outro jogador
+			JOptionPane.showMessageDialog(null, "Essa casa não te pertence, escolha outra!");
+		}
+    	/*TODO implementar função passaTurno*/
+		//passaTurno();
 		System.out.println("visao especifica de interação J " + this.jogador.isTurn() + " Fichas " + this.jogador.getPlays());
 		System.out.println("visao especifica de interação A " + this.adversario.isTurn() + " Fichas " + this.adversario.getPlays());
 		/*PEGAR CASAS ADJACENTES E MUDAR CONTAGEM DELAS*/
 		
 		
-		return true;
+		return valida;
 	}
 	
 	/* Passa o turno
@@ -312,6 +325,8 @@ public class Tabuleiro{
 	      	Move move = new Move(this.getCasas());
 			
 	      	atorJogador.enviarJogada(move);
+	      	
+	      	passaTurno();
 			
 			//jogadaRealizada = true;
 		//} else {

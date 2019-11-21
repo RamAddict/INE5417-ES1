@@ -1,5 +1,7 @@
 package Rede;
 
+import java.awt.Color;
+
 import javax.swing.JOptionPane;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
@@ -77,6 +79,12 @@ public class AtorRede implements OuvidorProxy {
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
 		this.atorJogador.tratarIniciarPartida(posicao);
+		if(posicao == 1) {
+			this.atorJogador.interfaceJogo.getTabuleiro().getJogador1().setColor(Color.RED);
+		} else { //posicao == 2
+			this.atorJogador.interfaceJogo.getTabuleiro().getJogador1().setColor(Color.BLUE);
+		}
+		
 		//proxy.iniciarNovaPartida(posicao);
 	}
 
