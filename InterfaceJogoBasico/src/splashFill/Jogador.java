@@ -16,6 +16,7 @@ public class Jogador implements Jogada{
 	protected Color color;
 	protected boolean turn;
 	protected boolean winner = false;
+	protected int id;
 	
 	public Jogador() {
 		this.plays = 30;
@@ -80,6 +81,16 @@ public class Jogador implements Jogada{
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

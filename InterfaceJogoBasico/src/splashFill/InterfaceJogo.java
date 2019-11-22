@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.retrogui.messageserver.common.SysUtils;
+
 import Rede.AtorJogador;
 import Rede.Move;
 
@@ -42,7 +44,7 @@ public class InterfaceJogo {
 	private final Action action = new SwingAction();
 	private final Action action_1 = new SwingAction_1();
 	private final Action action_2 = new SwingAction_2();
-	private AtorJogador atorJogador = new AtorJogador(this);
+	private AtorJogador atorJogador;
 //	private Jogador jogador = new Jogador();
 	
 	private static final int N = 6;    
@@ -61,6 +63,7 @@ public class InterfaceJogo {
     	List<String> info = obterServidorEJogador();
     	String servidor = info.get(0);
     	String jogador = info.get(1);
+    	this.atorJogador = new AtorJogador(this);
 		String mensagem = atorJogador.conectar(servidor, jogador);
 		notificarResultado(mensagem);
 		this.atualizarConsole(mensagem);
@@ -219,7 +222,9 @@ public class InterfaceJogo {
 	
 	
 	public void click(int linha, int coluna) {
-		if(!this.tabuleiro.conectado) { //TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
+		//TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
+		
+		if(!this.tabuleiro.conectado) {
 			Casa casa = tabuleiro.getCasa(coluna, linha); // delet this if
 			changeCounter(casa, linha, coluna);
 		} else {
@@ -245,6 +250,28 @@ public class InterfaceJogo {
 	}
 	
 	public void clickSplash(int linha, int coluna) {
+//		if(!this.tabuleiro.conectado) { //TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
+//			Casa casa = tabuleiro.getCasa(coluna, linha);
+//			changeCounter(casa, linha, coluna);
+//		} else {
+//			Casa casa = tabuleiro.getCasa(coluna, linha);
+//			if(tabuleiro.getJogador1().isTurn()) {
+//				/* Check if move is valid */
+//				boolean jogadaValida = this.tabuleiro.checaJogada(casa);
+//			      if(jogadaValida) {
+//			      	changeCounter(casa, linha, coluna);
+//			      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
+//			      } else {
+//			      	rightTextArea.setText("Jogada Inválida!");
+//			      }
+//
+//			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
+//			} else {
+//				atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
+//			}
+//		}
+		
+		
 		Casa casa = tabuleiro.getCasa(coluna, linha);
       	changeCounter(casa, linha, coluna);
 	      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
@@ -331,11 +358,13 @@ public class InterfaceJogo {
         }
         
         gb.setText(nextclickcount);
+        //gb.setFichas(Integer.parseInt(nextclickcount));
         
         if(isSplash) {
         	splashFill(linha, coluna);
         	Casa casa = this.tabuleiro.getCasa(coluna, linha);
         	casa.setBackground(null);
+        	casa.setDono(null);
         }
     }
     
@@ -343,16 +372,20 @@ public class InterfaceJogo {
     	if(linha >= 1) {
     		JButton cima = this.tabuleiro.getCasa(coluna, linha-1);
     		cima.setBackground(this.tabuleiro.getJogador1().getColor());
+    		System.out.println("em cima de clicksplash cima");
     		//cima.doClick();
     		clickSplash(linha-1,coluna);
     		//changeCounter((Casa)cima, linha, coluna);
+    		System.out.println("em baixo de clicksplash cima");
     	} 
     	
     	if(linha < N-1) {
     		JButton baixo = this.tabuleiro.getCasa(coluna, linha+1);
     		baixo.setBackground(this.tabuleiro.getJogador1().getColor());
     		//baixo.doClick();
+    		System.out.println("em cima de clicksplash baixo");
     		clickSplash(linha+1, coluna);
+    		System.out.println("em baixo de clicksplash baixo");
     		//changeCounter((Casa)baixo, linha, coluna);
     	} 
     	
@@ -381,26 +414,28 @@ public class InterfaceJogo {
 //        return this.tabuleiro.getCasas().get(index);
 //    }
     
+    
+    public boolean isDiferente(Casa essa, Casa outra) {
+    	boolean diferente = false;
+    	
+    	return diferente;
+    }
+    
     public void atualizarTabuleiro(Move move) {
-    	System.out.println("Atualizar tabuleiro");
     	ArrayList<Casa> botoes = move.getBotoes();
-    	System.out.println("size do move em atualizar" + botoes.size());
-    	//List<Casa> lista = this.tabuleiro.getCasas();
-    	for(Casa botao : botoes) {
-    		if (botao.getDono() != null) {
-	    		System.out.println("nu" + botao.getLinha() + botao.getColuna());
-	    		int idx = botao.getLinha()*6 + botao.getColuna();
-				System.out.println("botao " + idx + " este Tabuleiro ->"+this.tabuleiro.getCasas().get(idx).getText() + 
-						" Tabuleiro Remoto ->" + botao.getText());
-				
-				this.tabuleiro.getCasas().get(idx).setText(botao.getText());
-//				this.tabuleiro.getCasas().get(idx).setDono(botao.getDono());
-				
-				Color c = botao.getDono().getColor(); //isso nao funciona, possivelmente porque o jogador nao ta instanciado na casa por isso o if
-				this.tabuleiro.getCasas().get(idx).setBackground(c);
+    	
+    	for(int i = 0; i < botoes.size(); i++) {
+    		Casa botao = this.tabuleiro.getCasas().get(i);
+    		Casa botao2 = botoes.get(i);
+    		
+    		if(botao.getDonoID() != botao2.getDonoID()) {
+    			botao.setDonoID(botao2.getDonoID());
+    			botao.setBackground(botao2.getDono().getColor());
+    			botao.setText(botao2.getText());
     		}
-		}
-    	System.out.println("Eu sai desse atualizar podre");
+    	}
+    	
+    	//System.out.println("Eu sai desse atualizar podre");
     }
     
     public void atualizarConsole(String message) {

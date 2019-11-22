@@ -112,7 +112,6 @@ public class Tabuleiro{
 			jogador.iniciarJogador();
 			adversario = new Jogador("adversario");
 			adversario.iniciarJogador();
-			System.out.println("pnigus");
 		}
 	}
 	
@@ -260,12 +259,13 @@ public class Tabuleiro{
 //    		return false;
 //    	}
 //    	
-		if(casa.getDono() == null) {
+		if(casa.getDonoID() == 0) {
+			casa.setDonoID(this.jogador.getId());
 			casa.setDono(this.jogador);
 			//passaTurno();
 			casa.setBackground(this.jogador.getColor());
 			valida = true;
-		} else if(casa.getDono() == this.jogador) {
+		} else if(casa.getDonoID() == this.jogador.getId()) {
 			//passaTurno();
 			valida = true;
 		} else { //casa pertence ao outro jogador
@@ -273,8 +273,8 @@ public class Tabuleiro{
 		}
     	/*TODO implementar função passaTurno*/
 		//passaTurno();
-		System.out.println("visao especifica de interação J " + this.jogador.isTurn() + " Fichas " + this.jogador.getPlays());
-		System.out.println("visao especifica de interação A " + this.adversario.isTurn() + " Fichas " + this.adversario.getPlays());
+		//System.out.println("visao especifica de interação J " + this.jogador.isTurn() + " Fichas " + this.jogador.getPlays());
+		//System.out.println("visao especifica de interação A " + this.adversario.isTurn() + " Fichas " + this.adversario.getPlays());
 		/*PEGAR CASAS ADJACENTES E MUDAR CONTAGEM DELAS*/
 		
 		
@@ -286,7 +286,7 @@ public class Tabuleiro{
 	 */
 	public void passaTurno() {
 		int fichasJogador = jogador.getPlays();
-		System.out.println(adversario.getPlays());
+		//System.out.println(adversario.getPlays());
 		int fichasAdversario = adversario.getPlays();
 		
 		if (fichasJogador == 0 && fichasAdversario == 0)
@@ -323,16 +323,16 @@ public class Tabuleiro{
 	    	
 			//this.getCasas().set(casa.getLinha()*6 + casa.getColuna(), casa);
 	      	Move move = new Move();
-			System.out.println(this.getCasas().size());
+			//System.out.println(this.getCasas().size());
 			ArrayList<Casa> casas_movimento = new ArrayList<Casa>();
 
-			System.out.println("casas Moviemnto antes" + casas_movimento.size());
+			//System.out.println("casas Moviemnto antes" + casas_movimento.size());
 			for (Casa c : this.getCasas()) {
 				casas_movimento.add(c);
-				System.out.println("REALIZA JOGADA col, linha" + c.getColuna() + "," + c.getLinha());
+				//System.out.println("REALIZA JOGADA col, linha" + c.getColuna() + "," + c.getLinha());
 			}
 			move.setBotoes(casas_movimento);
-			System.out.println("casas Moviemnto depois " + casas_movimento.size());
+			//System.out.println("casas Moviemnto depois " + casas_movimento.size());
 	      	atorJogador.enviarJogada(move);
 	      	
 	      	passaTurno();

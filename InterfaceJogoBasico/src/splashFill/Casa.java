@@ -21,10 +21,13 @@ public class Casa extends JButton implements Jogada{
 	
 	private Jogador dono;
 	
+	private int donoID;
+	
 	public Casa() {
 		super();
 		Font f = new Font("serif", Font.PLAIN, 40);
 		this.setFont(f);
+		this.donoID = 0;
 	}
 	
 	public Casa(int linha, int coluna) {
@@ -36,6 +39,7 @@ public class Casa extends JButton implements Jogada{
 		this.linha = linha;
 		this.coluna = coluna;
 		this.fichas = 0;
+		this.donoID = 0;
 	}
 	
 	public Casa(int id, String color, JButton botao, int linha, int coluna) {
@@ -47,6 +51,7 @@ public class Casa extends JButton implements Jogada{
 		this.linha = linha;
 		this.coluna = coluna;
 		this.fichas = 0;
+		this.donoID = 0;
 	}
 
 	
@@ -108,6 +113,14 @@ public class Casa extends JButton implements Jogada{
 		this.fichas = fichas;
 	}
 
+	public int getDonoID() {
+		return donoID;
+	}
+
+	public void setDonoID(int donoID) {
+		this.donoID = donoID;
+	}
+
 	public Jogador getDono() {
 		return dono;
 	}
@@ -115,6 +128,7 @@ public class Casa extends JButton implements Jogada{
 	public void setDono(Jogador dono) {
 		this.dono = dono;
 	}
+	
 	
 	
 	
