@@ -30,6 +30,8 @@ public class Casa extends JButton implements Jogada{
 	public Casa(int linha, int coluna) {
 		super();
 		this.botao = new JButton("");
+		Font f = new Font("serif", Font.PLAIN, 40);
+		this.setFont(f);
 		this.player = "";
 		this.linha = linha;
 		this.coluna = coluna;
