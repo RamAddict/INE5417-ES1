@@ -14,19 +14,29 @@ public class Move implements Jogada {
 	private static final long serialVersionUID = 8319270686294033589L;
 	
 	
-	List<Casa> botoes = new ArrayList<Casa>();
-
-	public Move(List<Casa> casas) {
+	ArrayList<Casa> botoes;/* = new ArrayList<Casa>(); */
+	
+	public Move() {
+		botoes = new ArrayList<Casa>();
+	}
+	
+	public Move(ArrayList<Casa> casas) {
 		super();
 		this.botoes = casas;
 	}
+	
+//	public Move(Casa casa) {
+//		
+//	}
 
-	public List<Casa> getBotoes() {
+	public ArrayList<Casa> getBotoes() {
 		return botoes;
 	}
 
-	public void setBotoes(List<Casa> botoes) {
-		this.botoes = botoes;
+	public void setBotoes(ArrayList<Casa> botoes) {
+		for (Casa c : botoes) {
+			this.botoes.add(c);
+		}
 	}
 	
 	

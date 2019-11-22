@@ -220,10 +220,12 @@ public class InterfaceJogo {
 	
 	public void click(int linha, int coluna) {
 		if(!this.tabuleiro.conectado) { //TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
-			Casa casa = tabuleiro.getCasa(coluna, linha);
+			Casa casa = tabuleiro.getCasa(coluna, linha); // delet this if
 			changeCounter(casa, linha, coluna);
 		} else {
 			Casa casa = tabuleiro.getCasa(coluna, linha);
+			if (casa.getFichas() == -1)
+				JOptionPane.showMessageDialog(null, "CASA PODRE");
 			if(tabuleiro.getJogador1().isTurn()) {
 				/* Check if move is valid */
 				boolean jogadaValida = this.tabuleiro.checaJogada(casa);
@@ -243,27 +245,9 @@ public class InterfaceJogo {
 	}
 	
 	public void clickSplash(int linha, int coluna) {
-		if(!this.tabuleiro.conectado) { //TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
-			Casa casa = tabuleiro.getCasa(coluna, linha);
-			changeCounter(casa, linha, coluna);
-		} else {
-			Casa casa = tabuleiro.getCasa(coluna, linha);
-			if(tabuleiro.getJogador1().isTurn()) {
-				/* Check if move is valid */
-				boolean jogadaValida = this.tabuleiro.checaJogada(casa);
-			      if(jogadaValida) {
-			      	changeCounter(casa, linha, coluna);
-			      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
-			      } else {
-			      	rightTextArea.setText("Jogada Inválida!");
-			      }
-			      
-			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
-			} else {
-				atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
-			}
-		}
-      
+		Casa casa = tabuleiro.getCasa(coluna, linha);
+      	changeCounter(casa, linha, coluna);
+	      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
 	}
     
     
@@ -307,7 +291,7 @@ public class InterfaceJogo {
                 }
         		
         	}
-        } else if(coluna == 0 || coluna == N-1 &&(linha != 0 && linha != N-1)) {
+        } else if(coluna == 0 || coluna == N-1 && (linha != 0 && linha != N-1)) {
         	switch(clicks) {
             case "1":
             	nextclickcount = "2";
@@ -350,6 +334,8 @@ public class InterfaceJogo {
         
         if(isSplash) {
         	splashFill(linha, coluna);
+        	Casa casa = this.tabuleiro.getCasa(coluna, linha);
+        	casa.setBackground(null);
         }
     }
     
@@ -358,57 +344,63 @@ public class InterfaceJogo {
     		JButton cima = this.tabuleiro.getCasa(coluna, linha-1);
     		cima.setBackground(this.tabuleiro.getJogador1().getColor());
     		//cima.doClick();
-    		clickSplash(coluna, linha-1);
+    		clickSplash(linha-1,coluna);
     		//changeCounter((Casa)cima, linha, coluna);
-    	}
+    	} 
     	
     	if(linha < N-1) {
     		JButton baixo = this.tabuleiro.getCasa(coluna, linha+1);
     		baixo.setBackground(this.tabuleiro.getJogador1().getColor());
     		//baixo.doClick();
-    		clickSplash(coluna, linha+1);
+    		clickSplash(linha+1, coluna);
     		//changeCounter((Casa)baixo, linha, coluna);
-    	}
+    	} 
     	
     	if(coluna >= 1) {
     		JButton esquerda = this.tabuleiro.getCasa(coluna-1, linha);
     		esquerda.setBackground(this.tabuleiro.getJogador1().getColor());
     		//esquerda.doClick();
-    		clickSplash(coluna-1, linha);
+    		clickSplash(linha, coluna-1);
     		//changeCounter((Casa)esquerda, linha, coluna);
-    	}
+    	} 
     	
     	if(coluna < N-1) {
     		JButton direita = this.tabuleiro.getCasa(coluna+1, linha);
     		direita.setBackground(this.tabuleiro.getJogador1().getColor());
     		//direita.doClick();
-    		clickSplash(coluna+1, linha);
+    		clickSplash(linha, coluna+1);
     		//changeCounter((Casa)direita, linha, coluna);
     	}
     }
     
     
-    public Casa getBotaoClicado(int r, int c) {
-        int index = r * N + c;
-        //System.out.println("r: "+r+" / c: "+c+" / index: "+index);
-        
-        return this.tabuleiro.getCasas().get(index);
-    }
+//    public Casa getBotaoClicado(int r, int c) {
+//        int index = r * N + c;
+//        //System.out.println("r: "+r+" / c: "+c+" / index: "+index);
+//        
+//        return this.tabuleiro.getCasas().get(index);
+//    }
     
     public void atualizarTabuleiro(Move move) {
     	System.out.println("Atualizar tabuleiro");
-    	List<Casa> botoes = move.getBotoes();
+    	ArrayList<Casa> botoes = move.getBotoes();
+    	System.out.println("size do move em atualizar" + botoes.size());
     	//List<Casa> lista = this.tabuleiro.getCasas();
-    	for(int i = 0; i < botoes.size(); i++) {
-    		if(!botoes.get(i).getText().equals(this.tabuleiro.getCasas().get(i).getText())) {
-    			System.out.println(" 1 ->"+this.tabuleiro.getCasas().get(i).getText());
-    			System.out.println(" 1 ->"+botoes.get(i).getText());
-    			
-    			this.tabuleiro.getCasas().get(i).setText(botoes.get(i).getText());
-    			this.tabuleiro.getCasas().get(i).setDono(botoes.get(i).getDono());
-    			this.tabuleiro.getCasas().get(i).setBackground(botoes.get(i).getDono().getColor());
+    	for(Casa botao : botoes) {
+    		if (botao.getDono() != null) {
+	    		System.out.println("nu" + botao.getLinha() + botao.getColuna());
+	    		int idx = botao.getLinha()*6 + botao.getColuna();
+				System.out.println("botao " + idx + " este Tabuleiro ->"+this.tabuleiro.getCasas().get(idx).getText() + 
+						" Tabuleiro Remoto ->" + botao.getText());
+				
+				this.tabuleiro.getCasas().get(idx).setText(botao.getText());
+//				this.tabuleiro.getCasas().get(idx).setDono(botao.getDono());
+				
+				Color c = botao.getDono().getColor(); //isso nao funciona, possivelmente porque o jogador nao ta instanciado na casa por isso o if
+				this.tabuleiro.getCasas().get(idx).setBackground(c);
     		}
-    	}
+		}
+    	System.out.println("Eu sai desse atualizar podre");
     }
     
     public void atualizarConsole(String message) {
@@ -419,9 +411,9 @@ public class InterfaceJogo {
     private JPanel criaMatriz() {
         this.panelMatriz = new JPanel(new GridLayout(N, N, 2, 2));
         for (int i = 0; i < N * N; i++) {
-            int row = i / N;
+            int row = i / N; //
             int col = i % N;
-            //Casa gb = createButton(row, col);
+//            Casa gb = createButton(row, col);
             Casa gb = this.tabuleiro.createButton(row, col, this);
             
             this.panelMatriz.add(gb);

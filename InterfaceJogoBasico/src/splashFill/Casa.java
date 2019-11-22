@@ -1,5 +1,7 @@
 package splashFill;
 
+import java.awt.Font;
+
 import javax.swing.JButton;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
@@ -21,9 +23,11 @@ public class Casa extends JButton implements Jogada{
 	
 	public Casa() {
 		super();
+		Font f = new Font("serif", Font.PLAIN, 40);
+		this.setFont(f);
 	}
 	
-	public Casa(String nome, int linha, int coluna) {
+	public Casa(int linha, int coluna) {
 		super();
 		this.botao = new JButton("");
 		this.player = "";

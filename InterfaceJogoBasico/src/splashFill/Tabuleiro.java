@@ -15,13 +15,13 @@ import Rede.AtorJogador;
 import Rede.Move;
 
 public class Tabuleiro{
-	private List<Casa> casas = new ArrayList<Casa>();
+	private ArrayList<Casa> casas = new ArrayList<Casa>();
 	private AtorJogador atorJogador;
 	
 	private Jogador jogador; // = new Jogador(Color.RED);
 	private Jogador adversario; //  =new Jogador(Color.BLUE);
 	
-	private JPanel matriz = new JPanel(new GridLayout(6, 6, 2, 2));
+//	private JPanel matriz = new JPanel(new GridLayout(6, 6, 2, 2));
 	
 	
 	protected boolean conectado = false;
@@ -35,7 +35,7 @@ public class Tabuleiro{
 		
 	}
 	
-	public Tabuleiro(List<Casa> casas) {
+	public Tabuleiro(ArrayList<Casa> casas) {
 		this.casas = casas;
 	}
 
@@ -124,15 +124,15 @@ public class Tabuleiro{
 //		}
 //	}
 	
-	public void limparTabuleiro(InterfaceJogo interJogo) {
-		this.criaMatriz(interJogo);
-	}
+//	public void limparTabuleiro(InterfaceJogo interJogo) {
+//		this.criaMatriz(interJogo);
+//	}
 	
-	public List<Casa> getCasas() {
+	public ArrayList<Casa> getCasas() {
 		return this.casas;
 	}
 
-	public void setCasas(List<Casa> casas) {
+	public void setCasas(ArrayList<Casa> casas) {
 		this.casas = casas;
 	}
 
@@ -163,27 +163,27 @@ public class Tabuleiro{
 	}
 	
 
-	public JPanel getMatriz() {
-		return matriz;
-	}
+//	public JPanel getMatriz() {
+//		return matriz;
+//	}
 
-	public void setMatriz(JPanel matriz) {
-		this.matriz = matriz;
-	}
+//	public void setMatriz(JPanel matriz) {
+//		this.matriz = matriz;
+//	}
 
-	public void criaMatriz(InterfaceJogo interJogo) {
-        for (int i = 0; i < 36; i++) {
-            int row = i / 6;
-            int col = i % 6;
-            Casa gb = createButton(row, col, interJogo);
-            casas.add(gb);
-            this.matriz.add(gb);
-        }
-    }
-	
+//	public void criaMatriz(InterfaceJogo interJogo) {
+//        for (int i = 0; i < 36; i++) {
+//            int row = i / 6;
+//            int col = i % 6;
+//            Casa gb = createButton(row, col, interJogo);
+////            casas.add(gb);
+//            this.matriz.add(gb);
+//        }
+//    }
+//	
 	public Casa createButton(int linha, int coluna, InterfaceJogo interJogo) {
         //final JButton b = new JButton("");
-    	final Casa b = new Casa();
+    	final Casa b = new Casa(linha, coluna);
         
         b.setPreferredSize(new Dimension(80, 80));
 
@@ -322,8 +322,17 @@ public class Tabuleiro{
 	      	//changeCounter(gb, e, linha, coluna);
 	    	
 			//this.getCasas().set(casa.getLinha()*6 + casa.getColuna(), casa);
-	      	Move move = new Move(this.getCasas());
-			
+	      	Move move = new Move();
+			System.out.println(this.getCasas().size());
+			ArrayList<Casa> casas_movimento = new ArrayList<Casa>();
+
+			System.out.println("casas Moviemnto antes" + casas_movimento.size());
+			for (Casa c : this.getCasas()) {
+				casas_movimento.add(c);
+				System.out.println("REALIZA JOGADA col, linha" + c.getColuna() + "," + c.getLinha());
+			}
+			move.setBotoes(casas_movimento);
+			System.out.println("casas Moviemnto depois " + casas_movimento.size());
 	      	atorJogador.enviarJogada(move);
 	      	
 	      	passaTurno();
@@ -348,5 +357,6 @@ public class Tabuleiro{
 		
 		return casa;
 	}
+	
 	
 }
