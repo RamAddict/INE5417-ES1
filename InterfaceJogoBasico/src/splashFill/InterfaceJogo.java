@@ -223,11 +223,7 @@ public class InterfaceJogo {
 	
 	public void click(int linha, int coluna) {
 		//TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
-		
-		if(!this.tabuleiro.conectado) {
-			Casa casa = tabuleiro.getCasa(coluna, linha); // delet this if
-			changeCounter(casa, linha, coluna);
-		} else {
+		if(this.tabuleiro.conectado) {
 			Casa casa = tabuleiro.getCasa(coluna, linha);
 			if (casa.getFichas() == -1)
 				JOptionPane.showMessageDialog(null, "CASA PODRE");
@@ -241,10 +237,15 @@ public class InterfaceJogo {
 			      	rightTextArea.setText("Jogada Inválida!");
 			      }
 			      
-			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
+			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+
+			    		  "\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" fichas."
+			    		  + "e seu oponente tem mais" + tabuleiro.getJogador2().getPlays() + "fichas");       
 			} else {
 				atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
 			}
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Conecte-se primeiro");
 		}
       
 	}
@@ -420,22 +421,9 @@ public class InterfaceJogo {
     }
     
     
-//    public Casa getBotaoClicado(int r, int c) {
-//        int index = r * N + c;
-//        //System.out.println("r: "+r+" / c: "+c+" / index: "+index);
-//        
-//        return this.tabuleiro.getCasas().get(index);
-//    }
-    
-    
-    public boolean isDiferente(Casa essa, Casa outra) {
-    	boolean diferente = false;
-    	
-    	return diferente;
-    }
-    
     public void atualizarTabuleiro(Move move) {
     	ArrayList<Casa> botoes = move.getBotoes();
+    	
     	
     	for(int i = 0; i < botoes.size(); i++) {
     		Casa botao_tabuleiro = this.tabuleiro.getCasas().get(i);
@@ -451,33 +439,46 @@ public class InterfaceJogo {
     		}
     		else {
 	    		if(botao_tabuleiro.getDonoID() != botao_remoto.getDonoID()) {
-//	    			botao_tabuleiro.setDono(botao_remoto.getDono());
 	    			botao_tabuleiro.setDonoID(botao_remoto.getDonoID());
 	    			botao_tabuleiro.setBackground(botao_remoto.getDono().getColor());
 	    		} else
 	    		{
-//	    			botao_tabuleiro.setText("PENIS");
-//	    			botao_tabuleiro.setDonoID(botao_remoto.getDonoID());
-//	    			botao_tabuleiro.setBackground(botao_remoto.getDono().getColor());
-//	    			botao_tabuleiro.setBackground();
-	    			System.out.println(("else podre"));
-	    			System.out.println("botao " + botao_tabuleiro.getLinha()+ "," + botao_tabuleiro.getColuna()
-	    			+" antes txt :"+ botao_tabuleiro.getText() + " dono " + botao_tabuleiro.getDonoID());
-	    			System.out.println("botao " + botao_remoto.getLinha()+ "," + botao_remoto.getColuna()
-	    			+" depois txt :"+ botao_remoto.getText() + " dono " + botao_remoto.getDonoID());
+//	    			System.out.println(("else podre"));
+//	    			System.out.println("botao " + botao_tabuleiro.getLinha()+ "," + botao_tabuleiro.getColuna()
+//	    			+" antes txt :"+ botao_tabuleiro.getText() + " dono " + botao_tabuleiro.getDonoID());
+//	    			System.out.println("botao " + botao_remoto.getLinha()+ "," + botao_remoto.getColuna()
+//	    			+" depois txt :"+ botao_remoto.getText() + " dono " + botao_remoto.getDonoID());
 	    		}
     		}
     		botao_tabuleiro.updateUI();
     	}
     	
-//    	bool acabou o jogo
-    	for (Casa btn : this.tabuleiro.getCasas())
+    	int fichasJogador = tabuleiro.getJogador1().getPlays();
+    	System.out.println(fichasJogador);
+    	if (fichasJogador < 30)
     	{
-//    		
+    		// this works
+			if (fichasJogador == 0)
+			{
+				tabuleiro.finalizarPartida(1);
+				return;
+			}
+	    	
+		    	boolean acabaram_as_fichas_deste_jogador = true;
+		    	for (Casa btn : this.tabuleiro.getCasas())
+		    	{
+		    		if (btn.getDonoID() == this.tabuleiro.getJogador1().getId())
+		    			if (btn.getText() != "")
+		    			{
+		    				acabaram_as_fichas_deste_jogador = false;
+		    				break;
+		    			}
+		    	}
+		    	if (acabaram_as_fichas_deste_jogador)
+		    		this.tabuleiro.finalizarPartida(0);
     	}
-    	
-    	//System.out.println("Eu sai desse atualizar podre");
-    }
+
+	}
     
     public void atualizarConsole(String message) {
     	this.rightTextArea.setText(this.rightTextArea.getText() + "\n" + message);

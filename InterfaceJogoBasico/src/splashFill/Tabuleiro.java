@@ -26,10 +26,7 @@ public class Tabuleiro{
 	
 	protected boolean conectado = false;
 	protected boolean partidaAndamento = false;
-	
-	private boolean decrementar = true;
-	
-	
+
 	
 	public Tabuleiro() {
 		
@@ -285,21 +282,16 @@ public class Tabuleiro{
 		//System.out.println(adversario.getPlays());
 		int fichasAdversario = adversario.getPlays();
 		
-		if (fichasJogador == 0 && fichasAdversario == 0)
-		{
-			finalizarPartida(0);
-		}
-		
 		if (jogador.isTurn())
 		{
 			jogador.setTurn(false);
 			jogador.setPlays(fichasJogador-1);
-			
+
 			adversario.setTurn(true);
 		} else
 		{
 			jogador.setTurn(true);
-			
+
 			adversario.setTurn(false);
 			adversario.setPlays(fichasAdversario-1);
 		}
@@ -307,7 +299,14 @@ public class Tabuleiro{
 	
 	public void finalizarPartida(int codigo) {
 		if (codigo == 0) {
-			JOptionPane.showInputDialog("fodeo");
+			JOptionPane.showMessageDialog(null, "Você não possui peças no teu tabuleiro! Derrota!");
+			this.jogador.setWinner(false);
+			this.adversario.setWinner(true);
+		} else
+		if (codigo == 1) {
+			JOptionPane.showMessageDialog(null, "Acabaram as peças, empate!");
+			this.jogador.setWinner(false);
+			this.adversario.setWinner(false);
 		}
 	}
 	
@@ -330,7 +329,7 @@ public class Tabuleiro{
 			move.setBotoes(casas_movimento);
 			//System.out.println("casas Moviemnto depois " + casas_movimento.size());
 	      	atorJogador.enviarJogada(move);
-	      	atorJogador.enviarJogada(move);
+//	      	atorJogador.enviarJogada(move);
 	      	passaTurno();
 			
 			//jogadaRealizada = true;
