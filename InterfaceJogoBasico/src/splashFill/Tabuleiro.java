@@ -330,7 +330,7 @@ public class Tabuleiro{
 			move.setBotoes(casas_movimento);
 			//System.out.println("casas Moviemnto depois " + casas_movimento.size());
 	      	atorJogador.enviarJogada(move);
-	      	
+	      	atorJogador.enviarJogada(move);
 	      	passaTurno();
 			
 			//jogadaRealizada = true;

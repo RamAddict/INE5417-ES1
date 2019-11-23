@@ -249,34 +249,32 @@ public class InterfaceJogo {
       
 	}
 	
-	public void clickSplash(int linha, int coluna) {
-//		if(!this.tabuleiro.conectado) { //TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
-//			Casa casa = tabuleiro.getCasa(coluna, linha);
-//			changeCounter(casa, linha, coluna);
-//		} else {
-//			Casa casa = tabuleiro.getCasa(coluna, linha);
-//			if(tabuleiro.getJogador1().isTurn()) {
-//				/* Check if move is valid */
-//				boolean jogadaValida = this.tabuleiro.checaJogada(casa);
-//			      if(jogadaValida) {
-//			      	changeCounter(casa, linha, coluna);
-//			      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
-//			      } else {
-//			      	rightTextArea.setText("Jogada Inválida!");
-//			      }
-//
-//			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
-//			} else {
-//				atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
-//			}
-//		}
-		
-		
-		Casa casa = tabuleiro.getCasa(coluna, linha);
-      	changeCounter(casa, linha, coluna);
-	      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
-	}
-    
+//	public void clickSplash(Casa casa) {
+////		if(!this.tabuleiro.conectado) { //TODO dentro desse if colocar um aviso de "voce não esta conectado" ou "jogando em modo jogador unico"
+////			Casa casa = tabuleiro.getCasa(coluna, linha);
+////			changeCounter(casa, linha, coluna);
+////		} else {
+////			Casa casa = tabuleiro.getCasa(coluna, linha);
+////			if(tabuleiro.getJogador1().isTurn()) {
+////				/* Check if move is valid */
+////				boolean jogadaValida = this.tabuleiro.checaJogada(casa);
+////			      if(jogadaValida) {
+////			      	changeCounter(casa, linha, coluna);
+////			      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
+////			      } else {
+////			      	rightTextArea.setText("Jogada Inválida!");
+////			      }
+////
+////			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
+////			} else {
+////				atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
+////			}
+////		}
+//		
+//      	changeCounter(casa, casa.getLinha(), casa.getColuna());
+//	      	//this.tabuleiro.realizaJogada(casa, this.atorJogador);
+//	}
+//    
     
     public void changeCounter(Casa gb, int linha, int coluna) {
         boolean isSplash = false;
@@ -357,8 +355,8 @@ public class InterfaceJogo {
             
         }
         
-        gb.setText(nextclickcount);
         //gb.setFichas(Integer.parseInt(nextclickcount)); !!!!!!!!
+        gb.setText(nextclickcount);
         gb.setDonoID(tabuleiro.getJogador1().getId());
         gb.setDono(tabuleiro.getJogador1());
         gb.setBackground(tabuleiro.getJogador1().getColor());
@@ -380,41 +378,43 @@ public class InterfaceJogo {
     }
     
     public void splashFill(int linha, int coluna) {
-    	int idx = coluna + linha;
     	if(linha >= 1) {
-    		JButton cima = this.tabuleiro.getCasa(coluna, linha-1);
-    		cima.setBackground(this.tabuleiro.getJogador1().getColor());
+    		Casa cima = this.tabuleiro.getCasa(coluna, linha-1);
+//    		cima.setBackground(this.tabuleiro.getJogador1().getColor());
 //    		this.tabuleiro.getCasas().get(idx).setBackground(g); --
-    		System.out.println("em cima de clicksplash cima");
+//    		System.out.println("em cima de clicksplash cima");
     		//cima.doClick();
-    		clickSplash(linha-1,coluna);
+//    		clickSplash(cima);
+    		changeCounter(cima, linha-1, coluna);
     		//changeCounter((Casa)cima, linha, coluna);
-    		System.out.println("em baixo de clicksplash cima");
+//    		System.out.println("em baixo de clicksplash cima");
     	} 
     	
     	if(linha < N-1) {
-    		JButton baixo = this.tabuleiro.getCasa(coluna, linha+1);
-    		baixo.setBackground(this.tabuleiro.getJogador1().getColor());
+    		Casa baixo = this.tabuleiro.getCasa(coluna, linha+1);
+//    		baixo.setBackground(this.tabuleiro.getJogador1().getColor());
     		//baixo.doClick();
-    		System.out.println("em cima de clicksplash baixo");
-    		clickSplash(linha+1, coluna);
-    		System.out.println("em baixo de clicksplash baixo");
+//    		System.out.println("em cima de clicksplash baixo");
+//    		clickSplash(baixo);
+    		changeCounter(baixo, linha+1, coluna);
+//    		System.out.println("em baixo de clicksplash baixo");
     		//changeCounter((Casa)baixo, linha, coluna);
     	} 
     	
     	if(coluna >= 1) {
-    		JButton esquerda = this.tabuleiro.getCasa(coluna-1, linha);
-    		esquerda.setBackground(this.tabuleiro.getJogador1().getColor());
+    		Casa esquerda = this.tabuleiro.getCasa(coluna-1, linha);
+//    		esquerda.setBackground(this.tabuleiro.getJogador1().getColor());
     		//esquerda.doClick();
-    		clickSplash(linha, coluna-1);
+//    		clickSplash(esquerda);
+    		changeCounter(esquerda, linha, coluna-1);
 //    		changeCounter((Casa)esquerda, linha, coluna);
     	} 
     	
     	if(coluna < N-1) {
-    		JButton direita = this.tabuleiro.getCasa(coluna+1, linha);
-    		direita.setBackground(this.tabuleiro.getJogador1().getColor());
+    		Casa direita = this.tabuleiro.getCasa(coluna+1, linha);
+//    		direita.setBackground(this.tabuleiro.getJogador1().getColor());
     		//direita.doClick();
-    		clickSplash(linha, coluna+1);
+    		changeCounter(direita, linha, coluna+1);
 //    		changeCounter((Casa)direita, linha, coluna);
     	}
     }
@@ -447,23 +447,33 @@ public class InterfaceJogo {
     			botao_tabuleiro.setText("");
     			botao_tabuleiro.setDono(null);
     			botao_tabuleiro.setBackground(null);
+    			botao_tabuleiro.setDonoID(0);
     		}
     		else {
 	    		if(botao_tabuleiro.getDonoID() != botao_remoto.getDonoID()) {
+//	    			botao_tabuleiro.setDono(botao_remoto.getDono());
 	    			botao_tabuleiro.setDonoID(botao_remoto.getDonoID());
 	    			botao_tabuleiro.setBackground(botao_remoto.getDono().getColor());
 	    		} else
 	    		{
+//	    			botao_tabuleiro.setText("PENIS");
+//	    			botao_tabuleiro.setDonoID(botao_remoto.getDonoID());
+//	    			botao_tabuleiro.setBackground(botao_remoto.getDono().getColor());
 //	    			botao_tabuleiro.setBackground();
-	    			System.out.println(("eu n deveria printar?"));
-	    			System.out.println(botao_remoto.getLinha()+ "," + botao_remoto.getColuna() +" txt :"+ botao_remoto.getText());
+	    			System.out.println(("else podre"));
+	    			System.out.println("botao " + botao_tabuleiro.getLinha()+ "," + botao_tabuleiro.getColuna()
+	    			+" antes txt :"+ botao_tabuleiro.getText() + " dono " + botao_tabuleiro.getDonoID());
+	    			System.out.println("botao " + botao_remoto.getLinha()+ "," + botao_remoto.getColuna()
+	    			+" depois txt :"+ botao_remoto.getText() + " dono " + botao_remoto.getDonoID());
 	    		}
     		}
+    		botao_tabuleiro.updateUI();
     	}
     	
+//    	bool acabou o jogo
     	for (Casa btn : this.tabuleiro.getCasas())
     	{
-//    		btn();
+//    		
     	}
     	
     	//System.out.println("Eu sai desse atualizar podre");
