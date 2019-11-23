@@ -242,7 +242,8 @@ public class InterfaceJogo {
 			      }
 			      
 			      atualizarConsole("Voce clicou no botao " + (linha) + "x" + (coluna)+"\n Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" movimentos.");       
-			} else {
+			}
+			else {
 				atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
 			}
 		}
@@ -358,13 +359,14 @@ public class InterfaceJogo {
         }
         
         gb.setText(nextclickcount);
+        gb.setDonoID(tabuleiro.getJogador1().getId());
         //gb.setFichas(Integer.parseInt(nextclickcount));
         
         if(isSplash) {
-        	splashFill(linha, coluna);
         	Casa casa = this.tabuleiro.getCasa(coluna, linha);
         	casa.setBackground(null);
         	casa.setDono(null);
+        	splashFill(linha, coluna);
         }
     }
     
