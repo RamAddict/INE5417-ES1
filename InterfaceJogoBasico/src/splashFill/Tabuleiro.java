@@ -260,10 +260,6 @@ public class Tabuleiro{
 //    	}
 //    	
 		if(casa.getDonoID() == 0) {
-			casa.setDonoID(this.jogador.getId());
-			casa.setDono(this.jogador);
-			//passaTurno();
-			casa.setBackground(this.jogador.getColor());
 			valida = true;
 		} else if(casa.getDonoID() == this.jogador.getId()) {
 			//passaTurno();
@@ -358,5 +354,13 @@ public class Tabuleiro{
 		return casa;
 	}
 	
+	public void setCasa(Casa casa) {
+		int idx = casa.getColuna() + casa.getLinha()*6;
+		this.casas.get(idx).setDonoID(casa.getDonoID());
+		this.casas.get(idx).setBackground(casa.getBackground());
+		this.casas.get(idx).setFichas(casa.getFichas());
+		this.casas.get(idx).setText(casa.getText());
+		this.casas.get(idx).setDono(casa.getDono());
+	}
 	
 }

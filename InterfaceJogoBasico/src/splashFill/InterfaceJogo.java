@@ -358,20 +358,33 @@ public class InterfaceJogo {
         }
         
         gb.setText(nextclickcount);
-        //gb.setFichas(Integer.parseInt(nextclickcount));
-        
+        //gb.setFichas(Integer.parseInt(nextclickcount)); !!!!!!!!
+        gb.setDonoID(tabuleiro.getJogador1().getId());
+        gb.setDono(tabuleiro.getJogador1());
+        gb.setBackground(tabuleiro.getJogador1().getColor());
+
         if(isSplash) {
-        	splashFill(linha, coluna);
-        	Casa casa = this.tabuleiro.getCasa(coluna, linha);
-        	casa.setBackground(null);
-        	casa.setDono(null);
+//        	int idx = gb.getColuna() + gb.getLinha()*6;
+//        	Casa casa = this.tabuleiro.getCasa(coluna, linha);
+        	gb.setDonoID(0);
+        	gb.setDono(null);
+        	gb.setBackground(null);
+//        	this.tabuleiro.getCasas().get(idx).setBackground(null);
+//        	this.tabuleiro.getCasas().get(idx).setDono(null);
+//        	this.tabuleiro.getCasas().get(idx).setDonoID(0);
+//    		this.tabuleiro.casas.get(idx).setFichas(casa.getFichas());
+//    		this.tabuleiro.casas.get(idx).setText(casa.getText());
+//        	this.tabuleiro.setCasa(casa);
+    		splashFill(linha, coluna);
         }
     }
     
     public void splashFill(int linha, int coluna) {
+    	int idx = coluna + linha;
     	if(linha >= 1) {
     		JButton cima = this.tabuleiro.getCasa(coluna, linha-1);
     		cima.setBackground(this.tabuleiro.getJogador1().getColor());
+//    		this.tabuleiro.getCasas().get(idx).setBackground(g); --
     		System.out.println("em cima de clicksplash cima");
     		//cima.doClick();
     		clickSplash(linha-1,coluna);
@@ -394,7 +407,7 @@ public class InterfaceJogo {
     		esquerda.setBackground(this.tabuleiro.getJogador1().getColor());
     		//esquerda.doClick();
     		clickSplash(linha, coluna-1);
-    		//changeCounter((Casa)esquerda, linha, coluna);
+//    		changeCounter((Casa)esquerda, linha, coluna);
     	} 
     	
     	if(coluna < N-1) {
@@ -402,7 +415,7 @@ public class InterfaceJogo {
     		direita.setBackground(this.tabuleiro.getJogador1().getColor());
     		//direita.doClick();
     		clickSplash(linha, coluna+1);
-    		//changeCounter((Casa)direita, linha, coluna);
+//    		changeCounter((Casa)direita, linha, coluna);
     	}
     }
     
@@ -425,14 +438,32 @@ public class InterfaceJogo {
     	ArrayList<Casa> botoes = move.getBotoes();
     	
     	for(int i = 0; i < botoes.size(); i++) {
-    		Casa botao = this.tabuleiro.getCasas().get(i);
-    		Casa botao2 = botoes.get(i);
+    		Casa botao_tabuleiro = this.tabuleiro.getCasas().get(i);
+    		Casa botao_remoto= botoes.get(i);
     		
-    		if(botao.getDonoID() != botao2.getDonoID()) {
-    			botao.setDonoID(botao2.getDonoID());
-    			botao.setBackground(botao2.getDono().getColor());
-    			botao.setText(botao2.getText());
+    		botao_tabuleiro.setText(botao_remoto.getText());
+    		if (botao_remoto.getDonoID() == 0)
+    		{
+    			botao_tabuleiro.setText("");
+    			botao_tabuleiro.setDono(null);
+    			botao_tabuleiro.setBackground(null);
     		}
+    		else {
+	    		if(botao_tabuleiro.getDonoID() != botao_remoto.getDonoID()) {
+	    			botao_tabuleiro.setDonoID(botao_remoto.getDonoID());
+	    			botao_tabuleiro.setBackground(botao_remoto.getDono().getColor());
+	    		} else
+	    		{
+//	    			botao_tabuleiro.setBackground();
+	    			System.out.println(("eu n deveria printar?"));
+	    			System.out.println(botao_remoto.getLinha()+ "," + botao_remoto.getColuna() +" txt :"+ botao_remoto.getText());
+	    		}
+    		}
+    	}
+    	
+    	for (Casa btn : this.tabuleiro.getCasas())
+    	{
+//    		btn();
     	}
     	
     	//System.out.println("Eu sai desse atualizar podre");
