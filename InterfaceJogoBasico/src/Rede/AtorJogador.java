@@ -12,7 +12,6 @@ import splashFill.Tabuleiro;
 public class AtorJogador {
 	
 	protected AtorRede atorRede;
-	protected int idUser;
 	protected InterfaceJogo interfaceJogo;
 
 	public AtorJogador(InterfaceJogo interfaceJogo) {

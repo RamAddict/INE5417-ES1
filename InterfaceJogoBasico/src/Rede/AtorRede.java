@@ -17,11 +17,7 @@ public class AtorRede implements OuvidorProxy {
 	static final long serialVersionUID = 1L;
 	protected Proxy proxy;
 	
-	protected OuvidorProxy ouvidor;
-	
-	
 	protected AtorJogador atorJogador;
-	protected boolean playersTurn;
 	
 	public AtorRede(AtorJogador atorJogador) {
 		super();

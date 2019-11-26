@@ -59,13 +59,16 @@ public class InterfaceJogo {
      * Initiates the connection when the connect button is clicked
      */
     public void conectar() {
-    	List<String> info = obterServidorEJogador();
-    	String servidor = info.get(0);
-    	String jogador = info.get(1);
-    	this.atorJogador = new AtorJogador(this);
-		String mensagem = atorJogador.conectar(servidor, jogador);
-		notificarResultado(mensagem);
-    }
+    	if (!this.tabuleiro.umaPartidaAcabada)
+    	{
+	    	List<String> info = obterServidorEJogador();
+	    	String servidor = info.get(0);
+	    	String jogador = info.get(1);
+	    	this.atorJogador = new AtorJogador(this);
+			String mensagem = atorJogador.conectar(servidor, jogador);
+			notificarResultado(mensagem);
+    	}
+	}
     
     public List<String> obterServidorEJogador(){
     	List<String> info = new ArrayList<String>();
@@ -90,25 +93,31 @@ public class InterfaceJogo {
      * Initiates disconnection process when button is clicked
      */
     public void desconectar() {
-		String mensagem = atorJogador.desconectar();
-		notificarResultado(mensagem);
-		atualizarConsole(mensagem);
+    	if (!this.tabuleiro.umaPartidaAcabada)
+    	{
+			String mensagem = atorJogador.desconectar();
+			notificarResultado(mensagem);
+			atualizarConsole(mensagem);
+    	}
     }
     
     /**
      * Initiates game when button is clicked
      */
     public void iniciarPartida() {
-        String mensagem = atorJogador.iniciarPartida();
-        
-        if(mensagem.equals("Sucesso: solicitacao de inicio enviada a Netgames Server")) {
-
-        	this.tabuleiro.getJogador1().setTurn(true);
-        	this.tabuleiro.getJogador1().setColor(Color.RED);
-        }
-        notificarResultado(mensagem);
-        this.atualizarConsole(mensagem);
-    }
+    	if (!this.tabuleiro.umaPartidaAcabada)
+    	{
+	        String mensagem = atorJogador.iniciarPartida();
+	        
+	        if(mensagem.equals("Sucesso: solicitacao de inicio enviada a Netgames Server")) {
+	
+	        	this.tabuleiro.getJogador1().setTurn(true);
+	        	this.tabuleiro.getJogador1().setColor(Color.RED);
+	        }
+	        notificarResultado(mensagem);
+	        this.atualizarConsole(mensagem);
+    	}
+	}
     
 	/**
 	 * Launch the application.
@@ -216,6 +225,9 @@ public class InterfaceJogo {
 			if (casa.getFichas() == -1) {
 				notificarResultado("Algo deu errado, tente novamente");
 			} else {
+				if (this.tabuleiro.umaPartidaAcabada)
+					rightTextArea.setText("O jogo acabou!, se quiser jogar de novo fecha e abre denovo");
+				else
 				if(tabuleiro.getJogador1().isTurn()) {
 					/* Check if move is valid */
 					boolean jogadaValida = this.tabuleiro.checaJogada(casa);
@@ -228,7 +240,10 @@ public class InterfaceJogo {
 				      
 				      atualizarConsole("Voce tem mais "+ tabuleiro.getJogador1().getPlays()+" fichas.");       
 				} else {
-					atualizarConsole("Não é a sua vez de jogar :/ be patient my friend ");
+					if (this.tabuleiro.partidaAndamento)
+						atualizarConsole("Não é a sua vez de jogar :/ ");
+					else
+						atualizarConsole("Inicie uma partida primeiro");
 				}
 			}
 		}
@@ -361,6 +376,7 @@ public class InterfaceJogo {
     		botao_tabuleiro.setText(botao_remoto.getText());
     		if (botao_remoto.getDonoID() == 0) {
     			botao_tabuleiro.setText("");
+    			botao_tabuleiro.setFichas(0);
     			botao_tabuleiro.setDono(null);
     			botao_tabuleiro.setBackground(null);
     			botao_tabuleiro.setDonoID(0);
@@ -368,6 +384,7 @@ public class InterfaceJogo {
 	    		if(botao_tabuleiro.getDonoID() != botao_remoto.getDonoID()) {
 	    			botao_tabuleiro.setDonoID(botao_remoto.getDonoID());
 	    			botao_tabuleiro.setBackground(botao_remoto.getDono().getColor());
+	    			botao_tabuleiro.setFichas(botao_remoto.getFichas());
 	    		}
     		}
     		botao_tabuleiro.updateUI();

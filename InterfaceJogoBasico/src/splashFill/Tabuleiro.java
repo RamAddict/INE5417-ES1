@@ -1,16 +1,10 @@
 package splashFill;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import Rede.AtorJogador;
 import Rede.Move;
 
@@ -24,7 +18,16 @@ public class Tabuleiro{
 	protected boolean conectado = false;
 	protected boolean partidaAndamento = false;
 
+	protected boolean umaPartidaAcabada = false;
 	
+	public boolean isUmaPartidaAcabada() {
+		return umaPartidaAcabada;
+	}
+
+	public void setUmaPartidaAcabada(boolean umaPartidaAcabada) {
+		this.umaPartidaAcabada = umaPartidaAcabada;
+	}
+
 	public Tabuleiro() {
 		
 	}
@@ -222,7 +225,13 @@ public class Tabuleiro{
 			JOptionPane.showMessageDialog(null, "Acabaram as peças, empate!");
 			this.jogador.setWinner(false);
 			this.adversario.setWinner(false);
+		} else if (codigo == 2) {
+			JOptionPane.showMessageDialog(null, "Você ganhou!");
+			this.jogador.setWinner(true);
+			this.adversario.setWinner(false);
 		}
+		this.definirPartidaAndamento(false);
+		this.setUmaPartidaAcabada(true);
 	}
 	
 	public void realizaJogada(Casa casa, AtorJogador atorJogador) {
@@ -234,7 +243,22 @@ public class Tabuleiro{
 				casas_movimento.add(c);
 			}
 			move.setBotoes(casas_movimento);
-	      	atorJogador.enviarJogada(move);
+			if (this.getJogador1().getPlays() < 30) {
+		    	boolean acabaram_as_fichas_adversario = true;
+		    	for (Casa btn : this.getCasas()) {
+		    		if (btn.getDonoID() != this.getJogador1().getId()) {
+		    			if (btn.getText() != "") {
+		    				acabaram_as_fichas_adversario = false;
+		    				break;
+		    			}
+		    		}
+		    	}
+		    	if (acabaram_as_fichas_adversario) {
+		    		this.finalizarPartida(2);
+		    	}
+			}
+			
+			atorJogador.enviarJogada(move);
 	      	
 	      	passaTurno();
 	}
@@ -252,13 +276,14 @@ public class Tabuleiro{
 		return casa;
 	}
 	
-	public void setCasa(Casa casa) {
-		int idx = casa.getColuna() + casa.getLinha()*6;
-		this.casas.get(idx).setDonoID(casa.getDonoID());
-		this.casas.get(idx).setBackground(casa.getBackground());
-		this.casas.get(idx).setFichas(casa.getFichas());
-		this.casas.get(idx).setText(casa.getText());
-		this.casas.get(idx).setDono(casa.getDono());
+	public void limparTabuleiro() {
+		for (Casa elem : this.casas)
+		{
+			elem.setText("");
+			elem.setDonoID(0);
+			elem.setDono(null);
+			elem.setBackground(null);
+		}
 	}
 	
 }
