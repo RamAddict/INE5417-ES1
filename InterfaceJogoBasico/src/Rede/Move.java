@@ -14,7 +14,7 @@ public class Move implements Jogada {
 	private static final long serialVersionUID = 8319270686294033589L;
 	
 	
-	ArrayList<Casa> botoes;/* = new ArrayList<Casa>(); */
+	ArrayList<Casa> botoes;
 	
 	public Move() {
 		botoes = new ArrayList<Casa>();
@@ -24,10 +24,6 @@ public class Move implements Jogada {
 		super();
 		this.botoes = casas;
 	}
-	
-//	public Move(Casa casa) {
-//		
-//	}
 
 	public ArrayList<Casa> getBotoes() {
 		return botoes;
@@ -38,8 +34,6 @@ public class Move implements Jogada {
 			this.botoes.add(c);
 		}
 	}
-	
-	
 	
 	
 }

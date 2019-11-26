@@ -12,16 +12,15 @@ public class Casa extends JButton implements Jogada{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
-	//private String color;
-	private JButton botao;
-	private int linha, coluna;
-	private String player;
-	private int fichas;
+	protected int id;
+	protected JButton botao;
+	protected int linha, coluna;
+	protected String player;
+	protected int fichas;
 	
-	private Jogador dono;
+	protected Jogador dono;
 	
-	private int donoID;
+	protected int donoID;
 	
 	public Casa() {
 		super();
@@ -45,7 +44,6 @@ public class Casa extends JButton implements Jogada{
 	public Casa(int id, String color, JButton botao, int linha, int coluna) {
 		super();
 		this.id = id;
-		//this.color = "/resources/"+color+"_1.png";
 		this.botao = botao;
 		this.player = "";
 		this.linha = linha;
@@ -64,14 +62,6 @@ public class Casa extends JButton implements Jogada{
 	public void setId(int id) {
 		this.id = id;
 	}
-
-//	public String getColor() {
-//		return color;
-//	}
-//
-//	public void setColor(String color) {
-//		this.color = color;
-//	}
 	
 	public JButton getBotao() {
 		return botao;
@@ -128,11 +118,6 @@ public class Casa extends JButton implements Jogada{
 	public void setDono(Jogador dono) {
 		this.dono = dono;
 	}
-	
-	
-	
-	
-	
 	
 
 }

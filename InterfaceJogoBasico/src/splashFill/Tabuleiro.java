@@ -18,11 +18,8 @@ public class Tabuleiro{
 	private ArrayList<Casa> casas = new ArrayList<Casa>();
 	private AtorJogador atorJogador;
 	
-	private Jogador jogador; // = new Jogador(Color.RED);
-	private Jogador adversario; //  =new Jogador(Color.BLUE);
-	
-//	private JPanel matriz = new JPanel(new GridLayout(6, 6, 2, 2));
-	
+	private Jogador jogador;
+	private Jogador adversario;
 	
 	protected boolean conectado = false;
 	protected boolean partidaAndamento = false;
@@ -84,7 +81,7 @@ public class Tabuleiro{
 	}
 
 	public int permitidoIniciarPartida() {
-		// sï¿½ ï¿½ permitido iniciar a partida se tiverem dois jogadores (tratado automaticamente pelo NetGames)
+		// so e permitido iniciar a partida se tiverem dois jogadores (tratado automaticamente pelo NetGames)
 		// alem de estar conectado e a partida nao tiver sido iniciada anteriormente
 		
 		int permitido = 1; // nao permitido
@@ -112,18 +109,6 @@ public class Tabuleiro{
 		}
 	}
 	
-//	public void setTurno(Jogador jogador) {
-//		if(jogador == this.jogador) {
-//			this.jogador.setTurn(true);
-//		} else {
-//			this.adversario.setTurn(true);
-//		}
-//	}
-	
-//	public void limparTabuleiro(InterfaceJogo interJogo) {
-//		this.criaMatriz(interJogo);
-//	}
-	
 	public ArrayList<Casa> getCasas() {
 		return this.casas;
 	}
@@ -140,8 +125,6 @@ public class Tabuleiro{
 		this.atorJogador = atorJogador;
 	}
 	
-	
-
 	public Jogador getJogador1() {
 		return jogador;
 	}
@@ -158,27 +141,7 @@ public class Tabuleiro{
 		this.adversario = jogador2;
 	}
 	
-
-//	public JPanel getMatriz() {
-//		return matriz;
-//	}
-
-//	public void setMatriz(JPanel matriz) {
-//		this.matriz = matriz;
-//	}
-
-//	public void criaMatriz(InterfaceJogo interJogo) {
-//        for (int i = 0; i < 36; i++) {
-//            int row = i / 6;
-//            int col = i % 6;
-//            Casa gb = createButton(row, col, interJogo);
-////            casas.add(gb);
-//            this.matriz.add(gb);
-//        }
-//    }
-//	
 	public Casa createButton(int linha, int coluna, InterfaceJogo interJogo) {
-        //final JButton b = new JButton("");
     	final Casa b = new Casa(linha, coluna);
         
         b.setPreferredSize(new Dimension(80, 80));
@@ -197,81 +160,34 @@ public class Tabuleiro{
         return b;
     }
 	
-	
-//	public Jogador checaJogador(Jogador player) {
-//		Jogador jogador = null;
-//		
-//		if(player.getId() == this.jogador.id) {
-//			jogador = this.jogador;
-//		} else {
-//			jogador = this.adversario;
-//		}
-//		
-//		return jogador;
-//	}
-	
-//	public Jogador checaAdversario(Jogador jogador) {
-//		Jogador adversario = null;
-//		
-//		if(jogador.getId() == this.jogador.id) {
-//			adversario = this.adversario;
-//		} else {
-//			adversario = this.jogador;
-//		}
-//		
-//		return adversario;
-//	}
-	
 	public void notificarResultado(String mensagem) {
 		JOptionPane.showMessageDialog(null, mensagem);
 	}
 	
 	public boolean checaJogada(Casa casa) {
 		boolean valida = false;
-//		Jogador jogador = checaJogador(player);
-//		
-//		Jogador adversario = checaAdversario(jogador);
 		
-		
-		
-//		if(decrementar) {
-			/* Checks if the player still have moves to do */
-//			if(jogador.getPlays() > 0) {
-//				jogador.setPlays(jogador.getPlays() - 1);
-//				decrementar = false;
-//			} else {
-//				notificarResultado("Voce nao tem mais movimentos!");
-//				return false;
-//			}
-//		}
-    	
-		
-//		/* If the player still have plays left, continue checking */
-//    	if (botao.getPlayer() == "") { // botao nao tem dono ainda
-//    		botao.setPlayer(jogador.getName());
-//    	} else if (botao.getPlayer() == jogador.getName()) { // botao pertence ao jogador que clicou
-//    		return true;
-//    	} else { // botao pertence ao outro jogador
-//		notificarResultado("Esse botao não te pertence, escolha outro");
-//    		return false;
-//    	}
-//    	
-		if(casa.getDonoID() == 0) {
-			valida = true;
-		} else if(casa.getDonoID() == this.jogador.getId()) {
-			//passaTurno();
+		if(comparaIds(casa.getDonoID(), this.jogador.getId())) {
 			valida = true;
 		} else { //casa pertence ao outro jogador
 			JOptionPane.showMessageDialog(null, "Essa casa não te pertence, escolha outra!");
 		}
-    	/*TODO implementar função passaTurno*/
-		//passaTurno();
-		//System.out.println("visao especifica de interação J " + this.jogador.isTurn() + " Fichas " + this.jogador.getPlays());
-		//System.out.println("visao especifica de interação A " + this.adversario.isTurn() + " Fichas " + this.adversario.getPlays());
-		/*PEGAR CASAS ADJACENTES E MUDAR CONTAGEM DELAS*/
-		
 		
 		return valida;
+	}
+	
+	public boolean comparaIds(int id1, int id2) {
+		boolean resultado = false;
+		
+		if(id1 == 0) {
+			resultado = true;
+		} else if(id1 == id2) {
+			resultado = true;
+		} else { //casa pertence ao outro jogador
+			resultado = false;
+		}
+		
+		return resultado;
 	}
 	
 	/* Passa o turno
@@ -279,7 +195,6 @@ public class Tabuleiro{
 	 */
 	public void passaTurno() {
 		int fichasJogador = jogador.getPlays();
-		//System.out.println(adversario.getPlays());
 		int fichasAdversario = adversario.getPlays();
 		
 		if (jogador.isTurn())
@@ -311,33 +226,17 @@ public class Tabuleiro{
 	}
 	
 	public void realizaJogada(Casa casa, AtorJogador atorJogador) {
-		//boolean jogadaRealizada = false;
-		//if(checaJogada(casa, jogador)) {
-			/* move */
-	      	//changeCounter(gb, e, linha, coluna);
-	    	
-			//this.getCasas().set(casa.getLinha()*6 + casa.getColuna(), casa);
 	      	Move move = new Move();
-			//System.out.println(this.getCasas().size());
 			ArrayList<Casa> casas_movimento = new ArrayList<Casa>();
-
-			//System.out.println("casas Moviemnto antes" + casas_movimento.size());
+			
+			
 			for (Casa c : this.getCasas()) {
 				casas_movimento.add(c);
-				//System.out.println("REALIZA JOGADA col, linha" + c.getColuna() + "," + c.getLinha());
 			}
 			move.setBotoes(casas_movimento);
-			//System.out.println("casas Moviemnto depois " + casas_movimento.size());
 	      	atorJogador.enviarJogada(move);
-//	      	atorJogador.enviarJogada(move);
+	      	
 	      	passaTurno();
-			
-			//jogadaRealizada = true;
-		//} else {
-			
-		//}
-		
-		//return jogadaRealizada;
 	}
 	
 	public Casa getCasa(int coluna, int linha) {

@@ -98,25 +98,19 @@ public class AtorJogador {
 	}
 	
 	public void tratarIniciarPartida(Integer posicao) {
-		//this.interfaceJogo.getTabuleiro().getJogador1().setColor(Color.BLUE);
 		this.interfaceJogo.getTabuleiro().definirPartidaAndamento(true);
 		this.interfaceJogo.atualizarConsole("JOGO INICIADO");
 		
 	}
 	
 	public void tratarConexaoPerdida() {
-		// mostra erro no console do jogo
 		this.interfaceJogo.getTabuleiro().definirConectado(false);
 		this.interfaceJogo.atualizarConsole("Conexão perdida! :( ");
-		//System.exit(0);
 	}
 	
 	public void finalizarPartidaComErro() {
-		// mostra erro no console do jogo
 		this.interfaceJogo.getTabuleiro().definirPartidaAndamento(false);
 		this.interfaceJogo.atualizarConsole("O adversário foi desconectado :( ");
-		
-		//System.exit(0);
 		
 	}
 

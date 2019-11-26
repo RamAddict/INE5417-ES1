@@ -85,8 +85,7 @@ public class AtorRede implements OuvidorProxy {
 			this.atorJogador.interfaceJogo.getTabuleiro().getJogador1().setColor(Color.BLUE);
 		}
 		this.atorJogador.interfaceJogo.getTabuleiro().getJogador1().setId(posicao);
-		System.out.println("to setando a merda do id" + posicao + "setei pra " + this.atorJogador.interfaceJogo.getTabuleiro().getJogador1().getId());
-		//proxy.iniciarNovaPartida(posicao);
+		
 	}
 
 	@Override
