@@ -4,39 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-//import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.util.List;
-import java.awt.Toolkit;
-
 import javax.swing.JFrame;
-//import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
-import com.retrogui.messageserver.common.SysUtils;
-
 import Rede.AtorJogador;
 import Rede.Move;
-
 import javax.swing.JMenu;
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.Action;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 public class InterfaceJogo {
 
@@ -59,7 +42,7 @@ public class InterfaceJogo {
      * Initiates the connection when the connect button is clicked
      */
     public void conectar() {
-    	if (!this.tabuleiro.umaPartidaAcabada)
+    	if (!this.tabuleiro.isUmaPartidaAcabada())
     	{
 	    	List<String> info = obterServidorEJogador();
 	    	String servidor = info.get(0);
@@ -398,16 +381,16 @@ public class InterfaceJogo {
 				return;
 			}
 	    	
-		    	boolean acabaram_as_fichas_deste_jogador = true;
+		    	this.tabuleiro.setJogador1TemFichaNoTabuleiro(true);
 		    	for (Casa btn : this.tabuleiro.getCasas()) {
 		    		if (btn.getDonoID() == this.tabuleiro.getJogador1().getId()) {
 		    			if (btn.getText() != "") {
-		    				acabaram_as_fichas_deste_jogador = false;
+		    				this.tabuleiro.setJogador1TemFichaNoTabuleiro(false);
 		    				break;
 		    			}
 		    		}
 		    	}
-		    	if (acabaram_as_fichas_deste_jogador) {
+		    	if (this.tabuleiro.isJogador1TemFichaNoTabuleiro()) {
 		    		this.tabuleiro.finalizarPartida(0);
 		    	}
     	}

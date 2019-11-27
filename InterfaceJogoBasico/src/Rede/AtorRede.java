@@ -100,7 +100,6 @@ public class AtorRede implements OuvidorProxy {
 
 	
 	public void enviarJogada(Move move) {
-		System.out.println("enviar jogada");
 		try {
 			proxy.enviaJogada(move);
 		} catch (NaoJogandoException e) {

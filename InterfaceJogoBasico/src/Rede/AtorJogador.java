@@ -86,7 +86,6 @@ public class AtorJogador {
 	}
 	
 	public void enviarJogada(Move move) {
-		System.out.println("AtorJogador enviando jogada");
 		this.atorRede.enviarJogada(move);
 	}
 	

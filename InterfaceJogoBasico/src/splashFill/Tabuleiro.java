@@ -9,16 +9,22 @@ import Rede.AtorJogador;
 import Rede.Move;
 
 public class Tabuleiro{
-	private ArrayList<Casa> casas = new ArrayList<Casa>();
-	private AtorJogador atorJogador;
+	protected ArrayList<Casa> casas = new ArrayList<Casa>();
+	protected AtorJogador atorJogador;
 	
-	private Jogador jogador;
-	private Jogador adversario;
+	protected Jogador jogador;
+	protected Jogador adversario;
 	
 	protected boolean conectado = false;
 	protected boolean partidaAndamento = false;
 
 	protected boolean umaPartidaAcabada = false;
+
+	protected boolean jogador1TemFichaNoTabuleiro;
+	protected int qtdFichaJogador1;
+	protected boolean jogador2TemFichaNoTabuleiro;
+	protected int qtdFichaJogador2;
+	
 	
 	public boolean isUmaPartidaAcabada() {
 		return umaPartidaAcabada;
@@ -35,7 +41,6 @@ public class Tabuleiro{
 	public Tabuleiro(ArrayList<Casa> casas) {
 		this.casas = casas;
 	}
-
 
 	public void definirConectado(boolean valor) {
 		conectado = valor;
@@ -103,6 +108,38 @@ public class Tabuleiro{
 	}
 	
 	
+	public boolean isJogador1TemFichaNoTabuleiro() {
+		return jogador1TemFichaNoTabuleiro;
+	}
+
+	public void setJogador1TemFichaNoTabuleiro(boolean jogador1TemFichaNoTabuleiro) {
+		this.jogador1TemFichaNoTabuleiro = jogador1TemFichaNoTabuleiro;
+	}
+
+	public int getQtdFichaJogador1() {
+		return qtdFichaJogador1;
+	}
+
+	public void setQtdFichaJogador1(int qtdFichaJogador1) {
+		this.qtdFichaJogador1 = qtdFichaJogador1;
+	}
+
+	public boolean isJogador2TemFichaNoTabuleiro() {
+		return jogador2TemFichaNoTabuleiro;
+	}
+
+	public void setJogador2TemFichaNoTabuleiro(boolean jogador2TemFichaNoTabuleiro) {
+		this.jogador2TemFichaNoTabuleiro = jogador2TemFichaNoTabuleiro;
+	}
+
+	public int getQtdFichaJogador2() {
+		return qtdFichaJogador2;
+	}
+
+	public void setQtdFichaJogador2(int qtdFichaJogador2) {
+		this.qtdFichaJogador2 = qtdFichaJogador2;
+	}
+
 	public void criarJogador(String name) {
 		if(jogador == null) {
 			jogador = new Jogador(name);
@@ -204,6 +241,7 @@ public class Tabuleiro{
 		{
 			jogador.setTurn(false);
 			jogador.setPlays(fichasJogador-1);
+			setQtdFichaJogador1(fichasJogador-1);
 
 			adversario.setTurn(true);
 		} else
@@ -212,6 +250,7 @@ public class Tabuleiro{
 
 			adversario.setTurn(false);
 			adversario.setPlays(fichasAdversario-1);
+			setQtdFichaJogador2(fichasAdversario-1);
 		}
 	}
 	
@@ -244,16 +283,16 @@ public class Tabuleiro{
 			}
 			move.setBotoes(casas_movimento);
 			if (this.getJogador1().getPlays() < 30) {
-		    	boolean acabaram_as_fichas_adversario = true;
+				setJogador2TemFichaNoTabuleiro(true);
 		    	for (Casa btn : this.getCasas()) {
 		    		if (btn.getDonoID() != this.getJogador1().getId()) {
 		    			if (btn.getText() != "") {
-		    				acabaram_as_fichas_adversario = false;
+		    				setJogador2TemFichaNoTabuleiro(false);
 		    				break;
 		    			}
 		    		}
 		    	}
-		    	if (acabaram_as_fichas_adversario) {
+		    	if (isJogador2TemFichaNoTabuleiro()) {
 		    		this.finalizarPartida(2);
 		    	}
 			}
@@ -285,5 +324,149 @@ public class Tabuleiro{
 			elem.setBackground(null);
 		}
 	}
+	
+	public ArrayList<Casa> getCasasAdjacentes(Casa casa) {
+		int linha = casa.getLinha();
+		int coluna = casa.getColuna();
+		ArrayList<Casa> casas = new ArrayList<Casa>();
+		Casa home;
+		
+		int index = linha*6+coluna;
+//		System.out.println("indexxxx "+index);
+		switch (index) {
+			case 0:case 5:case 30:case 35: {
+				switch(index) {
+					case 0:{
+//						System.out.println("entrou no index 0000000000");
+						coluna++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						linha++;
+						coluna--;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						break;
+					}
+					case 30:{
+						linha--;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						coluna++;
+						linha++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						break;
+					}
+					case 5:{
+						coluna--;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						coluna++;
+						linha++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						break;
+					}
+					case 35:{
+						linha--;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						coluna--;
+						linha++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						break;
+					}
+			}
+				break;
+			}
+			case 1:case 2:case 3:case 4:case 6:case 12:case 18:case 24:case 11:case 17:case 23:case 29:case 31:case 32:case 33:case 34: {
+					switch(index) {
+					case 6:case 12:case 18:case 24:{//lateral esquerda
+						coluna++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						coluna--;
+						linha++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						linha = linha - 2;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						break;
+					}
+					
+					case 11:case 17:case 23:case 29:{ //lateral direita
+						coluna--;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						coluna++;
+						linha++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						linha = linha - 2;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						break;
+					}
+						case 1:case 2:case 3:case 4:{/// barra superior
+						linha++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						linha--;
+						coluna++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						coluna = coluna - 2;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						break;
+					}
+						case 31:case 32:case 33:case 34:{/// barra inferior
+						linha--;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						linha++;
+						coluna++;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						coluna = coluna - 2;
+						home = this.getCasa(coluna, linha);
+						casas.add(home);
+						break;
+					}
+					
+					
+			
+			}
+				break;
+			}
+			default:{// caso em que fica em alguma parte do meio do tabuleiro
+				linha--;
+				home = this.getCasa(coluna, linha);
+				casas.add(home);
+				linha = linha + 2;
+				home = this.getCasa(coluna, linha);
+				casas.add(home);
+				coluna++;
+				linha--;
+				home = this.getCasa(coluna, linha);
+				casas.add(home);
+				coluna = coluna - 2;
+				home = this.getCasa(coluna, linha);
+				casas.add(home);
+
+				break;
+		
+			}
+		
+		}
+		
+		
+		
+		return casas;
+	}
+	
+
 	
 }
