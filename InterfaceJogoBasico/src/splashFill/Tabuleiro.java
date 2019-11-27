@@ -286,7 +286,7 @@ public class Tabuleiro{
 				setJogador2TemFichaNoTabuleiro(true);
 		    	for (Casa btn : this.getCasas()) {
 		    		if (btn.getDonoID() != this.getJogador1().getId()) {
-		    			if (btn.getText() != "") {
+		    			if (btn.getFichas() != 0) {
 		    				setJogador2TemFichaNoTabuleiro(false);
 		    				break;
 		    			}
@@ -307,6 +307,7 @@ public class Tabuleiro{
 		if(linha < 0 || linha > 5 || coluna < 0 || coluna > 5) {
 			casa = new Casa();
 			casa.setFichas(-1);
+			JOptionPane.showMessageDialog(null, "entrou na casa podre");
 		} else {
 			int indiceVetorCasas = linha*6 + coluna;
 			casa = this.casas.get(indiceVetorCasas);
@@ -320,6 +321,7 @@ public class Tabuleiro{
 		for (Casa elem : this.casas)
 		{
 			elem.setText("");
+			elem.setFichas(0);
 			elem.setDonoID(0);
 			elem.setDono(null);
 			elem.setBackground(null);

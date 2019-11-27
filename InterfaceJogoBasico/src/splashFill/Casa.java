@@ -54,9 +54,14 @@ public class Casa extends JButton implements Jogada{
 
 	
 	
-	public boolean avaliaSeCasaCheia() {
+	public boolean avaliaSeCasaCheia(int casasAdjacentes) {
 		int ficha = this.getFichas();
-		return true;
+		if (ficha == casasAdjacentes-1) {
+			return true;
+		} else {
+			return false;
+		}
+			
 	}
 	
 	/*GETTERS & SETTERS*/

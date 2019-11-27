@@ -237,8 +237,9 @@ public class InterfaceJogo {
 	}
     
     public void changeCounter(Casa gb, int linha, int coluna) {
-    	tabuleiro.getCasasAdjacentes(gb).size();
+    	   	
     	
+//    	
 //    	String str="";
 //    	for (int i = 0; i <tabuleiro.getCasasAdjacentes(gb).size(); i++ ) {
 //    		int lin = tabuleiro.getCasasAdjacentes(gb).get(i).getLinha();
@@ -246,13 +247,12 @@ public class InterfaceJogo {
 //    		str ="[linha "+lin+""+" coluna "+col+"]";
 //    		System.out.println("casas adjjjjjjj "+str);
 //    	}
-//    	
     	boolean isSplash = false;
         ArrayList<Casa> adjacentes = tabuleiro.getCasasAdjacentes(gb);
         int fichaCasa = gb.getFichas();
         int numAdjacentes = adjacentes.size();
         if (numAdjacentes == 2) {
-        	if(gb.avaliaSeCasaCheia()) {
+        	if(gb.avaliaSeCasaCheia(2)) {
         		isSplash = true;
         	} else {
         		gb.setFichas(1);
@@ -260,7 +260,7 @@ public class InterfaceJogo {
         	}
         	
         } else if (numAdjacentes == 3)  { // num casas igual a 3
-        	if(gb.avaliaSeCasaCheia()) {
+        	if(gb.avaliaSeCasaCheia(3)) {
         		isSplash = true;
         	} else if(fichaCasa == 1) {
         		gb.setFichas(2);
@@ -272,7 +272,7 @@ public class InterfaceJogo {
         	
         	
         } else { // num casas igual a 4
-        	if(gb.avaliaSeCasaCheia()) {
+        	if(gb.avaliaSeCasaCheia(4)) {
         		isSplash = true;
         	} else if(fichaCasa == 2) {
         		gb.setFichas(3);
@@ -288,8 +288,6 @@ public class InterfaceJogo {
         }
         
         
-        //TODO fix here
-        //gb.setFichas(Integer.parseInt(nextclickcount));
         gb.setDonoID(tabuleiro.getJogador1().getId());
         gb.setDono(tabuleiro.getJogador1());
         gb.setBackground(tabuleiro.getJogador1().getColor());
@@ -330,12 +328,20 @@ public class InterfaceJogo {
     public void atualizarTabuleiro(Move move) {
     	ArrayList<Casa> botoes = move.getBotoes();
     	
-    	
+//    	for (int i = 0; i < botoes.size(); i++ ) {
+//    		if(i%6 == 0) {
+//    			System.out.print("\n");
+//    		}
+//    		System.out.print("[ " +"fichas:"+botoes.get(i).getFichas() +" txt:"+botoes.get(i).getText()+ " dono:"+botoes.get(i).getDonoID()+" ]");
+//    	}
+//    	
+//    	
     	for(int i = 0; i < botoes.size(); i++) {
     		Casa botao_tabuleiro = this.tabuleiro.getCasas().get(i);
     		Casa botao_remoto= botoes.get(i);
     		
     		botao_tabuleiro.setText(botao_remoto.getText());
+    		botao_tabuleiro.setFichas(botao_remoto.getFichas());
     		if (botao_remoto.getDonoID() == 0) {
     			botao_tabuleiro.setText("");
     			botao_tabuleiro.setFichas(0);
@@ -363,7 +369,7 @@ public class InterfaceJogo {
 		    	this.tabuleiro.setJogador1TemFichaNoTabuleiro(true);
 		    	for (Casa btn : this.tabuleiro.getCasas()) {
 		    		if (btn.getDonoID() == this.tabuleiro.getJogador1().getId()) {
-		    			if (btn.getText() != "") {
+		    			if (btn.getFichas() != 0) {
 		    				this.tabuleiro.setJogador1TemFichaNoTabuleiro(false);
 		    				break;
 		    			}
