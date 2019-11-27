@@ -53,6 +53,12 @@ public class Casa extends JButton implements Jogada{
 	}
 
 	
+	
+	public boolean avaliaSeCasaCheia() {
+		int ficha = this.getFichas();
+		return true;
+	}
+	
 	/*GETTERS & SETTERS*/
 	
 	public int getId() {

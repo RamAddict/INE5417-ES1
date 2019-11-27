@@ -237,87 +237,66 @@ public class InterfaceJogo {
 	}
     
     public void changeCounter(Casa gb, int linha, int coluna) {
-        boolean isSplash = false;
-        String clicks = gb.getText();
-        
-        String nextclickcount = "";
-        
-        if(linha == 0 || linha == N-1) {
-        	if(coluna == 0 || coluna == N-1) {
-        		switch(clicks) {
-                case "1":
-                	nextclickcount = "";
-                	isSplash = true;
-                	break;
-
-                
-                default: // no clicks
-                	nextclickcount = "1";
-                	break;
-                }
-        		
+    	tabuleiro.getCasasAdjacentes(gb).size();
+    	
+//    	String str="";
+//    	for (int i = 0; i <tabuleiro.getCasasAdjacentes(gb).size(); i++ ) {
+//    		int lin = tabuleiro.getCasasAdjacentes(gb).get(i).getLinha();
+//    		int col = tabuleiro.getCasasAdjacentes(gb).get(i).getColuna();
+//    		str ="[linha "+lin+""+" coluna "+col+"]";
+//    		System.out.println("casas adjjjjjjj "+str);
+//    	}
+//    	
+    	boolean isSplash = false;
+        ArrayList<Casa> adjacentes = tabuleiro.getCasasAdjacentes(gb);
+        int fichaCasa = gb.getFichas();
+        int numAdjacentes = adjacentes.size();
+        if (numAdjacentes == 2) {
+        	if(gb.avaliaSeCasaCheia()) {
+        		isSplash = true;
         	} else {
-        		switch(clicks) {
-                case "1":
-                	nextclickcount = "2";
-                	break;
-                
-                case "2":
-                	nextclickcount = "";
-                	isSplash = true;
-                	break;
-                	
-                default: // no clicks
-                	nextclickcount = "1";
-                	break;
-                }
-        		
+        		gb.setFichas(1);
+        		gb.setText("1");
         	}
-        } else if(coluna == 0 || coluna == N-1 && (linha != 0 && linha != N-1)) {
-        	switch(clicks) {
-            case "1":
-            	nextclickcount = "2";
-            	break;
-            
-            case "2":
-            	nextclickcount = "";
-            	isSplash = true;
-            	break;
-            	
-            default: // no clicks
-            	nextclickcount = "1";
-            	break;
-            }
-        } else {
-            switch(clicks) {
-            case "1":
-            	nextclickcount = "2";
-            	break;
-            	
-            case "2":
-            	nextclickcount = "3";
-            	break;
-            	
-            case "3":
-            	nextclickcount = "";
-            	isSplash = true;
-            	break;
-            
-            default: // no clicks
-            	nextclickcount = "1";
-            	break;
-            }
-            
+        	
+        } else if (numAdjacentes == 3)  { // num casas igual a 3
+        	if(gb.avaliaSeCasaCheia()) {
+        		isSplash = true;
+        	} else if(fichaCasa == 1) {
+        		gb.setFichas(2);
+        		gb.setText("2");
+        	} else {
+        		gb.setFichas(1);
+        		gb.setText("1");
+        	}
+        	
+        	
+        } else { // num casas igual a 4
+        	if(gb.avaliaSeCasaCheia()) {
+        		isSplash = true;
+        	} else if(fichaCasa == 2) {
+        		gb.setFichas(3);
+        		gb.setText("3");
+        	} else if(fichaCasa == 1) {
+        		gb.setFichas(2);
+        		gb.setText("2");
+        	} else {
+        		gb.setFichas(1);
+        		gb.setText("1");
+        	}
+        
         }
+        
         
         //TODO fix here
         //gb.setFichas(Integer.parseInt(nextclickcount));
-        gb.setText(nextclickcount);
         gb.setDonoID(tabuleiro.getJogador1().getId());
         gb.setDono(tabuleiro.getJogador1());
         gb.setBackground(tabuleiro.getJogador1().getColor());
 
         if(isSplash) {
+        	gb.setFichas(0);
+        	gb.setText("");
         	gb.setDonoID(0);
         	gb.setDono(null);
         	gb.setBackground(null);

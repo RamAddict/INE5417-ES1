@@ -315,6 +315,7 @@ public class Tabuleiro{
 		return casa;
 	}
 	
+		
 	public void limparTabuleiro() {
 		for (Casa elem : this.casas)
 		{
