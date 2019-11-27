@@ -63,6 +63,13 @@ public class Casa extends JButton implements Jogada{
 		}
 			
 	}
+	public void esvaziaCasa() {
+		this.setDonoID(0);
+		this.setBackground(null);
+		this.setDono(null);
+    	this.setFichas(0);
+    	this.setText("");
+	}
 	
 	/*GETTERS & SETTERS*/
 	

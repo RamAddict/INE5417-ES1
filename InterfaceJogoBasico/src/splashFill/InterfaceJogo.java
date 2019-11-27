@@ -293,11 +293,7 @@ public class InterfaceJogo {
         gb.setBackground(tabuleiro.getJogador1().getColor());
 
         if(isSplash) {
-        	gb.setFichas(0);
-        	gb.setText("");
-        	gb.setDonoID(0);
-        	gb.setDono(null);
-        	gb.setBackground(null);
+        	gb.esvaziaCasa();
     		splashFill(linha, coluna);
         }
     }
