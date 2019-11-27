@@ -19,6 +19,22 @@ public class AtorJogador {
 		this.interfaceJogo = interfaceJogo;
 	}
 
+	public AtorRede getAtorRede() {
+		return atorRede;
+	}
+
+	public void setAtorRede(AtorRede atorRede) {
+		this.atorRede = atorRede;
+	}
+
+	public InterfaceJogo getInterfaceJogo() {
+		return interfaceJogo;
+	}
+
+	public void setInterfaceJogo(InterfaceJogo interfaceJogo) {
+		this.interfaceJogo = interfaceJogo;
+	}
+
 	public String conectar(String string, String string2) {
 		String mensagem = "Você já está conectado!";
 		boolean permitido = this.interfaceJogo.getTabuleiro().permitidoConectar();
@@ -111,5 +127,6 @@ public class AtorJogador {
 		this.interfaceJogo.atualizarConsole("O adversário foi desconectado :( ");
 		
 	}
-
+	
+	
 }

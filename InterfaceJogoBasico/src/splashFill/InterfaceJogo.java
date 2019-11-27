@@ -250,7 +250,7 @@ public class InterfaceJogo {
     	boolean isSplash = false;
         ArrayList<Casa> adjacentes = tabuleiro.getCasasAdjacentes(gb);
         int fichaCasa = gb.getFichas();
-        int numAdjacentes = adjacentes.size();
+        int numAdjacentes = tabuleiro.getSizeArrayList(adjacentes);
         if (numAdjacentes == 2) {
         	if(gb.avaliaSeCasaCheia(2)) {
         		isSplash = true;
@@ -269,7 +269,6 @@ public class InterfaceJogo {
         		gb.setFichas(1);
         		gb.setText("1");
         	}
-        	
         	
         } else { // num casas igual a 4
         	if(gb.avaliaSeCasaCheia(4)) {
@@ -302,7 +301,7 @@ public class InterfaceJogo {
     	if(linha >= 1) {
     		Casa cima = this.tabuleiro.getCasa(coluna, linha-1);
     		changeCounter(cima, linha-1, coluna);
-    	} 
+    	}
     	
     	if(linha < N-1) {
     		Casa baixo = this.tabuleiro.getCasa(coluna, linha+1);

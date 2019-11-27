@@ -470,6 +470,9 @@ public class Tabuleiro{
 		return casas;
 	}
 	
-
+	<E> int getSizeArrayList(ArrayList<E> list) {
+		return list.size();
+	}
+	
 	
 }

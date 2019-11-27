@@ -76,11 +76,11 @@ public class AtorRede implements OuvidorProxy {
 	public void iniciarNovaPartida(Integer posicao) {
 		this.atorJogador.tratarIniciarPartida(posicao);
 		if(posicao == 1) {
-			this.atorJogador.interfaceJogo.getTabuleiro().getJogador1().setColor(Color.RED);
+			this.atorJogador.getInterfaceJogo().getTabuleiro().getJogador1().setColor(Color.RED);
 		} else { //posicao == 2
-			this.atorJogador.interfaceJogo.getTabuleiro().getJogador1().setColor(Color.BLUE);
+			this.atorJogador.getInterfaceJogo().getTabuleiro().getJogador1().setColor(Color.BLUE);
 		}
-		this.atorJogador.interfaceJogo.getTabuleiro().getJogador1().setId(posicao);
+		this.atorJogador.getInterfaceJogo().getTabuleiro().getJogador1().setId(posicao);
 		
 	}
 
